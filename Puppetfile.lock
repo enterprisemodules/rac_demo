@@ -1,0 +1,47 @@
+FORGE
+  remote: http://forge.enterprisemodules.com
+  specs:
+    enterprisemodules-easy_type (2.2.9)
+    enterprisemodules-ora_config (2.3.4)
+      enterprisemodules-easy_type (< 2.3.0, >= 2.2.3)
+    enterprisemodules-ora_install (2.1.8)
+      enterprisemodules-easy_type (>= 2.2.0)
+      puppetlabs-concat (>= 1.0.0)
+      puppetlabs-stdlib (>= 3.2.0)
+    enterprisemodules-partition (0.2.1)
+      enterprisemodules-easy_type (< 3.0.0, >= 0.15.3)
+    erwbgy-limits (0.3.1)
+    fiddyspence-sleep (1.2.0)
+    fiddyspence-sysctl (0.0.5)
+    petems-swap_file (1.0.1)
+      puppetlabs-stdlib (>= 3.2.0)
+    puppetlabs-concat (1.2.5)
+      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+    puppetlabs-firewall (1.9.0)
+    puppetlabs-stdlib (4.12.0)
+    saz-timezone (3.3.0)
+      puppetlabs-stdlib (>= 2.3.0)
+
+GIT
+  remote: git@github.com:enterprisemodules/ora_rac.git
+  ref: puppet4
+  sha: f0e18e97140daa86eb4d5f266a30ede39d67b08c
+  specs:
+    enterprisemodules-ora_rac (2.0.0)
+      enterprisemodules-ora_config (>= 0)
+      enterprisemodules-ora_install (>= 0)
+      enterprisemodules-partition (>= 0)
+      fiddyspence-sleep (>= 0)
+      puppetlabs-firewall (>= 0)
+
+DEPENDENCIES
+  enterprisemodules-ora_config (= 2.3.4)
+  enterprisemodules-ora_install (= 2.1.8)
+  enterprisemodules-ora_rac (>= 0)
+  erwbgy-limits (~> 0.3.0)
+  fiddyspence-sysctl (= 0.0.5)
+  petems-swap_file (~> 1.0.0)
+  puppetlabs-concat (= 1.2.5)
+  puppetlabs-stdlib (= 4.12.0)
+  saz-timezone (~> 3.3.0)
+

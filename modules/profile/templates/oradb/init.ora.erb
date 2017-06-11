@@ -1,0 +1,80 @@
+#######################################################################
+# Parameter file for Prorail : database $ORADB_DBNAME
+#######################################################################
+# Archive
+#
+log_archive_format=%t_%s_%r.arc
+
+###########################################
+# Cache and I/O
+#
+db_block_size=8192
+db_32k_cache_size=<%= @db_32k_cache_size %>
+
+
+###########################################
+# Cursors and Library Cache
+#
+open_cursors=<%= @db_open_cursors%>
+
+###########################################
+# Database Identification
+#
+db_name=<%= @db_name %>
+
+###########################################
+# File Configuration
+#
+db_recovery_file_dest_size=104857600000
+
+###########################################
+# Miscellaneous settings
+#
+compatible=12.1.0.0.0
+diagnostic_dest=<%= @oracle_base %>
+
+
+optimizer_secure_view_merging=false
+cell_offload_processing=false
+session_cached_cursors=500
+
+###########################################
+# Processes and Sessions
+#
+processes=<%= @db_processes %>
+
+###########################################
+# Security and Auditing
+#
+audit_trail=none
+audit_file_dest=<%= @oracle_home -%>/rdbms/audit
+remote_login_passwordfile=exclusive
+
+###########################################
+# Shared Server
+#
+dispatchers="(PROTOCOL=TCP) (SERVICE=<%= @db_name -%>XDB)"
+
+log_archive_dest_1='LOCATION=<%= @recovery_area_destination -%>'
+db_create_file_dest="<%= @data_file_destination -%>"
+db_recovery_file_dest="<%= @recovery_area_destination -%>"
+
+
+*.remote_listener='<%= @scan_name -%>.<%= @domain_name -%>:<%= @scan_port -%>'
+
+###########################################
+# Set instance, thread and undo tablespaces
+#
+<%= @db_name -%>1.instance_number=1
+<%= @db_name -%>2.instance_number=2
+<%= @db_name -%>1.thread=1
+<%= @db_name -%>2.thread=2
+<%= @db_name -%>1.instance_name=<%= @db_name -%>1
+<%= @db_name -%>2.instance_name=<%= @db_name -%>2
+<%= @db_name -%>1.undo_tablespace=UNDOTBS1
+<%= @db_name -%>2.undo_tablespace=UNDOTBS2
+
+
+#######################################################################
+# Settings made during installation
+#
