@@ -1,31 +1,32 @@
-
+---
 ora_rac::settings::puppet_download_mnt_point: /vagrant/software
-ora_rac::params::domain_name:             "%{hiera('domain_name')}"
-ora_rac::settings::oracle_user_password:  '$1$0buP/zGF$7uAWzPQaotbvmATC29gl.1'
-ora_rac::settings::grid_user_password:    '$1$0buP/zGF$7uAWzPQaotbvmATC29gl.1'
-ora_rac::settings::oracle_base:            /u01/oracle
-ora_rac::settings::oracle_home:            /u01/oracle/product/12.1.0/db
-ora_rac::settings::grid_base:              /u01/grid
-ora_rac::settings::grid_home:              /u01/12.1.0/grid
-ora_rac::settings::version:                '12.1.0.2'
-ora_rac::settings::grid_file:              'linuxamd64_12102_grid'
-ora_rac::settings::oracle_file:            'linuxamd64_12102_database'
-ora_rac::settings::download_dir:           /opt/install
-ora_rac::settings::ora_inventory_dir:      /u01/oracle
+ora_rac::params::domain_name:                 "%{hiera('domain_name')}"
+ora_rac::settings::oracle_user_password:      '$1$0buP/zGF$7uAWzPQaotbvmATC29gl.1'
+ora_rac::settings::grid_user_password:        '$1$0buP/zGF$7uAWzPQaotbvmATC29gl.1'
+ora_rac::settings::oracle_base:               /u01/oracle
+ora_rac::settings::oracle_home:               /u01/oracle/product/12.1.0/db
+ora_rac::settings::grid_base:                 /u01/grid
+ora_rac::settings::grid_home:                 /u01/12.1.0/grid
+ora_rac::settings::version:                   '12.1.0.2'
+ora_rac::settings::grid_file:                 'linuxamd64_12102_grid'
+ora_rac::settings::oracle_file:               'linuxamd64_12102_database'
+ora_rac::settings::download_dir:              /opt/install
+ora_rac::settings::ora_inventory_dir:         /u01/oracle
+ora_rac::user_equivalence::ssh_module:        '::ssh'
 
-ssh_access::users:
+ssh::users:
   grid:
     allow: [ 'grid', 'oracle' ]
   oracle:
     allow: [ 'grid', 'oracle' ]
 
-ssh_access::keys::grid:
+ssh::keys::grid:
   type: 'ssh-rsa'
   public_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEApFD0jSgdlxNDctN6edocSaMNPTiOgw7mwtws1VdZKcMrhAwCsjLnCBv5nW1ZTEJHrFhGrwNJn+uwFoBV+vM3SBOoH0gdy44tAIJYacD39G83lkr7Z1A/fIARLLFEWdrR870FUpU/b1VTaUSyG6Wa32O9H7JGUen1xzTlV2rSFOrpAMM0KLzzvGc8JMWyHEwOrchmxmNFbJOZdcy+BVgxQt/alilC05y9qPIGkWLWItl+sLG6kjyYH9axd0bOgmV6JzLFLleEjxqWN8Aim/QnL3sHqPbuf/bGErGQhhG1J+9weHay/G6lEjgGlC63gOxWO/TsXOZYqO6z7H8Uwgg+ZQ=='
-ssh_access::keys::oracle:
+
+ssh::keys::oracle:
   type: 'ssh-rsa'
   public_key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAq1hhJJQu4NC9LxEz/lWczzC2cQUJZNt+Cgj5RAteGG2Me1sN2hQI7mMWu/vVWYXpG5pgOVyv3IPkApfC5tXqHcygvWhKbyvo3mWn2I9wvSL4f2gsv/RKgdP50lfgNxOemrIfrz08A16AloHcYS/titxZkJGNqkzg6XrM3EslzRvMWXFut1ACYzj8YQwLtzzmJJUrn0/YnEctA/6Jrl5U+kUlt/kpO6WxHoPxGruAnFGnNTM2WobUSpculzuT3qwAfQXayK6v4/SwPzmye4/4F08dgEO1z6aAp1kLSkQnib+O3WkmluDyKtRmhrpZDjZf1bsZ5OKidSmiEDUa+N9dKQ=='
-
 
 ora_rac::params::grid_private_key: |
   -----BEGIN RSA PRIVATE KEY-----

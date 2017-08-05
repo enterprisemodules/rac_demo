@@ -1,4 +1,11 @@
 #
+# Install puppet rpm repo and puppet-agent
+#
+echo "Installing puppet-agent"
+rpm -q puppet-release || yum install -y --nogpgcheck http://yum.puppetlabs.com/puppet/puppet-release-el-7.noarch.rpm
+rpm -q puppet-agent || yum install -y --nogpgcheck puppet-agent
+
+#
 # Install librarian puppet. We need this to download the correct set of puppet modules
 #
 echo 'Installing required gems'

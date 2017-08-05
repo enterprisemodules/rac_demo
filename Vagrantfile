@@ -107,7 +107,10 @@ EOD
           vb.customize ['setextradata', :id, 'VBoxInternal/CPUM/HostCPUID/Cache/SubLeafMask', '0xffffffff']
         end
         if server["needs_rac_shared_storage"] == "enabled"
-          vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata', '--portcount', rac_disks.size]
+          unless File.file?("#{hostname}.txt")
+            vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata', '--portcount', rac_disks.size]
+            File.open("#{hostname}.txt", "w") {|f| f.write("#{hostname}")}
+          end
           rac_disks.each_with_index do |disk, i|
             disk_name = disk.keys.first
             disk_size = disk.values.first
