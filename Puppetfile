@@ -11,5 +11,5 @@ mod 'petems-swap_file',              '3.1.4'
 mod 'fiddyspence-sysctl',            '1.1.0'
 mod 'saz-limits',                    '2.5.0'
 mod 'saz-timezone',                  '3.3.0'
-mod 'erwbgy-ssh'                     :git => 'git@github.com:erwbgy/puppet-ssh.git',
+mod 'erwbgy-ssh',                    :git => 'git@github.com:erwbgy/puppet-ssh.git',
                                      :ref => 'master'
