@@ -3,7 +3,7 @@ forge 'http://forge.enterprisemodules.com'
 
 moduledir 'modules'
 
-mod 'archive',                             :git => 'git://github.com/voxpupuli/puppet-archive.git'
+mod 'archive',                             '2.0.0'
 mod 'herculesteam-augeasproviders',        '2.1.3'
 mod 'herculesteam-augeasproviders_core',   '2.1.3'
 mod 'herculesteam-augeasproviders_sysctl', '2.2.0'
@@ -13,7 +13,7 @@ mod 'em_license',                          :local => true
 mod 'puppetlabs-firewall',                 '1.9.0'
 mod 'saz-limits',                          '2.5.0'
 mod 'enterprisemodules-ora_config',        '2.3.9'
-#mod 'enterprisemodules-ora_install',       '2.1.12'
+#mod 'enterprisemodules-ora_install',       '2.1.13'
 mod 'enterprisemodules-ora_install',       :local => true
 #mod 'enterprisemodules-ora_rac',           '1.0.5'
 mod 'enterprisemodules-ora_rac',           :local => true

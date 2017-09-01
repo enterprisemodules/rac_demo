@@ -17,6 +17,18 @@ profile::base::hosts::list:
     ip: 192.168.253.122
     host_aliases:
       - db122
+  em1215.example.com:
+    ip: 192.168.253.120
+    host_aliases:
+      - em1215
+  em1310.example.com:
+    ip: 192.168.253.131
+    host_aliases:
+      - em1310
+  em1320.example.com:
+    ip: 192.168.253.132
+    host_aliases:
+      - em1320
 
 ora_rac::params::scan_exclude: '' # On Vagrant we don't want to exclude the sda's
 ora_rac::params::db_name: RACDB

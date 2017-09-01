@@ -1,6 +1,6 @@
 ---
 ora_rac::settings::puppet_download_mnt_point: /vagrant/software
-ora_rac::params::domain_name:                 "%{hiera('domain_name')}"
+ora_rac::params::domain_name:                 "%{lookup('domain_name')}"
 ora_rac::settings::oracle_user_password:      '$1$0buP/zGF$7uAWzPQaotbvmATC29gl.1'
 ora_rac::settings::grid_user_password:        '$1$0buP/zGF$7uAWzPQaotbvmATC29gl.1'
 ora_rac::settings::oracle_base:               /u01/oracle
