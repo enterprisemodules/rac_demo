@@ -1,13 +1,23 @@
 #
-# Install librarian puppet. We need this to download the correct set of puppet modules
+# Install puppet rpm repo and puppet-agent
 #
-echo 'Installing required gems'
-/opt/puppetlabs/puppet/bin/gem install activesupport:4.2.7.1 librarian-puppet awesome_print --no-rdoc --no-ri
-yum install git puppet-agent -y --nogpg
+echo "Installing puppet-agent"
+rpm -q puppet-release || yum install -y --nogpgcheck http://yum.puppetlabs.com/puppet/puppet-release-el-7.noarch.rpm
+rpm -q puppet-agent || yum install -y --nogpgcheck puppet-agent
+rpm -q git || yum install -y --nogpg git
 
-# echo 'Installing required puppet modules'
-# cd /vagrant
-# /opt/puppetlabs/puppet/bin/librarian-puppet install
+#
+# Install r10k. We need this to download the correct set of puppet modules
+#
+if ! /opt/puppetlabs/puppet/bin/gem which r10k > /dev/null 2>&1
+then
+  echo 'Installing required gems'
+  /opt/puppetlabs/puppet/bin/gem install r10k --no-rdoc --no-ri
+fi
+
+echo 'Installing required puppet modules'
+cd /vagrant
+/opt/puppetlabs/puppet/bin/r10k puppetfile install -c /vagrant/r10k.yaml
 
 #
 # Setup hiera search and backend. We need this to config our systems

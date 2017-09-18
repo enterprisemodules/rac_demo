@@ -2,5 +2,9 @@ class profile::base::hosts(
   Hash $list,
 )
 {
-  create_resources('host', $list, {})
+  $list.each |$host, $values| {
+    host { $host:
+      * => $values,
+    }
+  }
 }

@@ -4,6 +4,10 @@ require 'yaml'
 
 VAGRANTFILE_API_VERSION = '2'.freeze
 
+unless Vagrant.has_plugin?("vagrant-triggers")
+  raise 'vagrant-triggers is not installed, please run: vagrant plugin install vagrant-triggers'
+end
+
 # Read YAML file with RAC disk configuration
 rac_disks = YAML.load_file('rac_disks.yaml')
 
@@ -22,6 +26,7 @@ pe_puppet_group_id = 496
 puppet_installer   = 'puppet-enterprise-2016.5.1-el-7-x86_64/puppet-enterprise-installer'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
   config.ssh.insert_key = false
   servers.each do |name, server|
     config.vm.define name do |srv|
@@ -31,6 +36,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       srv.vm.network 'private_network', ip: server['public_ip']
       srv.vm.network 'private_network', ip: server['private_ip'], virtualbox__intnet: true
       srv.vm.synced_folder '.', '/vagrant', type: :virtualbox
+      config.trigger.after :up do
+        unless File.file?("#{hostname}.txt")
+          info "Creating file #{hostname}.txt"
+          File.open("#{hostname}.txt", "w") {|f| f.write("#{hostname}")}
+        end
+      end
+      config.trigger.after :destroy do
+        if File.file?("#{hostname}.txt")
+          info "Removing file #{hostname}.txt"
+          run "rm #{hostname}.txt"
+        end
+      end
       #
       # Fix hostnames because Vagrant mixes it up.
       #
@@ -45,7 +62,7 @@ EOD
       when 'masterless'
         srv.vm.box = 'enterprisemodules/centos-7.2-x86_64-puppet' unless server['box']
         srv.vm.provision :shell, path: 'vm-scripts/setup_puppet.sh'
-        srv.vm.provision :shell, inline: 'puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp  --verbose --trace'
+        srv.vm.provision :shell, inline: 'puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp  --verbose'
       when 'pe-master'
         srv.vm.box = 'puppetlabs/centos-7.2-64-nocm' unless server['box']
         srv.vm.synced_folder '.', '/vagrant', owner: pe_puppet_user_id, group: pe_puppet_group_id
@@ -107,7 +124,9 @@ EOD
           vb.customize ['setextradata', :id, 'VBoxInternal/CPUM/HostCPUID/Cache/SubLeafMask', '0xffffffff']
         end
         if server["needs_rac_shared_storage"] == "enabled"
-          vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata', '--portcount', rac_disks.size]
+          unless File.file?("#{hostname}.txt")
+            vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata', '--portcount', rac_disks.size]
+          end
           rac_disks.each_with_index do |disk, i|
             disk_name = disk.keys.first
             disk_size = disk.values.first
