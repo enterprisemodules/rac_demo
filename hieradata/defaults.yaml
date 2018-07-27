@@ -19,7 +19,17 @@ ora_profile::database::db_definition::system_password:           Welcome01
 ora_profile::database::db_definition::sys_password:              Change_on_1nstall
 ora_profile::database::db_startup::db_type:                      grid
 ora_profile::database::db_control_provider:                      srvctl
+<<<<<<< HEAD
 ora_profile::database::storage:                                  asm
+=======
+<<<<<<< HEAD
+ora_profile::database::asm_storage:                              ora_profile::database::asm_storage
+ora_profile::database::asm_software:                             ora_profile::database::asm_software
+ora_profile::database::asm_diskgroup:                            ora_profile::database::asm_diskgroup
+=======
+ora_profile::database::storage:                                  asm
+>>>>>>> [core] Start using ora_profile
+>>>>>>> [core] Start using ora_profile
 ora_profile::database::db_listener:                              skip
 
 
