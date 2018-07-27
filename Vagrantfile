@@ -1,29 +1,46 @@
 # rubocop: disable Metrics/LineLength
-# rubocop: disable Metrics/BlockLength
 require 'yaml'
 
 VAGRANTFILE_API_VERSION = '2'.freeze
 
-unless Vagrant.has_plugin?("vagrant-triggers")
+unless Vagrant.has_plugin?('vagrant-triggers')
   raise 'vagrant-triggers is not installed, please run: vagrant plugin install vagrant-triggers'
 end
 
-# Read YAML file with RAC disk configuration
-rac_disks = YAML.load_file('rac_disks.yaml')
+add_timestamp = false
+if add_timestamp
+  def $stdout.write(string)
+    log_datas = string
+    if log_datas.gsub(/\r?\n/, '') != ''
+      log_datas = ::Time.now.strftime('%d-%m-%Y %T') + ' ' + log_datas.gsub(/\r\n/, '\n')
+    end
+    super log_datas
+  end
 
+  def $stderr.write(string)
+    log_datas = string
+    if log_datas.gsub(/\r?\n/, '') != ''
+      log_datas = ::Time.now.strftime('%d-%m-%Y %T') + ' ' + log_datas.gsub(/\r\n/, '\n')
+    end
+    super log_datas
+  end
+end
 
 # Read YAML file with box details
 servers = YAML.load_file('servers.yaml')
 pe_puppet_user_id  = 495
 pe_puppet_group_id = 496
+vagrant_root = File.dirname(__FILE__)
+home = ENV['HOME']
 #
 # Choose your version of Puppet Enterprise
 #
-# puppet_installer   = "puppet-enterprise-2015.3.0-el-6-x86_64/puppet-enterprise-installer"
-# puppet_installer   = "puppet-enterprise-2015.2.2-el-6-x86_64/puppet-enterprise-installer"
-# puppet_installer   = "puppet-enterprise-2016.1.2-el-7-x86_64/puppet-enterprise-installer"
-# puppet_installer   = "puppet-enterprise-2016.4.0-el-7-x86_64/puppet-enterprise-installer"
-puppet_installer   = 'puppet-enterprise-2016.5.1-el-7-x86_64/puppet-enterprise-installer'
+# puppet_installer = "puppet-enterprise-2015.3.0-el-6-x86_64/puppet-enterprise-installer"
+# puppet_installer = "puppet-enterprise-2015.2.2-el-6-x86_64/puppet-enterprise-installer"
+# puppet_installer = "puppet-enterprise-2016.1.2-el-7-x86_64/puppet-enterprise-installer"
+# puppet_installer = "puppet-enterprise-2016.4.0-el-7-x86_64/puppet-enterprise-installer"
+# puppet_installer = 'puppet-enterprise-2016.5.1-el-7-x86_64/puppet-enterprise-installer'
+puppet_installer = 'puppet-enterprise-2017.3.5-el-7-x86_64/puppet-enterprise-installer'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -36,33 +53,60 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       srv.vm.network 'private_network', ip: server['public_ip']
       srv.vm.network 'private_network', ip: server['private_ip'], virtualbox__intnet: true
       srv.vm.synced_folder '.', '/vagrant', type: :virtualbox
+
       config.trigger.after :up do
-        unless File.file?("#{hostname}.txt")
-          info "Creating file #{hostname}.txt"
-          File.open("#{hostname}.txt", "w") {|f| f.write("#{hostname}")}
+        if File.file?("#{home}/.netrc") && !File.file?("#{vagrant_root}/.netrc")
+          info "Copy #{home}/.netrc to #{vagrant_root}/.netrc"
+          FileUtils.copy_file("#{home}/.netrc", "#{vagrant_root}/.netrc")
+        end
+        unless File.file?(".#{hostname}.txt")
+          info "Creating file .#{hostname}.txt"
+          File.open(".#{hostname}.txt", 'w') { |f| f.write(hostname) }
+          if server['needs_storage'] == 'enabled'
+            server['disks'].each do |disk|
+              disk_name = disk.first
+              disk_uuid = disk.last['uuid']
+              if !File.file?(".#{disk_name}_#{server['cluster']}.txt") && File.file?("#{disk_name}_#{server['cluster']}.vdi")
+                info "Creating file .#{disk_name}_#{server['cluster']}.txt"
+                File.open(".#{disk_name}_#{server['cluster']}.txt", 'w') { |f| f.write("00000000-0000-0000-0000-0000000000#{disk_uuid}") }
+              end
+            end
+          end
         end
       end
       config.trigger.after :destroy do
-        if File.file?("#{hostname}.txt")
-          info "Removing file #{hostname}.txt"
-          run "rm #{hostname}.txt"
+        if File.file?(".#{hostname}.txt")
+          info "Removing file .#{hostname}.txt"
+          run "rm .#{hostname}.txt"
+          if server['needs_storage'] == 'enabled'
+            server['disks'].each do |disk|
+              disk_name = disk.first
+              if File.file?(".#{disk_name}_#{server['cluster']}.txt")
+                info "Removing file .#{disk_name}_#{server['cluster']}.txt"
+                run "rm .#{disk_name}_#{server['cluster']}.txt"
+              end
+            end
+          end
         end
       end
+
       #
       # Fix hostnames because Vagrant mixes it up.
       #
-      srv.vm.provision :shell, inline: <<-EOD
+      unless File.file?(".#{hostname}.txt")
+        srv.vm.provision :shell, inline: <<-EOD
 cat > /etc/hosts<< "EOF"
-127.0.0.1 localhost.localdomain localhost4 localhost4.localdomain4
-192.168.253.10 master.example.com puppet master
+127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
+192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
 #{server['public_ip']} #{hostname}.example.com #{hostname}
 EOF
 EOD
+      end
       case server['type']
       when 'masterless'
         srv.vm.box = 'enterprisemodules/centos-7.2-x86_64-puppet' unless server['box']
         srv.vm.provision :shell, path: 'vm-scripts/setup_puppet.sh'
-        srv.vm.provision :shell, inline: 'puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp  --verbose'
+        srv.vm.provision :shell, inline: 'puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp --test'
       when 'pe-master'
         srv.vm.box = 'puppetlabs/centos-7.2-64-nocm' unless server['box']
         srv.vm.synced_folder '.', '/vagrant', owner: pe_puppet_user_id, group: pe_puppet_group_id
@@ -94,7 +138,9 @@ EOD
         #
         # First we need to instal the agent.
         #
-        srv.vm.provision :shell, inline: 'curl -k https://master.example.com:8140/packages/current/install.bash | sudo bash'
+        unless File.file?(".#{hostname}.txt")
+          srv.vm.provision :shell, inline: 'curl -k https://master.example.com:8140/packages/current/install.bash | sudo bash'
+        end
         #
         # The agent installation also automatically start's it. In production, this is what you want. For now we
         # want the first run to be interactive, so we see the output. Therefore, we stop the agent and wait
@@ -109,7 +155,7 @@ EOD
       end
 
       config.vm.provider :virtualbox do |vb|
-        # vb.gui = true
+        vb.gui = false
         vb.cpus = server['cpucount'] || 1
         vb.memory = server['ram'] || 4096
         vb.customize ['modifyvm', :id, '--ioapic', 'on']
@@ -123,18 +169,63 @@ EOD
           vb.customize ['setextradata', :id, 'VBoxInternal/CPUM/HostCPUID/Cache/edx', '0']
           vb.customize ['setextradata', :id, 'VBoxInternal/CPUM/HostCPUID/Cache/SubLeafMask', '0xffffffff']
         end
-        if server["needs_rac_shared_storage"] == "enabled"
-          unless File.file?("#{hostname}.txt")
-            vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata', '--portcount', rac_disks.size]
+        if server['needs_storage'] == 'enabled'
+          disks = server['disks'] || {}
+          unless File.file?(".#{hostname}.txt")
+            vb.customize [
+              'storagectl', :id,
+              '--name', 'SATA Controller',
+              '--add', 'sata',
+              '--portcount', disks.size
+            ]
           end
-          rac_disks.each_with_index do |disk, i|
-            disk_name = disk.keys.first
-            disk_size = disk.values.first
-            unless File.exist?("#{disk_name}.vdi")
-              vb.customize ['createhd', '--filename', "#{disk_name}.vdi", '--size', "#{disk_size}", "--variant", "Fixed" ]
-              vb.customize ['modifyhd', "#{disk_name}.vdi", '--type', 'shareable']
+          disks.each_with_index do |disk, i|
+            disk_name = disk.first
+            disk_size = disk.last['size']
+            disk_uuid = disk.last['uuid']
+            if File.file?("#{disk_name}_#{server['cluster']}.vdi")
+              if File.file?(".#{disk_name}_#{server['cluster']}.txt")
+                file = File.open(".#{disk_name}_#{server['cluster']}.txt", 'r')
+                current_uuid = file.read
+                file.close
+              else
+                current_uuid = '0'
+              end
+            else
+              vb.customize [
+                'createhd',
+                '--filename', "#{disk_name}_#{server['cluster']}.vdi",
+                '--size', disk_size.to_s,
+                '--variant', 'Fixed'
+              ]
+              vb.customize [
+                'modifyhd', "#{disk_name}_#{server['cluster']}.vdi",
+                '--type', 'shareable'
+              ]
+              current_uuid = '0'
             end
-            vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', "#{i+1}", '--device', 0, '--type', 'hdd', '--medium', "#{disk_name}.vdi", '--mtype', 'shareable']
+            if current_uuid.include? disk_uuid
+              vb.customize [
+                'storageattach', :id,
+                '--storagectl', 'SATA Controller',
+                '--port', (i + 1).to_s,
+                '--device', 0,
+                '--type', 'hdd',
+                '--medium', "#{disk_name}_#{server['cluster']}.vdi",
+                '--mtype', 'shareable'
+              ]
+            else
+              vb.customize [
+                'storageattach', :id,
+                '--storagectl', 'SATA Controller',
+                '--port', (i + 1).to_s,
+                '--device', 0,
+                '--type', 'hdd',
+                '--medium', "#{disk_name}_#{server['cluster']}.vdi",
+                '--mtype', 'shareable',
+                '--setuuid', "00000000-0000-0000-0000-0000000000#{disk_uuid}"
+              ]
+            end
           end
         end
       end

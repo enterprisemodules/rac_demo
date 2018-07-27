@@ -1,11 +1,9 @@
 # Docs
 class role::oradb::rac_node()
 {
-  contain ::profile::base
-  contain ::ora_rac::requirements
-  contain ::ora_rac::db_server
+  contain profile::base
+  contain ora_profile::database
 
-  Class['::profile::base']
-  -> Class['::ora_rac::requirements']
-  -> Class['::ora_rac::db_server']
+  Class['profile::base']
+  -> Class['ora_profile::database']
 }

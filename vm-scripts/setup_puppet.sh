@@ -23,7 +23,7 @@ cd /vagrant
 # Setup hiera search and backend. We need this to config our systems
 #
 echo 'Setting up hiera directories'
-ln -sf /vagrant/hiera.yaml /etc/puppetlabs/code/hiera.yaml
+ln -sf /vagrant/hiera.yaml /etc/puppetlabs/code/environments/production/hiera.yaml
 
 dirname=/etc/puppetlabs/code/environments/production/hieradata
 if [ -d $dirname ]; then

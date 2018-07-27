@@ -1,4 +1,4 @@
 ---
 deployment_zone: vagrant
 
-role: role::oradb::rac_master
+role: 'role::puppet_master'
