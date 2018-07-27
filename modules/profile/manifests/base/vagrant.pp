@@ -5,7 +5,6 @@ class profile::base::vagrant()
     $required_packages = [
       'bc',
       'mlocate',
-      'psmisc',
       'unzip',
     ]
 
@@ -14,7 +13,7 @@ class profile::base::vagrant()
     }
 
     exec { 'create swap file':
-      command => '/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=8192',
+      command => '/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=16384',
       creates => '/var/swap.1',
     }
 

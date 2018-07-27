@@ -1,0 +1,267 @@
+---
+deployment_zone: vagrant
+
+role: role::oradb::rac_node
+
+
+# ------------------------------------------------------------------------------
+#
+#  Class overrides and additions
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::after_groups_and_users:                            ora_profile::database::rac::authenticated_nodes
+ora_profile::database::db_definition:                                     ora_profile::database::db_definition_template
+ora_profile::database::before_asm_diskgroup:                              ora_profile::database::asm_storage::afd_label
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::dbname:                                            DB122
+ora_profile::database::version:                                           12.2.0.1
+ora_profile::database::master_node:                                       rac122a
+ora_profile::database::cluster_nodes:
+  - rac122a
+  - rac122b
+ora_profile::database::source:                                            /vagrant/software
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::rac::authenticated_nodes
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::rac::authenticated_nodes::keys:
+  grid_for_grid:
+    ensure: present
+    user: grid
+    type: rsa
+    key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEApFD0jSgdlxNDctN6edocSaMNPTiOgw7mwtws1VdZKcMrhAwCsjLnCBv5nW1ZTEJHrFhGrwNJn+uwFoBV+vM3SBOoH0gdy44tAIJYacD39G83lkr7Z1A/fIARLLFEWdrR870FUpU/b1VTaUSyG6Wa32O9H7JGUen1xzTlV2rSFOrpAMM0KLzzvGc8JMWyHEwOrchmxmNFbJOZdcy+BVgxQt/alilC05y9qPIGkWLWItl+sLG6kjyYH9axd0bOgmV6JzLFLleEjxqWN8Aim/QnL3sHqPbuf/bGErGQhhG1J+9weHay/G6lEjgGlC63gOxWO/TsXOZYqO6z7H8Uwgg+ZQ=='
+  oracle_for_grid:
+    ensure: present
+    user: grid
+    type: rsa
+    key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAq1hhJJQu4NC9LxEz/lWczzC2cQUJZNt+Cgj5RAteGG2Me1sN2hQI7mMWu/vVWYXpG5pgOVyv3IPkApfC5tXqHcygvWhKbyvo3mWn2I9wvSL4f2gsv/RKgdP50lfgNxOemrIfrz08A16AloHcYS/titxZkJGNqkzg6XrM3EslzRvMWXFut1ACYzj8YQwLtzzmJJUrn0/YnEctA/6Jrl5U+kUlt/kpO6WxHoPxGruAnFGnNTM2WobUSpculzuT3qwAfQXayK6v4/SwPzmye4/4F08dgEO1z6aAp1kLSkQnib+O3WkmluDyKtRmhrpZDjZf1bsZ5OKidSmiEDUa+N9dKQ=='
+  oracle_for_oracle:
+    ensure: present
+    user: oracle
+    type: rsa
+    key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAq1hhJJQu4NC9LxEz/lWczzC2cQUJZNt+Cgj5RAteGG2Me1sN2hQI7mMWu/vVWYXpG5pgOVyv3IPkApfC5tXqHcygvWhKbyvo3mWn2I9wvSL4f2gsv/RKgdP50lfgNxOemrIfrz08A16AloHcYS/titxZkJGNqkzg6XrM3EslzRvMWXFut1ACYzj8YQwLtzzmJJUrn0/YnEctA/6Jrl5U+kUlt/kpO6WxHoPxGruAnFGnNTM2WobUSpculzuT3qwAfQXayK6v4/SwPzmye4/4F08dgEO1z6aAp1kLSkQnib+O3WkmluDyKtRmhrpZDjZf1bsZ5OKidSmiEDUa+N9dKQ=='
+  grid_for_oracle:
+    ensure: present
+    user: oracle
+    type: rsa
+    key: 'AAAAB3NzaC1yc2EAAAABIwAAAQEApFD0jSgdlxNDctN6edocSaMNPTiOgw7mwtws1VdZKcMrhAwCsjLnCBv5nW1ZTEJHrFhGrwNJn+uwFoBV+vM3SBOoH0gdy44tAIJYacD39G83lkr7Z1A/fIARLLFEWdrR870FUpU/b1VTaUSyG6Wa32O9H7JGUen1xzTlV2rSFOrpAMM0KLzzvGc8JMWyHEwOrchmxmNFbJOZdcy+BVgxQt/alilC05y9qPIGkWLWItl+sLG6kjyYH9axd0bOgmV6JzLFLleEjxqWN8Aim/QnL3sHqPbuf/bGErGQhhG1J+9weHay/G6lEjgGlC63gOxWO/TsXOZYqO6z7H8Uwgg+ZQ=='
+ora_profile::database::rac::authenticated_nodes::oracle_private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  MIIEoQIBAAKCAQEAq1hhJJQu4NC9LxEz/lWczzC2cQUJZNt+Cgj5RAteGG2Me1sN
+  2hQI7mMWu/vVWYXpG5pgOVyv3IPkApfC5tXqHcygvWhKbyvo3mWn2I9wvSL4f2gs
+  v/RKgdP50lfgNxOemrIfrz08A16AloHcYS/titxZkJGNqkzg6XrM3EslzRvMWXFu
+  t1ACYzj8YQwLtzzmJJUrn0/YnEctA/6Jrl5U+kUlt/kpO6WxHoPxGruAnFGnNTM2
+  WobUSpculzuT3qwAfQXayK6v4/SwPzmye4/4F08dgEO1z6aAp1kLSkQnib+O3Wkm
+  luDyKtRmhrpZDjZf1bsZ5OKidSmiEDUa+N9dKQIBIwKCAQEApnMcie8I96Y0HxgG
+  n0vaKFs04tGxWqlV3dzU4wO6fiFGo7eJzIh9tGBB+HD7I8Ppwwr+Y5veCWot8+Ph
+  5435XsbICHPwiUCZEo6jDOMdD4EOp6cG5lsGjL9KdI/hH49m32s0uNxmLyiaK86b
+  kZxF11m2F2jSwrEVABDkQ7a3AcGkZFDzchvOKwKwnjaibOHx+cMNDnjE4t3hElAc
+  8a7jVuZn+Uh/9z0LrS1aLrG7dXPVb3lw8AGNxajddARcyYt+UkAjl1SVqW9N+HQo
+  AlATzjF8Rw0EJ7PP7NoRwYAUbB/Sux/40oZtTSPBvB0hADk0MLbV+XoJXanlQPWH
+  swDCQwKBgQDYvWV4ZCj4MLZZvnJpmGDnOCdgpcQy93xKxYsqQdZU0Fq0nnDezoX9
+  d6mdVPAqtfl8mD46srhfA3wIaKtKsnrNXZ5PpmeY6WMPkOXX4EQQyRNweiqQ0soq
+  rlYW+P35x7vKdiwJ/PBE46mmTlJMV9PZA08ru3FvgCT7aGpS+5Mo/wKBgQDKYfTd
+  mexMjcOhh0NGNk3CEPfUH1qeu0DU59Wb+0To9htga72olEK+OFjRSm66kxWhuUND
+  oa69sFa6r5ramPRtUkOiuzPINY/9l/pmIHHxCQi8Jl6RptBpWARago2gQ6bF08lg
+  ObGXHWfTI++2CPp2vmRsPzdWfgLvXWSeLnER1wKBgDe7rGDJTF0T1x5kLAyGRM29
+  +39AkYly1tFl/zbAePE85B/Q+HPOtL2FK518PcHXBaOyHqFhKBhunDytM1xZx85o
+  h8tWrOzOTKw7M8nL9D7UnplD/FEgQp1Cxa4ixPcWGliiC1MGhu0kmVambO8PRRqL
+  0oeWmYMSUqcMOJj+3LLFAoGAFyEjTIaeqanNNwgk8hTVr8dsx8kRq72hAmOjYkia
+  KUCyq+8OXGi3K66rEJrK036GIRx8t0WtkgWGQTij+7m1iNYznZG8xmyFfBFechJW
+  KizrDjBFUnl253fF+7cmIPHJ6rkeVCPZyCCeJsJHSAEGrnwou+n3sh0HplPQ/CKQ
+  lFMCgYBDeJ5G8jK91j0QuGI2Zssb2BSVskmQB7PxXLS+yTX0iSv5+1r6g36aOuhV
+  3Blzac4mb7bxp5591RZtKmG3GQBFIWY4SgnDhN87XrE+ijk70w9uReWLs7dQyFR8
+  sn+CjHQaNH8HU3zQg4KAUs/ENmYemjFipjE+sTJ7SltWbp+oRA==
+  -----END RSA PRIVATE KEY-----
+ora_profile::database::rac::authenticated_nodes::grid_private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  MIIEoAIBAAKCAQEApFD0jSgdlxNDctN6edocSaMNPTiOgw7mwtws1VdZKcMrhAwC
+  sjLnCBv5nW1ZTEJHrFhGrwNJn+uwFoBV+vM3SBOoH0gdy44tAIJYacD39G83lkr7
+  Z1A/fIARLLFEWdrR870FUpU/b1VTaUSyG6Wa32O9H7JGUen1xzTlV2rSFOrpAMM0
+  KLzzvGc8JMWyHEwOrchmxmNFbJOZdcy+BVgxQt/alilC05y9qPIGkWLWItl+sLG6
+  kjyYH9axd0bOgmV6JzLFLleEjxqWN8Aim/QnL3sHqPbuf/bGErGQhhG1J+9weHay
+  /G6lEjgGlC63gOxWO/TsXOZYqO6z7H8Uwgg+ZQIBIwKCAQAqQLPpyHyjMNbUYkQQ
+  tG2siQNng5JcNwgjenHtt2ASDZ15ufIQkL8QtryHkSWXRD5Q43/j3EYhzuQjCw7L
+  gF6sIk/Nh5KiDp3bjztOZNILp5Hzcl3nXccupJazuI3rOESdwuQcjMcrQdOeueSo
+  BgNAweAsuNBA8wSvkUJJrcD+EBt2OUBFI7mUzNscdoUydt8wJFdb09NHNRe7qy44
+  fCq8AS3/T0cQLs3C2V+bYld5ScTQmmizly3IjvnY6iNxgP0Q+oUtZismZR7ubUYO
+  quZpnI/uMpWAFeRKIsTa5u3GLTEqkegWfaFFUdaZs10yvpmSp/A29OUrg8tpZQj+
+  nSHrAoGBANcBhmSio9TT/9wBHwrJ1ZWy5nWHvOo5kmduP2faSmKTlEHwKw2gnWcL
+  7ux7Sli2+wbp4n51fuBoshjw21cZJGBlqSCf2I2KRuQlKOliO2meqU+DsRpAuNcD
+  98fYAqdZxD0+Dr4vBz+49t0FiyAt4hqy31ATws4dR/EYYqh0VPWZAoGBAMOlQbkj
+  44YXg5pDLxMcb03qVJ2ENbPIwPItur7dnLa3uMlTWCDXnqg1fN8rmgzNFOwpzBa3
+  qrBV3CI63O2TZ+xGnvP6Y2uoZuRzYAxWA69LcN2/1nJpk3dDwMsh4lSvCazqMIqu
+  1CsSygNxzZ6qJQLAiIRW+WSpicg6PizhUDatAoGAaG50egXai/HxTZolBT12XqdZ
+  /pJjEq4/y9Z2kYdIs4mChm1WvXnmDXrTImfFBoTDEfySlTHBSG1d0ZmPG60gTBQe
+  8pbIRL+BhMGXh0z4ST5vfmSJOKMX82hTx3eMQqfxmhbT9fmVzn5pRsgtoepmgf8c
+  AlK9tJHhHVT8uDiBCZMCgYBkniHM7eK5/XbhnuUCg6b03umwGBueSfzUUghE5wAj
+  dG2pXhAQ4+sx759OM65Pue2AxQnfzCvlqH/XFvVG+1oEfBc7pVeztbFCSfbhxdYC
+  YU/9A5LbwUSGep2qS/C91ly/U95zNVcsGEqir45RmVTc2AuxxlRfp6Xx8hFY6Ods
+  kwKBgDpQO7jQEzp6ex6aH54Q7JPBWzRWlDeT91SDxxgRj/fn7F3an2H6pfou2y3Y
+  jcArRECuhz7ckxtmTyG4JXxxPtJ6mso7jYToRymeOvzK9OhzQoMu2Wvke1B+TCH2
+  KHdH+0DM6qjZcS8d1MfNVEtwOW7Iy3+VsiGE0qNATAN6FvHp
+  -----END RSA PRIVATE KEY-----
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_storage
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_storage::storage_type:        afd
+ora_profile::database::asm_storage::disk_devices:
+  asm_ocr01:
+    size: 40960
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-31000000'
+    label: 'OCR1'
+  asm_data01:
+    size: 10240
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-32000000'
+    label: 'DATA1'
+  asm_fra01:
+    size: 10240
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-33000000'
+    label: 'FRA1'
+  asm_redo01:
+    size: 10240
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-34000000'
+    label: 'REDO1'
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_software
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_software::version:                             12.2.0.1
+ora_profile::database::asm_software::dirs:
+- /u01/app/grid/product/12.2.0.1
+ora_profile::database::asm_software::grid_home:                           /u01/app/grid/product/12.2.0.1/grid_home1
+ora_profile::database::asm_software::file_name:                           linuxx64_12201_grid_home
+ora_profile::database::asm_software::disk_discovery_string:               '/dev/asm_*'
+ora_profile::database::asm_software::asm_diskgroup:                       OCR
+ora_profile::database::asm_software::asm_disks:                           /dev/asm_ocr01
+ora_profile::database::asm_software::disks_failgroup_names:               '/dev/asm_ocr01,'
+ora_profile::database::asm_software::configure_afd:                       true
+ora_profile::database::asm_software::grid_type:                           CRS_CONFIG
+ora_profile::database::asm_software::cluster_node_types:                  'rac122a:rac122a-vip:HUB'
+ora_profile::database::asm_software::cluster_name:                        CLUSTER122
+ora_profile::database::asm_software::scan_name:                           SCAN122
+ora_profile::database::asm_software::scan_port:                           1521
+ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
+ora_profile::database::asm_software::storage_option:                      FLEX_ASM_STORAGE
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_diskgroup
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_diskgroup::disks:
+  OCR:
+    - diskname: 'OCR1'
+      path: 'AFD:OCR1'
+  DATA:
+    - diskname: 'DATA1'
+      path: 'AFD:DATA1'
+  FRA:
+    - diskname: 'FRA1'
+      path: 'AFD:FRA1'
+  REDO:
+    - diskname: 'REDO1'
+      path: 'AFD:REDO1'
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_software
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_software::file_name:                            linuxx64_12201_database
+ora_profile::database::db_software::database_type:                        EE
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_definition_template
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_definition_template::recovery_area_destination: +FRA
+ora_profile::database::db_definition_template::db_conf_type:              RAC
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_listener
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_listener::oracle_home:                          "%{ora_profile::database::grid_home}"
+ora_profile::database::db_listener::oracle_base:                          "%{ora_profile::database::grid_base}"
+
+
+# # pre-ora_profile
+# ora_rac::internal::database_definition:
+#   timeout:                         3000
+#   ensure:                          present
+#   instances:
+#     "%{ora_rac::params::db_name}1": "rac122a"
+#     "%{ora_rac::params::db_name}2": "rac122b"
+#   oracle_base:                     "%{ora_rac::settings::oracle_base}"
+#   oracle_home:                     "%{ora_rac::settings::oracle_home}"
+#   oracle_user:                     "%{ora_rac::settings::oracle_user}"
+#   character_set:                   AL32UTF8
+#   national_character_set:          AL16UTF16
+#   #init_ora_content:                "%{lookup('ora_rac::db_master::init_ora_content')}"
+#   system_password:                 "%{ora_rac::params::password}"
+#   sys_password:                    "%{ora_rac::params::password}"
+#   maxinstances:                    32
+#   maxloghistory:                   1
+#   maxlogfiles:                     192
+#   maxlogmembers:                   3
+#   maxdatafiles:                    1024
+#   autostart:                       true
+#   extent_management:               local
+#   datafiles:
+#     size:                          700M
+#     autoextend:
+#       next:                        10M
+#       maxsize:                     unlimited
+#   sysaux_datafiles:
+#     size:                          600M
+#     autoextend:
+#       next:                        10M
+#       maxsize:                     unlimited
+#   default_temporary_tablespace:
+#     name:                        TEMP
+#     type:                        smallfile
+#     tempfile:
+#       size:                      200M
+#       autoextend:
+#         next:                    100M
+#         maxsize:                 12288M
+#   undo_tablespace:
+#     name:                        UNDOTBS1
+#     type:                        smallfile
+#     datafile:
+#       size:                      "%{ora_rac::settings::undo_initial_size}"
+#       autoextend:
+#         next:                    "%{ora_rac::settings::undo_next}"
+#         maxsize:                 "%{ora_rac::settings::undo_max_size}"
+#   spfile_location:               "%{ora_rac::settings::recovery_area_destination}"
+#   scan_name:                     'SCAN'
+#   logfile_groups:
+#     - { group: 1, size: 100M, thread: 1, type: 'ONLINE' }
+#     - { group: 2, size: 100M, thread: 1, type: 'ONLINE' }
+#     - { group: 3, size: 100M, thread: 1, type: 'ONLINE' }
+#     - { group: 4, size: 100M, thread: 2, type: 'ONLINE' }
+#     - { group: 5, size: 100M, thread: 2, type: 'ONLINE' }
+#     - { group: 6, size: 100M, thread: 2, type: 'ONLINE' }

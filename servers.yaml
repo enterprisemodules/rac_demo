@@ -1,24 +1,147 @@
 ---
-pe-master:
-  public_ip:       '192.168.253.10'
+pe-racmaster:
+  public_ip:        192.168.253.10
   cpucount:         2
   ram:              3072
   type:             pe-master
-ml-db01:
+# RAC112
+ml-rac112a:
   public_ip:        192.168.5.30
   private_ip:       192.168.6.30
-  cpucount:         3
-  ram:              5120
+  cpucount:         2
+  ram:              8667
   type:             masterless
-  box:              test
-  needs_rac_shared_storage: enabled
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  needs_storage:    enabled
   virtualboxorafix: enable
-ml-db02:
+  cluster:          1
+  disks:
+    ocr:
+      size:         10240
+      uuid:         '11'
+    data:
+      size:         10240
+      uuid:         '12'
+    fra:
+      size:         10240
+      uuid:         '13'
+    redo:
+      size:         10240
+      uuid:         '14'
+ml-rac112b:
   public_ip:        192.168.5.31
   private_ip:       192.168.6.31
-  ram:              5120
-  cpucount:         3
+  cpucount:         2
+  ram:              8667
   type:             masterless
-  box:              test
-  needs_rac_shared_storage: enabled
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  needs_storage:    enabled
   virtualboxorafix: enable
+  cluster:          1
+  disks:
+    ocr:
+      size:         10240
+      uuid:         '11'
+    data:
+      size:         10240
+      uuid:         '12'
+    fra:
+      size:         10240
+      uuid:         '13'
+    redo:
+      size:         10240
+      uuid:         '14'
+# RAC121
+ml-rac121a:
+  public_ip:        192.168.5.50
+  private_ip:       192.168.6.50
+  cpucount:         2
+  ram:              8667
+  type:             masterless
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  needs_storage:    enabled
+  virtualboxorafix: enable
+  cluster:          2
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '21'
+    data:
+      size:         10240
+      uuid:         '22'
+    fra:
+      size:         10240
+      uuid:         '23'
+    redo:
+      size:         10240
+      uuid:         '24'
+ml-rac121b:
+  public_ip:        192.168.5.51
+  private_ip:       192.168.6.51
+  cpucount:         2
+  ram:              8667
+  type:             masterless
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  needs_storage:    enabled
+  virtualboxorafix: enable
+  cluster:          2
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '21'
+    data:
+      size:         10240
+      uuid:         '22'
+    fra:
+      size:         10240
+      uuid:         '23'
+    redo:
+      size:         10240
+      uuid:         '24'
+# RAC122
+ml-rac122a:
+  public_ip:        192.168.5.70
+  private_ip:       192.168.6.70
+  cpucount:         2
+  ram:              8667
+  type:             masterless
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  needs_storage:    enabled
+  virtualboxorafix: enable
+  cluster:          3
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '31'
+    data:
+      size:         10240
+      uuid:         '32'
+    fra:
+      size:         10240
+      uuid:         '33'
+    redo:
+      size:         10240
+      uuid:         '34'
+ml-rac122b:
+  public_ip:        192.168.5.71
+  private_ip:       192.168.6.71
+  cpucount:         2
+  ram:              8667
+  type:             masterless
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  needs_storage:    enabled
+  virtualboxorafix: enable
+  cluster:          3
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '31'
+    data:
+      size:         10240
+      uuid:         '32'
+    fra:
+      size:         10240
+      uuid:         '33'
+    redo:
+      size:         10240
+      uuid:         '34'

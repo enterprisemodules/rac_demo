@@ -1,22 +1,99 @@
 ---
 profile::base::hosts::list:
-  master.example.com:
+  racmaster.example.com:
     ip: 192.168.253.10
     host_aliases:
+      - racmaster
       - master
       - puppet
-  db112.example.com:
-    ip: 192.168.253.112
+  # RAC112
+  rac112a.example.com:
+    ip: 192.168.5.30
     host_aliases:
-      - db112
-  db121.example.com:
-    ip: 192.168.253.121
+      - rac112a
+  rac112a-priv.example.com:
+    ip: 192.168.6.30
     host_aliases:
-      - db121
-  db122.example.com:
-    ip: 192.168.253.122
+      - rac112a-priv
+  rac112a-vip.example.com:
+    ip: 192.168.5.40
     host_aliases:
-      - db122
+      - rac112a-vip
+  rac112b.example.com:
+    ip: 192.168.5.31
+    host_aliases:
+      - rac112b
+  rac112b-priv.example.com:
+    ip: 192.168.6.31
+    host_aliases:
+      - rac112b-priv
+  rac112b-vip.example.com:
+    ip: 192.168.5.41
+    host_aliases:
+      - rac112b-vip
+  scan112.example.com:
+    ip: 192.168.5.39
+    host_aliases:
+      - scan112
+  # RAC121
+  rac121a.example.com:
+    ip: 192.168.5.50
+    host_aliases:
+      - rac121a
+  rac121a-priv.example.com:
+    ip: 192.168.6.50
+    host_aliases:
+      - rac121a-priv
+  rac121a-vip.example.com:
+    ip: 192.168.5.60
+    host_aliases:
+      - rac121a-vip
+  rac121b.example.com:
+    ip: 192.168.5.51
+    host_aliases:
+      - rac121b
+  rac121b-priv.example.com:
+    ip: 192.168.6.51
+    host_aliases:
+      - rac121b-priv
+  rac121b-vip.example.com:
+    ip: 192.168.5.61
+    host_aliases:
+      - rac121b-vip
+  scan121.example.com:
+    ip: 192.168.5.59
+    host_aliases:
+      - scan121
+  # RAC122
+  rac122a.example.com:
+    ip: 192.168.5.70
+    host_aliases:
+      - rac122a
+  rac122a-priv.example.com:
+    ip: 192.168.6.70
+    host_aliases:
+      - rac122a-priv
+  rac122a-vip.example.com:
+    ip: 192.168.5.80
+    host_aliases:
+      - rac122a-vip
+  rac122b.example.com:
+    ip: 192.168.5.71
+    host_aliases:
+      - rac122b
+  rac122b-priv.example.com:
+    ip: 192.168.6.71
+    host_aliases:
+      - rac122b-priv
+  rac122b-vip.example.com:
+    ip: 192.168.5.81
+    host_aliases:
+      - rac122b-vip
+  scan122.example.com:
+    ip: 192.168.5.79
+    host_aliases:
+      - scan122
+  # EM
   em1215.example.com:
     ip: 192.168.253.120
     host_aliases:
@@ -30,6 +107,7 @@ profile::base::hosts::list:
     host_aliases:
       - em1320
 
+ora_rac::params::scan_name_in_hostfile: true
 ora_rac::params::scan_exclude: '' # On Vagrant we don't want to exclude the sda's
 ora_rac::params::db_name: RACDB
 ora_rac::params::scan_adresses:

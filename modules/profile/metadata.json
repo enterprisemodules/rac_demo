@@ -1,0 +1,17 @@
+{
+    "name": "profile",
+    "version": "0.1.0",
+    "author": "remyvb",
+    "summary": null,
+    "license": "Apache-2.0",
+    "source": "",
+    "project_page": null,
+    "issues_url": null,
+    "dependencies": [
+      {"name": "puppetlabs-stdlib", "version_requirement": ">= 1.0.0"},
+      {"name": "enterprisemodules-ora_install", "version_requirement": ">= 2.1.11"},
+      {"name": "enterprisemodules-ora_config", "version_requirement": ">= 2.3.7"},
+      {"name": "enterprisemodules-easy_type", "version_requirement": ">= 2.3.10"}
+    ],
+    "data_provider": null
+  }
