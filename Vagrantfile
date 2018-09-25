@@ -40,7 +40,8 @@ home = ENV['HOME']
 # puppet_installer = "puppet-enterprise-2016.1.2-el-7-x86_64/puppet-enterprise-installer"
 # puppet_installer = "puppet-enterprise-2016.4.0-el-7-x86_64/puppet-enterprise-installer"
 # puppet_installer = 'puppet-enterprise-2016.5.1-el-7-x86_64/puppet-enterprise-installer'
-puppet_installer = 'puppet-enterprise-2017.3.5-el-7-x86_64/puppet-enterprise-installer'
+# puppet_installer = 'puppet-enterprise-2017.3.5-el-7-x86_64/puppet-enterprise-installer'
+puppet_installer = 'puppet-enterprise-2018.1.1-el-7-x86_64/puppet-enterprise-installer'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 

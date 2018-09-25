@@ -2,7 +2,16 @@
 # Install puppet rpm repo and puppet-agent
 #
 echo "Installing puppet-agent"
-rpm -q puppet-release || yum install -y --nogpgcheck http://yum.puppetlabs.com/puppet/puppet-release-el-7.noarch.rpm
+if grep -q 7\. /etc/redhat-release
+then
+  rpm -q puppet-release || yum install -y --nogpgcheck http://yum.puppetlabs.com/puppet/puppet-release-el-7.noarch.rpm
+elif grep -q 6\. /etc/redhat-release
+then
+  rpm -q puppet-release || yum install -y --nogpgcheck http://yum.puppetlabs.com/puppet/puppet-release-el-6.noarch.rpm
+else
+  echo "Linux version not supported"
+  exit 1
+fi
 rpm -q puppet-agent || yum install -y --nogpgcheck puppet-agent
 rpm -q git || yum install -y --nogpg git
 
