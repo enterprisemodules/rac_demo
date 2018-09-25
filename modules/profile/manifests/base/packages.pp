@@ -1,11 +1,14 @@
 class profile::base::packages()
 {
-  $required_package = [
-    'iptables-services'
-  ]
-
-  package{ $required_package:
-    ensure => 'installed',
+  case $facts['os']['release']['major'] {
+    7: {
+      $required_package = [
+        'iptables-services'
+      ]
+      package{ $required_package:
+        ensure => 'installed',
+      }
+    }
+    default: {}
   }
-
 }
