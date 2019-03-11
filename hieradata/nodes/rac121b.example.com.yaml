@@ -31,6 +31,23 @@ ora_profile::database::oracle_home:                                       /u01/a
 
 # ------------------------------------------------------------------------------
 #
+# Settings for database::limits
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::limits::list:
+  "%{::ora_profile::database::grid_user}/nofile":
+    soft: 65536
+    hard: 65536
+  "%{::ora_profile::database::grid_user}/nproc":
+    soft: 2048
+    hard: 16384
+  "%{::ora_profile::database::grid_user}/stack":
+    soft: 10240
+    hard: 32768
+
+
+# ------------------------------------------------------------------------------
+#
 # Settings for database::asm_packages
 #
 # ------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ role: role::oradb::rac_node
 #  Class overrides and additions
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::db_definition:                                     ora_profile::database::db_definition_template
+# ora_profile::database::db_definition:                                     ora_profile::database::db_definition_template
 ora_profile::database::before_asm_diskgroup:                              ora_profile::database::asm_storage::afd_label
 
 
@@ -25,6 +25,23 @@ ora_profile::database::cluster_nodes:
   - rac122a
   - rac122b
 ora_profile::database::source:                                            /vagrant/software
+
+
+# ------------------------------------------------------------------------------
+#
+# Settings for database::limits
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::limits::list:
+  "%{::ora_profile::database::grid_user}/nofile":
+    soft: 65536
+    hard: 65536
+  "%{::ora_profile::database::grid_user}/nproc":
+    soft: 2048
+    hard: 16384
+  "%{::ora_profile::database::grid_user}/stack":
+    soft: 10240
+    hard: 32768
 
 
 # ------------------------------------------------------------------------------
@@ -196,6 +213,15 @@ ora_profile::database::db_software::database_type:                        EE
 # ------------------------------------------------------------------------------
 ora_profile::database::db_definition_template::recovery_area_destination: +FRA
 ora_profile::database::db_definition_template::db_conf_type:              RAC
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_definition
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_definition::init_ora_template:                  profile/init.ora.%{ora_profile::database::version}.erb
+ora_profile::database::db_definition::db_recovery_file_dest:              +FRA
 
 
 # ------------------------------------------------------------------------------
