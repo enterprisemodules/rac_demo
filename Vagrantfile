@@ -41,7 +41,8 @@ home = ENV['HOME']
 # puppet_installer = "puppet-enterprise-2016.4.0-el-7-x86_64/puppet-enterprise-installer"
 # puppet_installer = 'puppet-enterprise-2016.5.1-el-7-x86_64/puppet-enterprise-installer'
 # puppet_installer = 'puppet-enterprise-2017.3.5-el-7-x86_64/puppet-enterprise-installer'
-puppet_installer = 'puppet-enterprise-2018.1.1-el-7-x86_64/puppet-enterprise-installer'
+# puppet_installer = 'puppet-enterprise-2018.1.1-el-7-x86_64/puppet-enterprise-installer'
+puppet_installer = 'puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -94,15 +95,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       #
       # Fix hostnames because Vagrant mixes it up.
       #
-      unless File.file?(".#{hostname}.txt")
-        srv.vm.provision :shell, inline: <<-EOD
+      srv.vm.provision :shell, inline: <<-EOD
 cat > /etc/hosts<< "EOF"
 127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
 192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
 #{server['public_ip']} #{hostname}.example.com #{hostname}
 EOF
 EOD
-      end
       case server['type']
       when 'masterless'
         srv.vm.box = 'enterprisemodules/centos-7.2-x86_64-puppet' unless server['box']
@@ -111,7 +110,7 @@ EOD
       when 'pe-master'
         srv.vm.box = 'puppetlabs/centos-7.2-64-nocm' unless server['box']
         srv.vm.synced_folder '.', '/vagrant', owner: pe_puppet_user_id, group: pe_puppet_group_id
-        srv.vm.provision :shell, inline: "/vagrant/modules/software/files/#{puppet_installer} -c /vagrant/pe.conf -y"
+        srv.vm.provision :shell, inline: "/vagrant/modules/software/#{puppet_installer} -c /vagrant/pe.conf -y"
         #
         # For this vagrant setup, we make sure all nodes in the domain examples.com are autosigned. In production
         # you'dd want to explicitly confirm every node.
@@ -132,16 +131,14 @@ EOD
         # Make sure all plugins are synced to the puppetserver before exiting and stating
         # any agents
         #
-        srv.vm.provision :shell, inline: 'service pe-puppetserver restart'
+        srv.vm.provision :shell, inline: 'systemctl restart pe-puppetserver'
         srv.vm.provision :shell, inline: 'puppet agent -t || true'
       when 'pe-agent'
         srv.vm.box = 'enterprisemodules/centos-7.2-x86_64-nocm' unless server['box']
         #
         # First we need to instal the agent.
         #
-        unless File.file?(".#{hostname}.txt")
-          srv.vm.provision :shell, inline: 'curl -k https://master.example.com:8140/packages/current/install.bash | sudo bash'
-        end
+        srv.vm.provision :shell, inline: 'curl -k https://master.example.com:8140/packages/current/install.bash | sudo bash'
         #
         # The agent installation also automatically start's it. In production, this is what you want. For now we
         # want the first run to be interactive, so we see the output. Therefore, we stop the agent and wait
