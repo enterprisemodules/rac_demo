@@ -139,6 +139,7 @@ EOD
         # First we need to instal the agent.
         #
         srv.vm.provision :shell, inline: 'curl -k https://master.example.com:8140/packages/current/install.bash | sudo bash'
+        srv.vm.provision :shell, inline: 'puppet config set runtimeout  7200'
         #
         # The agent installation also automatically start's it. In production, this is what you want. For now we
         # want the first run to be interactive, so we see the output. Therefore, we stop the agent and wait
