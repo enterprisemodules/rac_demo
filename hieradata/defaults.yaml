@@ -13,7 +13,6 @@ lookup_options:
     merge:
       strategy: first
 
-
 # ------------------------------------------------------------------------------
 #
 # Settings for database
@@ -21,13 +20,14 @@ lookup_options:
 # ------------------------------------------------------------------------------
 ora_profile::database::source:                                   /vagrant/software
 ora_profile::database::ora_inventory_dir:                        /u01/app
+ora_profile::database::db_definition::container_database:        enabled
 ora_profile::database::db_definition::system_password:           Welcome01
 ora_profile::database::db_definition::sys_password:              Change_on_1nstall
+ora_profile::database::db_definition::data_file_destination:     +DATA
+ora_profile::database::db_definition::recovery_area_destination: +RECO
 ora_profile::database::db_startup::db_type:                      grid
 ora_profile::database::db_control_provider:                      srvctl
 ora_profile::database::storage:                                  asm
-
-
 # ------------------------------------------------------------------------------
 #
 # Settings for database::sysctl
