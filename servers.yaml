@@ -145,3 +145,50 @@ ml-rac122b:
     redo:
       size:         10240
       uuid:         '34'
+# RAC122
+pe-rac122a:
+  public_ip:        192.168.5.70
+  private_ip:       192.168.6.70
+  cpucount:         2
+  ram:              8667
+  type:             pe-agent
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  needs_storage:    enabled
+  virtualboxorafix: enable
+  cluster:          3
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '31'
+    data:
+      size:         10240
+      uuid:         '32'
+    fra:
+      size:         10240
+      uuid:         '33'
+    redo:
+      size:         10240
+      uuid:         '34'
+pe-rac122b:
+  public_ip:        192.168.5.71
+  private_ip:       192.168.6.71
+  cpucount:         2
+  ram:              8667
+  type:             pe-agent
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  needs_storage:    enabled
+  virtualboxorafix: enable
+  cluster:          3
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '31'
+    data:
+      size:         10240
+      uuid:         '32'
+    fra:
+      size:         10240
+      uuid:         '33'
+    redo:
+      size:         10240
+      uuid:         '34'
