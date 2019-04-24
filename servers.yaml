@@ -4,6 +4,12 @@ pe-racmaster:
   cpucount:         2
   ram:              3072
   type:             pe-master
+  box:              enterprisemodules/centos-7.2-x86_64-puppet
+  virtualboxorafix: true
+  additional_hosts: |
+    127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
+    192.168.253.10 dbmaster.example.com puppet master
+
 # RAC112
 ml-rac112a:
   public_ip:        192.168.5.30
@@ -11,9 +17,16 @@ ml-rac112a:
   cpucount:         2
   ram:              8667
   type:             masterless
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
+  box:              enterprisemodules/centos-7.2-x86_64-puppet
+  # The installer needs to be unpacked in the ./modules/software/files/
+  puppet_installer: puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer
+  software_files:
+    - p13390677_112040_Linux-x86-64_1of7.zip
+    - p13390677_112040_Linux-x86-64_2of7.zip
+  additional_hosts: |
+    192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
+  needs_storage:    true
+  virtualboxorafix: true
   cluster:          1
   disks:
     ocr:
@@ -28,6 +41,7 @@ ml-rac112a:
     redo:
       size:         10240
       uuid:         '14'
+
 ml-rac112b:
   public_ip:        192.168.5.31
   private_ip:       192.168.6.31
@@ -35,8 +49,15 @@ ml-rac112b:
   ram:              8667
   type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
+  # The installer needs to be unpacked in the ./modules/software/files/
+  puppet_installer: puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer
+  software_files:
+    - p13390677_112040_Linux-x86-64_1of7.zip
+    - p13390677_112040_Linux-x86-64_2of7.zip
+  additional_hosts: |
+    192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
+  needs_storage:    true
+  virtualboxorafix: true
   cluster:          1
   disks:
     ocr:
@@ -51,6 +72,7 @@ ml-rac112b:
     redo:
       size:         10240
       uuid:         '14'
+
 # RAC121
 ml-rac121a:
   public_ip:        192.168.5.50
@@ -59,8 +81,15 @@ ml-rac121a:
   ram:              8667
   type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
+  # The installer needs to be unpacked in the ./modules/software/files/
+  puppet_installer: puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer
+  software_files:
+    - linuxamd64_12102_database_1of2.zip
+    - linuxamd64_12102_database_2of2.zip
+  additional_hosts: |
+    192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
+  needs_storage:    true
+  virtualboxorafix: true
   cluster:          2
   disks:
     ocr:
@@ -75,6 +104,7 @@ ml-rac121a:
     redo:
       size:         10240
       uuid:         '24'
+
 ml-rac121b:
   public_ip:        192.168.5.51
   private_ip:       192.168.6.51
@@ -82,8 +112,15 @@ ml-rac121b:
   ram:              8667
   type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
+  # The installer needs to be unpacked in the ./modules/software/files/
+  puppet_installer: puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer
+  software_files:
+    - linuxamd64_12102_database_1of2.zip
+    - linuxamd64_12102_database_2of2.zip
+  additional_hosts: |
+    192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
+  needs_storage:    true
+  virtualboxorafix: true
   cluster:          2
   disks:
     ocr:
@@ -98,6 +135,7 @@ ml-rac121b:
     redo:
       size:         10240
       uuid:         '24'
+
 # RAC122
 ml-rac122a:
   public_ip:        192.168.5.70
@@ -106,8 +144,15 @@ ml-rac122a:
   ram:              8667
   type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
+  # The installer needs to be unpacked in the ./modules/software/files/
+  puppet_installer: puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer
+  software_files:
+    - LINUX.X64_180000_db_home.zip
+    - p6880880_121010_Linux-x86-64.zip
+  additional_hosts: |
+    192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
+  needs_storage:    true
+  virtualboxorafix: true
   cluster:          3
   disks:
     ocr:
@@ -122,6 +167,7 @@ ml-rac122a:
     redo:
       size:         10240
       uuid:         '34'
+
 ml-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
@@ -129,8 +175,15 @@ ml-rac122b:
   ram:              8667
   type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
+  # The installer needs to be unpacked in the ./modules/software/files/
+  puppet_installer: puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer
+  software_files:
+    - LINUX.X64_180000_db_home.zip
+    - p6880880_121010_Linux-x86-64.zip
+  additional_hosts: |
+    192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
+  needs_storage:    true
+  virtualboxorafix: true
   cluster:          3
   disks:
     ocr:
@@ -145,6 +198,7 @@ ml-rac122b:
     redo:
       size:         10240
       uuid:         '34'
+
 # RAC122
 pe-rac122a:
   public_ip:        192.168.5.70
@@ -153,8 +207,15 @@ pe-rac122a:
   ram:              8667
   type:             pe-agent
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
+  # The installer needs to be unpacked in the ./modules/software/files/
+  puppet_installer: puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer
+  software_files:
+    - LINUX.X64_180000_db_home.zip
+    - p6880880_121010_Linux-x86-64.zip
+  additional_hosts: |
+    192.168.253.10 master.example.com puppet master racmaster.example.com racmaster
+  needs_storage:    true
+  virtualboxorafix: true
   cluster:          3
   disks:
     ocr:
@@ -169,6 +230,7 @@ pe-rac122a:
     redo:
       size:         10240
       uuid:         '34'
+
 pe-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
@@ -176,8 +238,10 @@ pe-rac122b:
   ram:              8667
   type:             pe-agent
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
+  # The installer needs to be unpacked in the ./modules/software/files/
+  puppet_installer: puppet-enterprise-2019.0.1-el-7-x86_64/puppet-enterprise-installer
+  needs_storage:    true
+  virtualboxorafix: true
   cluster:          3
   disks:
     ocr:
@@ -192,3 +256,8 @@ pe-rac122b:
     redo:
       size:         10240
       uuid:         '34'
+  software_files:
+    - LINUX.X64_180000_db_home.zip
+    - p6880880_121010_Linux-x86-64.zip
+  additional_hosts: |
+    192.168.253.10 master.example.com puppet master racmaster.example.com racmaster

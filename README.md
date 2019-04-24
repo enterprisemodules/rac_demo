@@ -1,3 +1,4 @@
+[![Enterprise Modules](https://raw.githubusercontent.com/enterprisemodules/public_images/master/banner1.jpg)](https://www.enterprisemodules.com)
 # Demo Puppet implementation
 
 This repo contains a demonstration of a RAC database installation. It contains no patches and hardly any setup inside of the database (e.g. tablespaces, users, synomyms). It's purpose is to help you guide through an initial installation of two Oracle nodes with Puppet.
@@ -15,7 +16,7 @@ $ vagrant up <ml-db112|ml-db121|ml-db122>
 
 You can also test with a Puppet Enterprise server. To do so, add `pe-` for the name when using vagrant:
 
-```
+```bash
 $ vagrant up pe-master
 $ vagrant up <pe-db112|pe-db121|pe-db122>
 ```
@@ -32,16 +33,20 @@ You must always use the specified order:
 The software must be placed in `modules/software/files`. It must contain the next files:
 
 ### Puppet Enterprise
-- puppet-enterprise-2016.5.1-el-7-x86_64.tar.gz (Extracted tar)
-
+- puppet-enterprise-2019.0.1-el-7-x86_64.tar.gz (Extracted tar)
 
 ### Oracle Database version 11.2.0.4
+
 - p13390677_112040_Linux-x86-64_1of7.zip
 - p13390677_112040_Linux-x86-64_2of7.zip
+
 ### Oracle Database version 12.1.0.2
+
 - linuxamd64_12102_database_1of2.zip
 - linuxamd64_12102_database_2of2.zip
+
 ### Oracle Database version 12.2.0.1
+
 - linuxx64_12201_database.zip
 
 You can download this file from
