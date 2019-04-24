@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 group :development, :test do
-  gem 'rake',    :require => false
+  gem 'rake', :require => false
   gem "puppet-blacksmith"
   platform :ruby_19, :ruby_20 do
     gem 'travis'
