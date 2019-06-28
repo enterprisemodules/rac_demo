@@ -184,15 +184,19 @@ ora_profile::database::asm_software::storage_option:                      FLEX_A
 # ------------------------------------------------------------------------------
 ora_profile::database::asm_diskgroup::disks:
   OCR:
+    disks:
     - diskname: 'OCR1'
       path: 'AFD:OCR1'
   DATA:
+    disks:
     - diskname: 'DATA1'
       path: 'AFD:DATA1'
   FRA:
+    disks:
     - diskname: 'FRA1'
       path: 'AFD:FRA1'
   REDO:
+    disks:
     - diskname: 'REDO1'
       path: 'AFD:REDO1'
 
