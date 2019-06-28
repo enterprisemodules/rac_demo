@@ -202,15 +202,19 @@ ora_profile::database::asm_software::storage_option:                      ASM_ST
 # ------------------------------------------------------------------------------
 ora_profile::database::asm_diskgroup::disks:
   OCR:
+    disks:
     - diskname: 'OCR1'
       path: 'ORCL:OCR1'
   DATA:
+    disks:
     - diskname: 'DATA1'
       path: 'ORCL:DATA1'
   FRA:
+    disks:
     - diskname: 'FRA1'
       path: 'ORCL:FRA1'
   REDO:
+    disks:
     - diskname: 'REDO1'
       path: 'ORCL:REDO1'
 
