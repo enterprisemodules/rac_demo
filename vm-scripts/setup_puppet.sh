@@ -1,39 +1,24 @@
 #
-# Install puppet rpm repo and puppet-agent
+# Install R10K. We need this to download the correct set of puppet modules
 #
-echo "Installing puppet-agent"
-if grep -q 7\. /etc/redhat-release
-then
-  rpm -q puppet-release || yum install -y --nogpgcheck http://yum.puppetlabs.com/puppet/puppet-release-el-7.noarch.rpm
-elif grep -q 6\. /etc/redhat-release
-then
-  rpm -q puppet-release || yum install -y --nogpgcheck http://yum.puppetlabs.com/puppet/puppet-release-el-6.noarch.rpm
-else
-  echo "Linux version not supported"
-  exit 1
-fi
-rpm -q puppet-agent || yum install -y --nogpgcheck puppet-agent
-rpm -q git || yum install -y --nogpg git
-
-#
-# Install r10k. We need this to download the correct set of puppet modules
-#
-if ! /opt/puppetlabs/puppet/bin/gem which r10k > /dev/null 2>&1
-then
-  echo 'Installing required gems'
-  /opt/puppetlabs/puppet/bin/gem install r10k --no-rdoc --no-ri
-fi
+echo 'Installing required gems'
+/opt/puppetlabs/puppet/bin/gem install r10k --no-rdoc --no-ri > /dev/null # 2>&1
 
 echo 'Installing required puppet modules'
 cd /vagrant
-/opt/puppetlabs/puppet/bin/r10k puppetfile install -c /vagrant/r10k.yaml
+#
+# Copy netrc file if it exists
+#
+if [ -e /vagrant/.netrc ]
+then
+  cp /vagrant/.netrc ~
+fi
+# /opt/puppetlabs/puppet/bin/r10k puppetfile install > /dev/null # 2>&1
 
 #
 # Setup hiera search and backend. We need this to config our systems
 #
 echo 'Setting up hiera directories'
-ln -sf /vagrant/hiera.yaml /etc/puppetlabs/code/environments/production/hiera.yaml
-
 dirname=/etc/puppetlabs/code/environments/production/hieradata
 if [ -d $dirname ]; then
   rm -rf $dirname
@@ -41,6 +26,8 @@ else
   rm -f $dirname
 fi
 ln -sf /vagrant/hieradata /etc/puppetlabs/code/environments/production
+rm -f /etc/puppetlabs/code/environments/production/hiera.yaml
+ln -sf /vagrant/hiera.yaml /etc/puppetlabs/code/environments/production
 
 #
 # Configure the puppet path's
