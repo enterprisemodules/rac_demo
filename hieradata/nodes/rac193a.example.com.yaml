@@ -217,6 +217,15 @@ ora_profile::database::db_software::database_type:                        EE
 
 # ------------------------------------------------------------------------------
 #
+#  Settings for database::db_patches
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_patches::patch_file:                            p6880880_190000_Linux-x86-64
+ora_profile::database::db_patches::opversion:                             12.2.0.1.17
+
+
+# ------------------------------------------------------------------------------
+#
 #  Settings for database::db_definition_template
 #
 # ------------------------------------------------------------------------------
