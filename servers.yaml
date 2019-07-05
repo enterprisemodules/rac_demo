@@ -5,12 +5,12 @@
 defaults:
   domain_name:     example.com
   cpucount:         1
-  needs_storage:    enabled
+  needs_storage:    true
   additional_hosts: |
     127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
-    192.168.253.10 dbmaster.example.com puppet master
+    192.168.253.10 racmaster.example.com puppet master master.example.com
   box:              enterprisemodules/centos-7.3-x86_64-nocm
-  virtualboxorafix: enable
+  virtualboxorafix: true
 #
 # The default settings for all ML nodes
 #
@@ -25,7 +25,7 @@ pe-defaults:
 
 #
 # The settings for the Puppet Enterprise Server
-#  
+#
 pe-dbmaster:
   public_ip:       '192.168.253.10'
   cpucount:         2
@@ -37,8 +37,8 @@ pe-dbmaster:
 # All masterless nodes
 #
 ml-rac193a:
-  public_ip:        192.168.5.70
-  private_ip:       192.168.6.70
+  public_ip:        192.168.5.90
+  private_ip:       192.168.6.90
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          3
@@ -56,12 +56,12 @@ ml-rac193a:
       size:         10240
       uuid:         '34'
 ml-rac193b:
-  public_ip:        192.168.5.71
-  private_ip:       192.168.6.71
+  public_ip:        192.168.5.91
+  private_ip:       192.168.6.91
   cpucount:         2
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  virtualboxorafix: enable
+  virtualboxorafix: true
   cluster:          3
   disks:
     ocr:
