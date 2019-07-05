@@ -188,18 +188,22 @@ ora_profile::database::asm_diskgroup::disks:
     disks:
     - diskname: 'OCR1'
       path: 'AFD:OCR1'
+    compat_rdbms: 19.0.0.0.0
   DATA:
     disks:
     - diskname: 'DATA1'
       path: 'AFD:DATA1'
+    compat_rdbms: 19.0.0.0.0
   FRA:
     disks:
     - diskname: 'FRA1'
       path: 'AFD:FRA1'
+    compat_rdbms: 19.0.0.0.0
   REDO:
     disks:
     - diskname: 'REDO1'
       path: 'AFD:REDO1'
+    compat_rdbms: 19.0.0.0.0
 
 
 # ------------------------------------------------------------------------------
