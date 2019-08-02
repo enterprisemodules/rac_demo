@@ -22,6 +22,7 @@ mod 'enterprisemodules-ora_cis' #,            '2.1.1'
 
 # Added for RAC:
 mod 'enterprisemodules-partition' #,          '0.5.0'
+mod 'camptocamp-bind',                      :git => 'https://github.com/remyvb/puppet-bind'
 
 #
 # Modules that are part of the control repo. R10K doesn't need to touch these

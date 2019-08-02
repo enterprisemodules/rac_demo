@@ -88,7 +88,7 @@ def masterless_setup(config, server, srv, hostname)
         EOF
         bash /vagrant/vm-scripts/install_puppet.sh
         bash /vagrant/vm-scripts/setup_puppet.sh
-        /opt/puppetlabs/puppet/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp || true
+        # /opt/puppetlabs/puppet/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp || true
       EOD
     else # Windows
       trigger.run_remote = {inline: <<~EOD}
@@ -405,6 +405,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       if srv.vm.communicator == 'ssh'
         srv.vm.hostname = "#{hostname}.#{server['domain_name']}"
+        config.ssh.forward_agent = true
+        config.ssh.forward_x11 = true
       else
         srv.vm.hostname = "#{hostname}"
         config.winrm.ssl_peer_verification = false
@@ -451,6 +453,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # vb.gui = true
         vb.cpus = server['cpucount'] || 1
         vb.memory = server['ram'] || 4096
+        vb.name = name
 
         # Setup config fixes for Oracle product
         virtualboxorafix(vb) if server['virtualboxorafix']

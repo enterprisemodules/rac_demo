@@ -12,6 +12,9 @@ lookup_options:
   ora_profile::database::asm_diskgroup::disks:
     merge:
       strategy: first
+  ora_profile::database::db_patches::patch_list:
+    merge:
+      strategy: first
 
 # ------------------------------------------------------------------------------
 #
@@ -79,6 +82,9 @@ ora_profile::database::limits::list:
     hard: 65536
   '*/stack':
     soft: 10240
+  "%{::ora_profile::database::os_user}/memlock":
+    soft: 262144000
+    hard: 262144000
 
 # ------------------------------------------------------------------------------
 #

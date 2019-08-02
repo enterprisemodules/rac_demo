@@ -1,3 +1,4 @@
+# Puppet managed file
 # Settings for running oracle
 
 if [ $USER = "oracle" ] || [ $USER = "grid" ]; then

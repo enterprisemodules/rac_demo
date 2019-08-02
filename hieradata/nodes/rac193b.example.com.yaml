@@ -3,6 +3,35 @@ deployment_zone: vagrant
 
 role: role::oradb::rac_node
 
+profile::dns::bind::domain: 'example.com'
+profile::dns::bind::listen_on:
+- '127.0.0.0'
+- "%{facts.ipaddress_eth1}"
+profile::dns::bind::hash_data:
+  ns:
+    owner: '192.168.5.90'
+  rac193a:
+    owner: '192.168.5.90'
+  rac193a-priv:
+    owner: '192.168.6.90'
+  rac193a-vip:
+    owner: '192.168.5.100'
+  rac193b:
+    owner: '192.168.5.91'
+  rac193b-priv:
+    owner: '192.168.6.91'
+  rac193b-vip:
+    owner: '192.168.5.101'
+  scan193:
+    owner:
+    - '192.168.5.97'
+    - '192.168.5.98'
+    - '192.168.5.99'
+profile::dns::bind::forwarders:
+- '8.8.8.8'
+- '8.8.4.4'
+profile::dns::resolv::nameserver: '192.168.5.90'
+
 
 # ------------------------------------------------------------------------------
 #
@@ -132,6 +161,18 @@ ora_profile::database::rac::authenticated_nodes::grid_private_key: |
 
 # ------------------------------------------------------------------------------
 #
+#  Settings for ora_profile::database::asm_packages
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_packages::list:
+  kmod:
+    ensure: 'latest'
+  kmod-libs:
+    ensure: 'latest'
+
+
+# ------------------------------------------------------------------------------
+#
 #  Settings for database::asm_storage
 #
 # ------------------------------------------------------------------------------
@@ -222,6 +263,7 @@ ora_profile::database::db_software::database_type:                        EE
 # ------------------------------------------------------------------------------
 ora_profile::database::db_patches::patch_file:                            p6880880_190000_Linux-x86-64
 ora_profile::database::db_patches::opversion:                             12.2.0.1.17
+ora_profile::database::db_patches::patch_list:                            {}
 
 
 # ------------------------------------------------------------------------------

@@ -39,9 +39,11 @@ pe-dbmaster:
 ml-rac193a:
   public_ip:        192.168.5.90
   private_ip:       192.168.6.90
+  cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          3
+  # needs_storage:    false
   disks:
     ocr:
       size:         40960
@@ -58,11 +60,12 @@ ml-rac193a:
 ml-rac193b:
   public_ip:        192.168.5.91
   private_ip:       192.168.6.91
-  cpucount:         2
+  cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
   virtualboxorafix: true
   cluster:          3
+  # needs_storage:    false
   disks:
     ocr:
       size:         40960
