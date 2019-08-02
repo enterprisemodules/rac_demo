@@ -39,7 +39,6 @@ class profile::dns::bind(
       ensure    => present,
       zone      => $domain,
       ptr       => false,
-      content   => template('profile/bind.erb'),
       hash_data => $hash_data,
     }
 }
