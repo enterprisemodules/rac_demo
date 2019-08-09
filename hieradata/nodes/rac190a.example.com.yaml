@@ -10,19 +10,19 @@ profile::dns::bind::listen_on:
 profile::dns::bind::hash_data:
   ns:
     owner: '192.168.5.90'
-  rac193a:
+  rac190a:
     owner: '192.168.5.90'
-  rac193a-priv:
+  rac190a-priv:
     owner: '192.168.6.90'
-  rac193a-vip:
+  rac190a-vip:
     owner: '192.168.5.100'
-  rac193b:
+  rac190b:
     owner: '192.168.5.91'
-  rac193b-priv:
+  rac190b-priv:
     owner: '192.168.6.91'
-  rac193b-vip:
+  rac190b-vip:
     owner: '192.168.5.101'
-  scan193:
+  scan190:
     owner:
     - '192.168.5.97'
     - '192.168.5.98'
@@ -47,14 +47,14 @@ ora_profile::database::before_asm_diskgroup:                              ora_pr
 #  Settings for database
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::dbname:                                            DB193
-ora_profile::database::version:                                           19.3.0.0
+ora_profile::database::dbname:                                            DB190
+ora_profile::database::version:                                           19.0.0.0
 ora_profile::database::oracle_home:                                       /u01/app/oracle/product/%{lookup('ora_profile::database::version')}/db_home1
-ora_profile::database::grid_home:                                         /u01/app/grid/product/19.3.0.0/grid_home1
-ora_profile::database::master_node:                                       rac193a
+ora_profile::database::grid_home:                                         /u01/app/grid/product/%{lookup('ora_profile::database::version')}/grid_home1
+ora_profile::database::master_node:                                       rac190a
 ora_profile::database::cluster_nodes:
-  - rac193a
-  - rac193b
+  - rac190a
+  - rac190b
 ora_profile::database::source:                                            /vagrant/software
 
 
@@ -201,9 +201,9 @@ ora_profile::database::asm_storage::disk_devices:
 #  Settings for database::asm_software
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_software::version:                             19.3.0.0
+ora_profile::database::asm_software::version:                             19.0.0.0
 ora_profile::database::asm_software::dirs:
-- /u01/app/grid/product/19.3.0.0
+- /u01/app/grid/product/19.0.0.0
 ora_profile::database::asm_software::file_name:                           LINUX.X64_193000_grid_home
 ora_profile::database::asm_software::disk_discovery_string:               '/dev/asm_*'
 ora_profile::database::asm_software::asm_diskgroup:                       OCR
@@ -211,9 +211,9 @@ ora_profile::database::asm_software::asm_disks:                           /dev/a
 ora_profile::database::asm_software::disks_failgroup_names:               '/dev/asm_ocr01,'
 ora_profile::database::asm_software::configure_afd:                       true
 ora_profile::database::asm_software::grid_type:                           CRS_CONFIG
-ora_profile::database::asm_software::cluster_node_types:                  'rac193a:rac193a-vip:HUB'
-ora_profile::database::asm_software::cluster_name:                        CLUSTER193
-ora_profile::database::asm_software::scan_name:                           SCAN193
+ora_profile::database::asm_software::cluster_node_types:                  'rac190a:rac190a-vip:HUB'
+ora_profile::database::asm_software::cluster_name:                        CLUSTER190
+ora_profile::database::asm_software::scan_name:                           SCAN190
 ora_profile::database::asm_software::scan_port:                           1521
 ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
 ora_profile::database::asm_software::storage_option:                      FLEX_ASM_STORAGE
@@ -229,22 +229,18 @@ ora_profile::database::asm_diskgroup::disks:
     disks:
     - diskname: 'OCR1'
       path: 'AFD:OCR1'
-    compat_rdbms: 19.0.0.0.0
   DATA:
     disks:
     - diskname: 'DATA1'
       path: 'AFD:DATA1'
-    compat_rdbms: 19.0.0.0.0
   FRA:
     disks:
     - diskname: 'FRA1'
       path: 'AFD:FRA1'
-    compat_rdbms: 19.0.0.0.0
   REDO:
     disks:
     - diskname: 'REDO1'
       path: 'AFD:REDO1'
-    compat_rdbms: 19.0.0.0.0
 
 
 # ------------------------------------------------------------------------------

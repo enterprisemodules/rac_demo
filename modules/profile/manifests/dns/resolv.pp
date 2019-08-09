@@ -14,12 +14,12 @@ class profile::dns::resolv(
     ensure => running,
   }
 
+  -> package { 'bind-utils':
+    ensure => present,
+  }
+
   -> file { '/etc/resolv.conf':
     ensure  => present,
     content => template('profile/resolv.conf.erb'),
-  }
-
-  -> package { 'bind-utils':
-    ensure => present,
   }
 }

@@ -93,15 +93,15 @@ profile::base::hosts::list:
     ip: 192.168.5.79
     host_aliases:
       - scan122
-  # RAC193
-  rac193a.example.com:
+  # RAC190
+  rac190a.example.com:
     ip: 192.168.5.90
     host_aliases:
-      - rac193a
-  rac193b.example.com:
+      - rac190a
+  rac190b.example.com:
     ip: 192.168.5.91
     host_aliases:
-      - rac193b
+      - rac190b
   # EM
   em1215.example.com:
     ip: 192.168.253.120

@@ -36,7 +36,7 @@ pe-dbmaster:
 #
 # All masterless nodes
 #
-ml-rac193a:
+ml-rac190a:
   public_ip:        192.168.5.90
   private_ip:       192.168.6.90
   cpucount:         4
@@ -57,7 +57,7 @@ ml-rac193a:
     redo:
       size:         10240
       uuid:         '34'
-ml-rac193b:
+ml-rac190b:
   public_ip:        192.168.5.91
   private_ip:       192.168.6.91
   cpucount:         4
