@@ -43,7 +43,6 @@ ml-rac190a:
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          3
-  # needs_storage:    false
   disks:
     ocr:
       size:         40960
@@ -65,7 +64,6 @@ ml-rac190b:
   box:              enterprisemodules/ol-7.3-x86_64-nocm
   virtualboxorafix: true
   cluster:          3
-  # needs_storage:    false
   disks:
     ocr:
       size:         40960

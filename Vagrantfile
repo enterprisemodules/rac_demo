@@ -46,7 +46,7 @@ def validate_definitions(content)
 end
 
 def servers
-  content = YAML.load_file("#{File.dirname(__FILE__)}/servers.yaml")
+  content = YAML.load_file("#{VAGRANT_ROOT}/servers.yaml")
   defaults    = content.delete('defaults') || {}
   pe_defaults = content.delete('pe-defaults') || {}
   ml_defaults = content.delete('ml-defaults') || {}
@@ -70,7 +70,7 @@ end
 # Read YAML file with box details
 pe_puppet_user_id  = 495
 pe_puppet_group_id = 496
-vagrant_root       = File.dirname(__FILE__)
+VAGRANT_ROOT       = File.dirname(__FILE__)
 home               = ENV['HOME']
 add_timestamp      = false
 
@@ -250,67 +250,67 @@ def virtualboxorafix(vb)
 end
 
 # Configure VirtualBox disks attached to the virtual machine
-def configure_disks(vb, server, hostname)
+def configure_disks(vb, server, hostname, name)
+  vminfo = vm_info(name)
   disks = server['disks'] || {}
-  unless File.file?(".#{hostname}.txt")
+  unless vminfo =~ /Storage Controller Name.*SATA Controller/
     vb.customize [
       'storagectl', :id,
       '--name', 'SATA Controller',
       '--add', 'sata',
       '--portcount', disks.size
     ]
+  # else
+  #   puts 'SATA Controller already attached'
   end
 
   disks.each_with_index do |disk, i|
     disk_name = disk.first
     disk_size = disk.last['size']
     disk_uuid = disk.last['uuid']
-
-    if File.file?("#{disk_name}.vdi") && File.file?(".#{disk_name}.txt")
-      file = File.open(".#{disk_name}.txt", 'r')
-      current_uuid = file.read
-      file.close
-    elsif File.file?("#{disk_name}.vdi")
-      current_uuid = '0'
-    elsif server['cluster'] &&
-          File.file?("#{disk_name}_#{server['cluster']}.vdi") &&
-          File.file?(".#{disk_name}_#{server['cluster']}.txt")
-      file = File.open(".#{disk_name}_#{server['cluster']}.txt", 'r')
-      current_uuid = file.read
-      file.close
-    elsif server['cluster'] && File.file?("#{disk_name}_#{server['cluster']}.vdi")
-      current_uuid = '0'
-    elsif server['cluster']
-      vb.customize [
-        'createhd',
-        '--filename', "#{disk_name}_#{server['cluster']}.vdi",
-        '--size', disk_size.to_s,
-        '--variant', 'Fixed'
-      ]
-      vb.customize [
-        'modifyhd', "#{disk_name}_#{server['cluster']}.vdi",
-        '--type', 'shareable'
-      ]
-      current_uuid = '0'
+    real_uuid = "00000000-0000-0000-0000-#{disk_uuid.rjust(12,'0')}"
+    if server['cluster']
+      disk_filename = File.join(VAGRANT_ROOT, "#{disk_name}_#{server['cluster']}.vdi")
     else
-      vb.customize [
-        'createhd',
-        '--filename', "#{disk_name}.vdi",
-        '--size', disk_size.to_s,
-        '--variant', 'Standard'
-      ]
+      disk_filename = File.join(VAGRANT_ROOT, "#{disk_name}.vdi")
+    end
+
+    if File.file?(disk_filename)
+      # puts "Disk #{disk_name} already created"
+      disk_hash = `VBoxManage showmediuminfo #{disk_filename}`.scan(/(.*): *(.*)/).to_h
+      current_uuid = disk_hash['UUID']
+    else
       current_uuid = '0'
+      if server['cluster']
+        vb.customize [
+          'createhd',
+          '--filename', disk_filename,
+          '--size', disk_size.to_s,
+          '--variant', 'Fixed'
+        ]
+        vb.customize [
+          'modifyhd', disk_filename,
+          '--type', 'shareable'
+        ]
+      else
+        vb.customize [
+          'createhd',
+          '--filename', disk_filename,
+          '--size', disk_size.to_s,
+          '--variant', 'Standard'
+        ]
+      end
     end
 
     # Conditional for adding disk_uuid
-    if server['cluster'] && current_uuid.include?(disk_uuid)
+    if server['cluster'] && current_uuid == real_uuid
       vb.customize [
         'storageattach', :id,
         '--storagectl', 'SATA Controller',
         '--port', (i + 1).to_s,
         '--device', 0,
         '--type', 'hdd',
-        '--medium', "#{disk_name}_#{server['cluster']}.vdi",
+        '--medium', disk_filename,
         '--mtype', 'shareable'
       ]
     elsif server['cluster']
@@ -320,18 +320,18 @@ def configure_disks(vb, server, hostname)
         '--port', (i + 1).to_s,
         '--device', 0,
         '--type', 'hdd',
-        '--medium', "#{disk_name}_#{server['cluster']}.vdi",
+        '--medium', disk_filename,
         '--mtype', 'shareable',
-        '--setuuid', "00000000-0000-0000-0000-0000000000#{disk_uuid}"
+        '--setuuid', real_uuid
       ]
-    elsif current_uuid.include? disk_uuid
+    elsif current_uuid == real_uuid
       vb.customize [
         'storageattach', :id,
         '--storagectl', 'SATA Controller',
         '--port', (i + 1).to_s,
         '--device', 0,
         '--type', 'hdd',
-        '--medium', "#{disk_name}.vdi"
+        '--medium', disk_filename
       ]
     else
       vb.customize [
@@ -340,8 +340,8 @@ def configure_disks(vb, server, hostname)
         '--port', (i + 1).to_s,
         '--device', 0,
         '--type', 'hdd',
-        '--medium', "#{disk_name}.vdi",
-        '--setuuid', "00000000-0000-0000-0000-00000000000#{disk_uuid}"
+        '--medium', disk_filename,
+        '--setuuid', real_uuid
       ]
     end
   end
@@ -356,12 +356,12 @@ def plugin_check(plugin_name)
 end
 
 # Check if all required software files from servers.yaml are present in repo.
-def local_software_file_check(config, vagrant_root, file_names)
+def local_software_file_check(config, file_names)
   config.trigger.before [:up, :reload, :provision] do |trigger|
     trigger.ruby do |env, machine|
       files_found = true
       file_names.each do |file_name|
-        file_path = "#{vagrant_root}/modules/software/files/#{file_name}"
+        file_path = "#{VAGRANT_ROOT}/modules/software/files/#{file_name}"
         unless File.exist?(file_path) # returns true for directories
           files_found = false
           env.ui.error "Missing software file: #{file_name}"
@@ -373,6 +373,32 @@ def local_software_file_check(config, vagrant_root, file_names)
       end
     end
   end
+end
+
+def vbox_manage?
+  @vbox_manage ||= ! `which VBoxManage`.chomp.empty?
+end
+
+def vm_boxes
+  boxes = {}
+  if vbox_manage?
+    vms = `VBoxManage list vms`
+    vms.split("\n").each do |vm|
+      x = vm.split
+      k = x[0].gsub('"','')      # vm name
+      v = x[1].gsub(/[{}]/,'')   # vm UUID
+      boxes[k] = v
+    end
+  end
+  boxes
+end
+
+def vm_exists?(vmname)
+  vm_boxes[vmname] ? true : false
+end
+
+def vm_info(vmname)
+  vm_exists?(vmname) ? `VBoxManage showvminfo #{vmname}` : ''
 end
 
 #
@@ -395,8 +421,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         #
         # Perform software checks before main setup
         #
-        local_software_file_check(config, vagrant_root, server['software_files']) if server['software_files']
-        local_software_file_check(config, vagrant_root, [puppet_installer]) if puppet_installer # Check if installer folder is present
+        local_software_file_check(config, server['software_files']) if server['software_files']
+        local_software_file_check(config, [puppet_installer]) if puppet_installer # Check if installer folder is present
       end
 
       srv.vm.communicator = server['protocol'] || 'ssh'
@@ -459,7 +485,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         virtualboxorafix(vb) if server['virtualboxorafix']
 
         # Attach disks if the setup needs virtual drives
-        configure_disks(vb, server, hostname) if server['needs_storage']
+        configure_disks(vb, server, hostname, name) if server['needs_storage']
       end
     end
   end
