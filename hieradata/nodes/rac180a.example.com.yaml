@@ -3,7 +3,7 @@ deployment_zone: vagrant
 
 role: role::oradb::rac_node
 
-profile::dns::resolv::nameserver: '192.168.5.30'
+profile::dns::resolv::nameserver: '192.168.5.110'
 
 
 # ------------------------------------------------------------------------------
@@ -11,8 +11,8 @@ profile::dns::resolv::nameserver: '192.168.5.30'
 #  Class overrides and additions
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::db_patches:                                        skip
-ora_profile::database::db_definition:                                     ora_profile::database::db_definition_template
+# ora_profile::database::db_definition:                                    ora_profile::database::db_definition_template
+ora_profile::database::before_asm_diskgroup:                              ora_profile::database::asm_storage::afd_label
 
 
 # ------------------------------------------------------------------------------
@@ -20,15 +20,15 @@ ora_profile::database::db_definition:                                     ora_pr
 #  Settings for database
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::dbname:                                            DB112
-ora_profile::database::version:                                           11.2.0.4
-ora_profile::database::master_node:                                       rac112a
+ora_profile::database::dbname:                                            DB180
+ora_profile::database::version:                                           18.0.0.0
+ora_profile::database::oracle_home:                                       /u01/app/oracle/product/%{lookup('ora_profile::database::version')}/db_home1
+ora_profile::database::grid_home:                                         /u01/app/grid/product/%{lookup('ora_profile::database::version')}/grid_home1
+ora_profile::database::master_node:                                       rac180a
 ora_profile::database::cluster_nodes:
-  - rac112a
-  - rac112b
+  - rac180a
+  - rac180b
 ora_profile::database::source:                                            /vagrant/software
-ora_profile::database::grid_home:                                         /u01/app/grid/product/11.2.0.4/grid_home1
-ora_profile::database::oracle_home:                                       /u01/app/oracle/product/11.2.0.4/db_home1
 
 
 # ------------------------------------------------------------------------------
@@ -46,22 +46,6 @@ ora_profile::database::limits::list:
   "%{::ora_profile::database::grid_user}/stack":
     soft: 10240
     hard: 32768
-
-
-# ------------------------------------------------------------------------------
-#
-# Settings for database::asm_packages
-#
-# ------------------------------------------------------------------------------
-ora_profile::database::asm_packages::list:
-  oracleasm-support: {}
-  kmod-oracleasm: {}
-  oracleasmlib:
-    ensure:   installed
-    source:   "/vagrant/software/oracleasmlib-2.0.12-1.el7.x86_64.rpm"
-    provider: rpm
-  elfutils-libelf-devel: {}
-  mksh: {}
 
 
 # ------------------------------------------------------------------------------
@@ -150,26 +134,38 @@ ora_profile::database::rac::authenticated_nodes::grid_private_key: |
 
 # ------------------------------------------------------------------------------
 #
+#  Settings for ora_profile::database::asm_packages
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_packages::list:
+  kmod:
+    ensure: 'latest'
+  kmod-libs:
+    ensure: 'latest'
+
+
+# ------------------------------------------------------------------------------
+#
 #  Settings for database::asm_storage
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_storage::storage_type:                         asmlib
+ora_profile::database::asm_storage::storage_type:        afd
 ora_profile::database::asm_storage::disk_devices:
   asm_ocr01:
-    size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-11000000'
+    size: 40960
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-41000000'
     label: 'OCR1'
   asm_data01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-12000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-42000000'
     label: 'DATA1'
   asm_fra01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-13000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-43000000'
     label: 'FRA1'
   asm_redo01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-14000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-44000000'
     label: 'REDO1'
 
 
@@ -178,23 +174,22 @@ ora_profile::database::asm_storage::disk_devices:
 #  Settings for database::asm_software
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_software::version:                             11.2.0.4
+ora_profile::database::asm_software::version:                             18.0.0.0
 ora_profile::database::asm_software::dirs:
-- /u01/app/grid/product/11.2.0.4
-ora_profile::database::asm_software::grid_home:                           "%{ora_profile::database::grid_home}"
-ora_profile::database::asm_software::file_name:                           p13390677_112040_Linux-x86-64_3of7.zip
-ora_profile::database::asm_software::disk_discovery_string:               'ORCL:*'
+- /u01/app/grid/product/18.0.0.0
+ora_profile::database::asm_software::file_name:                           LINUX.X64_180000_grid_home
+ora_profile::database::asm_software::disk_discovery_string:               '/dev/asm_*'
 ora_profile::database::asm_software::asm_diskgroup:                       OCR
-ora_profile::database::asm_software::asm_disks:                           'ORCL:OCR1'
-ora_profile::database::asm_software::disks_failgroup_names:               ~
-ora_profile::database::asm_software::configure_afd:                       false
+ora_profile::database::asm_software::asm_disks:                           /dev/asm_ocr01
+ora_profile::database::asm_software::disks_failgroup_names:               '/dev/asm_ocr01,'
+ora_profile::database::asm_software::configure_afd:                       true
 ora_profile::database::asm_software::grid_type:                           CRS_CONFIG
-ora_profile::database::asm_software::cluster_node_types:                  'rac112a:rac112a-vip'
-ora_profile::database::asm_software::cluster_name:                        CLUSTER112
-ora_profile::database::asm_software::scan_name:                           SCAN112
+ora_profile::database::asm_software::cluster_node_types:                  'rac180a:rac180a-vip:HUB'
+ora_profile::database::asm_software::cluster_name:                        CLUSTER180
+ora_profile::database::asm_software::scan_name:                           SCAN180
 ora_profile::database::asm_software::scan_port:                           1521
-ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:2'
-ora_profile::database::asm_software::storage_option:                      ASM_STORAGE
+ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
+ora_profile::database::asm_software::storage_option:                      FLEX_ASM_STORAGE
 
 
 # ------------------------------------------------------------------------------
@@ -206,19 +201,20 @@ ora_profile::database::asm_diskgroup::disks:
   OCR:
     disks:
     - diskname: 'OCR1'
-      path: 'ORCL:OCR1'
+      path: 'AFD:OCR1'
+    compat_rdbms: 12.2.0.0.0
   DATA:
     disks:
     - diskname: 'DATA1'
-      path: 'ORCL:DATA1'
+      path: 'AFD:DATA1'
   FRA:
     disks:
     - diskname: 'FRA1'
-      path: 'ORCL:FRA1'
+      path: 'AFD:FRA1'
   REDO:
     disks:
     - diskname: 'REDO1'
-      path: 'ORCL:REDO1'
+      path: 'AFD:REDO1'
 
 
 # ------------------------------------------------------------------------------
@@ -226,8 +222,18 @@ ora_profile::database::asm_diskgroup::disks:
 #  Settings for database::db_software
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::db_software::file_name:                            p13390677_112040_Linux-x86-64
+ora_profile::database::db_software::file_name:                            LINUX.X64_180000_db_home
 ora_profile::database::db_software::database_type:                        EE
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_patches
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_patches::patch_file:                            p6880880_180000_Linux-x86-64
+ora_profile::database::db_patches::opversion:                             12.2.0.1.17
+ora_profile::database::db_patches::patch_list:                            {}
 
 
 # ------------------------------------------------------------------------------
@@ -241,9 +247,18 @@ ora_profile::database::db_definition_template::db_conf_type:              RAC
 
 # ------------------------------------------------------------------------------
 #
+#  Settings for database::db_definition
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_definition::init_ora_template:                  profile/init.ora.%{ora_profile::database::version}.erb
+ora_profile::database::db_definition::db_recovery_file_dest:              +FRA
+
+
+# ------------------------------------------------------------------------------
+#
 #  Settings for database::asm_listener
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_listener::oracle_home:                          "%{ora_profile::database::grid_home}"
-ora_profile::database::asm_listener::oracle_base:                          "%{ora_profile::database::grid_base}"
+ora_profile::database::db_listener::oracle_home:                          "%{ora_profile::database::grid_home}"
+ora_profile::database::db_listener::oracle_base:                          "%{ora_profile::database::grid_base}"
 

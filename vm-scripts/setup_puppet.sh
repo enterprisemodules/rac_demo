@@ -53,4 +53,6 @@ else
     rm -f $dirname
   fi
   ln -sf /vagrant/manifests /etc/puppetlabs/code/environments/production
+
+  touch /var/log/setup_puppet.done
 fi

@@ -50,7 +50,7 @@ def servers
   defaults    = content.delete('defaults') || {}
   pe_defaults = content.delete('pe-defaults') || {}
   ml_defaults = content.delete('ml-defaults') || {}
-  content.each do | key, values|
+  content.each do |key, values|
     case key[0,3]
     when 'ml-'
       content[key] = defaults.merge(ml_defaults).merge(values)
@@ -67,51 +67,86 @@ def servers
   content
 end
 
+def default_domain
+  content = YAML.load_file("#{VAGRANT_ROOT}/servers.yaml")
+  content['defaults']['domain_name']
+end
+
+# Return a shell command that ensures that all vagrant hosts are in /etc/hosts
+def hosts_file(vms, domain)
+  commands = 'sed -i -e /127.0.0.1.*example.com/d /etc/hosts;'
+  vms.each do |k, v|
+    hostname = k.split('-').last
+    fqdn = "#{hostname}.#{domain}"
+    commands << "grep -q #{fqdn} /etc/hosts || " \
+    "echo #{v['public_ip']} #{fqdn} #{k} " \
+    '>> /etc/hosts;' if v['public_ip']
+    if v['additional_hosts']
+      v['additional_hosts'].each do |k, v|
+        fqdn = "#{k}.#{domain}"
+        commands << "grep -q #{fqdn} /etc/hosts || " \
+        "echo #{v['ip']} #{fqdn} #{k} " \
+        '>> /etc/hosts;'
+      end
+    end
+  end
+  commands
+end
+
 # Read YAML file with box details
 pe_puppet_user_id  = 495
 pe_puppet_group_id = 496
 VAGRANT_ROOT       = File.dirname(__FILE__)
 home               = ENV['HOME']
-add_timestamp      = false
 
 def masterless_setup(config, server, srv, hostname)
-  config.trigger.after :up do |trigger|
-    #
-    # Fix hostnames because Vagrant mixes it up.
-    #
-    if srv.vm.communicator == 'ssh'
-      trigger.run_remote = {inline: <<~EOD}
-        cat > /etc/hosts<< "EOF"
-        127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
-        #{server['public_ip']} #{hostname}.#{server['domain_name']} #{hostname}
-        #{server['additional_hosts'] ? server['additional_hosts'] : ''}
-        EOF
-        bash /vagrant/vm-scripts/install_puppet.sh
-        bash /vagrant/vm-scripts/setup_puppet.sh
-        # /opt/puppetlabs/puppet/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp || true
-      EOD
-    else # Windows
-      trigger.run_remote = {inline: <<~EOD}
-        cd c:\\vagrant\\vm-scripts
-        .\\install_puppet.ps1
-        cd c:\\vagrant\\vm-scripts
-        .\\setup_puppet.ps1
-      EOD
-    end
-  end
-
-  config.trigger.after :provision do |trigger|
-    if srv.vm.communicator == 'ssh'
-      trigger.run_remote = {
-        inline: "puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp -t || true"
-      }
-    else
-      trigger.run_remote = {inline: <<~EOD}
+  # config.trigger.before :provision do |trigger|
+  #   #
+  #   # Fix hostnames because Vagrant mixes it up.
+  #   #
+  #   if srv.vm.communicator == 'ssh'
+  #     trigger.run_remote = {inline: <<~EOD}
+  #       cat > /etc/hosts<< "EOF"
+  #       127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
+  #       #{server['public_ip']} #{hostname}.#{server['domain_name']} #{hostname}
+  #       #{server['additional_hosts'] ? server['additional_hosts'] : ''}
+  #       EOF
+  #       # bash /vagrant/vm-scripts/install_puppet.sh
+  #       # bash /vagrant/vm-scripts/setup_puppet.sh
+  #       # /opt/puppetlabs/puppet/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp || true
+  #     EOD
+  #   else # Windows
+  #     trigger.run_remote = {inline: <<~EOD}
+  #       cd c:\\vagrant\\vm-scripts
+  #       .\\install_puppet.ps1
+  #       cd c:\\vagrant\\vm-scripts
+  #       .\\setup_puppet.ps1
+  #     EOD
+  #   end
+  # end
+  if srv.vm.communicator == 'ssh'
+    srv.vm.provision :shell, inline: HOSTS_FILE_COMMANDS
+    srv.vm.provision :shell, inline: 'bash /vagrant/vm-scripts/install_puppet.sh'
+    srv.vm.provision :shell, inline: 'bash /vagrant/vm-scripts/setup_puppet.sh'
+    srv.vm.provision :shell, inline: 'puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp --test'
+  else
+    srv.vm.provision :shell, {inline: <<~EOD}
       iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' resource service puppet ensure=stopped"
-      iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' apply c:\\vagrant\\manifests\\site.pp -t "
+      iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' apply c:\\vagrant\\manifests\\site.pp --test"
       EOD
-    end
   end
+  # config.trigger.after :provision do |trigger|
+  #   if srv.vm.communicator == 'ssh'
+  #     trigger.run_remote = {
+  #       inline: "puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp -t || true"
+  #     }
+  #   else
+  #     trigger.run_remote = {inline: <<~EOD}
+  #     iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' resource service puppet ensure=stopped"
+  #     iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' apply c:\\vagrant\\manifests\\site.pp -t "
+  #     EOD
+  #   end
+  # end
 end
 
 
@@ -253,7 +288,8 @@ end
 def configure_disks(vb, server, hostname, name)
   vminfo = vm_info(name)
   disks = server['disks'] || {}
-  unless vminfo =~ /Storage Controller Name.*SATA Controller/
+  unless vminfo =~ /Storage Controller Name \(1\): *SATA Controller/
+    # puts "Attaching SATA Controller"
     vb.customize [
       'storagectl', :id,
       '--name', 'SATA Controller',
@@ -276,10 +312,11 @@ def configure_disks(vb, server, hostname, name)
     end
 
     if File.file?(disk_filename)
-      # puts "Disk #{disk_name} already created"
+      # puts "Disk #{disk_filename} already created"
       disk_hash = `VBoxManage showmediuminfo #{disk_filename}`.scan(/(.*): *(.*)/).to_h
       current_uuid = disk_hash['UUID']
     else
+      # puts "Creating disk #{disk_filename}"
       current_uuid = '0'
       if server['cluster']
         vb.customize [
@@ -304,6 +341,7 @@ def configure_disks(vb, server, hostname, name)
 
     # Conditional for adding disk_uuid
     if server['cluster'] && current_uuid == real_uuid
+      # puts "Attaching shareable disk #{disk_filename}"
       vb.customize [
         'storageattach', :id,
         '--storagectl', 'SATA Controller',
@@ -314,6 +352,7 @@ def configure_disks(vb, server, hostname, name)
         '--mtype', 'shareable'
       ]
     elsif server['cluster']
+      # puts "Attaching shareable disk #{disk_filename}, adding UUID #{real_uuid}"
       vb.customize [
         'storageattach', :id,
         '--storagectl', 'SATA Controller',
@@ -325,6 +364,7 @@ def configure_disks(vb, server, hostname, name)
         '--setuuid', real_uuid
       ]
     elsif current_uuid == real_uuid
+      # puts "Attaching normal disk #{disk_filename}"
       vb.customize [
         'storageattach', :id,
         '--storagectl', 'SATA Controller',
@@ -334,6 +374,7 @@ def configure_disks(vb, server, hostname, name)
         '--medium', disk_filename
       ]
     else
+      # puts "Attaching normal disk #{disk_filename}, adding UUID #{real_uuid}"
       vb.customize [
         'storageattach', :id,
         '--storagectl', 'SATA Controller',
@@ -398,7 +439,12 @@ def vm_exists?(vmname)
 end
 
 def vm_info(vmname)
+  # `VBoxManage showvminfo ml-rac190a --machinereadable`.scan(/(.*)=(.*)/).to_h.each {|k, v| vminfo[k] = v.gsub(/\"/,'') }
+  # vminfo
+  # or
+  # `VBoxManage showvminfo ml-rac190a --machinereadable`.scan(/(.*)=(.*)/).to_h.transform_values {|v| v.gsub(/\"/,'') }
   vm_exists?(vmname) ? `VBoxManage showvminfo #{vmname}` : ''
+  # vm_exists?(vmname) ? `VBoxManage showvminfo #{vmname} --machinereadable`.scan(/(.*)=(.*)/).to_h.transform_values {|v| v.gsub(/\"/,'') } : ''
 end
 
 #
@@ -406,6 +452,7 @@ end
 #
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
+  HOSTS_FILE_COMMANDS = hosts_file(servers, default_domain)
   servers.each do |name, server|
     # Fetch puppet installer version if it is present
     puppet_installer = server['puppet_installer']
@@ -487,6 +534,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # Attach disks if the setup needs virtual drives
         configure_disks(vb, server, hostname, name) if server['needs_storage']
       end
+
     end
   end
 end

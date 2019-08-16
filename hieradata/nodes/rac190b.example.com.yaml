@@ -180,19 +180,19 @@ ora_profile::database::asm_storage::storage_type:        afd
 ora_profile::database::asm_storage::disk_devices:
   asm_ocr01:
     size: 40960
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-31000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-51000000'
     label: 'OCR1'
   asm_data01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-32000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-52000000'
     label: 'DATA1'
   asm_fra01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-33000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-53000000'
     label: 'FRA1'
   asm_redo01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-34000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-54000000'
     label: 'REDO1'
 
 

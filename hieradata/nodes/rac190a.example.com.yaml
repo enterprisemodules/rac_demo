@@ -3,33 +3,6 @@ deployment_zone: vagrant
 
 role: role::oradb::rac_node
 
-profile::dns::bind::domain: 'example.com'
-profile::dns::bind::listen_on:
-- '127.0.0.0'
-- "%{facts.ipaddress_eth1}"
-profile::dns::bind::hash_data:
-  ns:
-    owner: '192.168.5.90'
-  rac190a:
-    owner: '192.168.5.90'
-  rac190a-priv:
-    owner: '192.168.6.90'
-  rac190a-vip:
-    owner: '192.168.5.100'
-  rac190b:
-    owner: '192.168.5.91'
-  rac190b-priv:
-    owner: '192.168.6.91'
-  rac190b-vip:
-    owner: '192.168.5.101'
-  scan190:
-    owner:
-    - '192.168.5.97'
-    - '192.168.5.98'
-    - '192.168.5.99'
-profile::dns::bind::forwarders:
-- '8.8.8.8'
-- '8.8.4.4'
 profile::dns::resolv::nameserver: '192.168.5.90'
 
 
@@ -180,19 +153,19 @@ ora_profile::database::asm_storage::storage_type:        afd
 ora_profile::database::asm_storage::disk_devices:
   asm_ocr01:
     size: 40960
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-31000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-51000000'
     label: 'OCR1'
   asm_data01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-32000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-52000000'
     label: 'DATA1'
   asm_fra01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-33000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-53000000'
     label: 'FRA1'
   asm_redo01:
     size: 10240
-    uuid: '1ATA_VBOX_HARDDISK_VB00000000-34000000'
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-54000000'
     label: 'REDO1'
 
 
