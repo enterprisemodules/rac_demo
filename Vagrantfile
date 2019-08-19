@@ -100,53 +100,21 @@ VAGRANT_ROOT       = File.dirname(__FILE__)
 home               = ENV['HOME']
 
 def masterless_setup(config, server, srv, hostname)
-  # config.trigger.before :provision do |trigger|
-  #   #
-  #   # Fix hostnames because Vagrant mixes it up.
-  #   #
-  #   if srv.vm.communicator == 'ssh'
-  #     trigger.run_remote = {inline: <<~EOD}
-  #       cat > /etc/hosts<< "EOF"
-  #       127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
-  #       #{server['public_ip']} #{hostname}.#{server['domain_name']} #{hostname}
-  #       #{server['additional_hosts'] ? server['additional_hosts'] : ''}
-  #       EOF
-  #       # bash /vagrant/vm-scripts/install_puppet.sh
-  #       # bash /vagrant/vm-scripts/setup_puppet.sh
-  #       # /opt/puppetlabs/puppet/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp || true
-  #     EOD
-  #   else # Windows
-  #     trigger.run_remote = {inline: <<~EOD}
-  #       cd c:\\vagrant\\vm-scripts
-  #       .\\install_puppet.ps1
-  #       cd c:\\vagrant\\vm-scripts
-  #       .\\setup_puppet.ps1
-  #     EOD
-  #   end
-  # end
   if srv.vm.communicator == 'ssh'
     srv.vm.provision :shell, inline: HOSTS_FILE_COMMANDS
     srv.vm.provision :shell, inline: 'bash /vagrant/vm-scripts/install_puppet.sh'
     srv.vm.provision :shell, inline: 'bash /vagrant/vm-scripts/setup_puppet.sh'
-    srv.vm.provision :shell, inline: 'puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp --test'
+    srv.vm.provision "puppet" do |puppet|
+      puppet.manifests_path = ["vm", "/vagrant/manifests"]
+      puppet.manifest_file = "site.pp"
+      puppet.options = "--test"
+    end
   else
     srv.vm.provision :shell, {inline: <<~EOD}
       iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' resource service puppet ensure=stopped"
       iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' apply c:\\vagrant\\manifests\\site.pp --test"
       EOD
   end
-  # config.trigger.after :provision do |trigger|
-  #   if srv.vm.communicator == 'ssh'
-  #     trigger.run_remote = {
-  #       inline: "puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp -t || true"
-  #     }
-  #   else
-  #     trigger.run_remote = {inline: <<~EOD}
-  #     iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' resource service puppet ensure=stopped"
-  #     iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' apply c:\\vagrant\\manifests\\site.pp -t "
-  #     EOD
-  #   end
-  # end
 end
 
 
@@ -439,12 +407,7 @@ def vm_exists?(vmname)
 end
 
 def vm_info(vmname)
-  # `VBoxManage showvminfo ml-rac190a --machinereadable`.scan(/(.*)=(.*)/).to_h.each {|k, v| vminfo[k] = v.gsub(/\"/,'') }
-  # vminfo
-  # or
-  # `VBoxManage showvminfo ml-rac190a --machinereadable`.scan(/(.*)=(.*)/).to_h.transform_values {|v| v.gsub(/\"/,'') }
   vm_exists?(vmname) ? `VBoxManage showvminfo #{vmname}` : ''
-  # vm_exists?(vmname) ? `VBoxManage showvminfo #{vmname} --machinereadable`.scan(/(.*)=(.*)/).to_h.transform_values {|v| v.gsub(/\"/,'') } : ''
 end
 
 #
