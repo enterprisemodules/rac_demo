@@ -1,19 +1,50 @@
 ---
+#
+# The default settings for all nodes
+#
+defaults:
+  domain_name:     example.com
+  cpucount:         1
+  needs_storage:    true
+  additional_hosts:
+    racmaster:
+      ip: 192.168.253.10
+  box:              enterprisemodules/centos-7.3-x86_64-nocm
+  virtualboxorafix: true
+
+#
+# The default settings for all ML nodes
+#
+ml-defaults:
+  type:             masterless
+
+#
+# The default settings for all PE nodes
+#
+pe-defaults:
+  type:             pe-agent
+  puppet_master:    racmaster
+
+#
+# The settings for the Puppet Enterprise Server
+#
 pe-racmaster:
-  public_ip:        192.168.253.10
+  public_ip:       '192.168.253.10'
   cpucount:         2
   ram:              3072
   type:             pe-master
+  puppet_installer: puppet-enterprise-2019.1.0-el-7-x86_64/puppet-enterprise-installer
+
+#
+# All masterless nodes
+#
 # RAC112
 ml-rac112a:
   public_ip:        192.168.5.30
   private_ip:       192.168.6.30
-  cpucount:         2
+  cpucount:         4
   ram:              8667
-  type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
   cluster:          1
   disks:
     ocr:
@@ -28,15 +59,17 @@ ml-rac112a:
     redo:
       size:         10240
       uuid:         '14'
+  software_files:
+  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
+  - p13390677_112040_Linux-x86-64_1of7.zip
+  - p13390677_112040_Linux-x86-64_2of7.zip
+  - p13390677_112040_Linux-x86-64_3of7.zip
 ml-rac112b:
   public_ip:        192.168.5.31
   private_ip:       192.168.6.31
-  cpucount:         2
+  cpucount:         4
   ram:              8667
-  type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
   cluster:          1
   disks:
     ocr:
@@ -55,12 +88,9 @@ ml-rac112b:
 ml-rac121a:
   public_ip:        192.168.5.50
   private_ip:       192.168.6.50
-  cpucount:         2
+  cpucount:         4
   ram:              8667
-  type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
   cluster:          2
   disks:
     ocr:
@@ -75,15 +105,18 @@ ml-rac121a:
     redo:
       size:         10240
       uuid:         '24'
+  software_files:
+  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
+  - linuxamd64_12102_grid_1of2.zip
+  - linuxamd64_12102_grid_1of2.zip
+  - linuxamd64_12102_database_1of2.zip
+  - linuxamd64_12102_database_2of2.zip
 ml-rac121b:
   public_ip:        192.168.5.51
   private_ip:       192.168.6.51
-  cpucount:         2
+  cpucount:         4
   ram:              8667
-  type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
   cluster:          2
   disks:
     ocr:
@@ -102,12 +135,9 @@ ml-rac121b:
 ml-rac122a:
   public_ip:        192.168.5.70
   private_ip:       192.168.6.70
-  cpucount:         2
+  cpucount:         4
   ram:              8667
-  type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
   cluster:          3
   disks:
     ocr:
@@ -122,15 +152,17 @@ ml-rac122a:
     redo:
       size:         10240
       uuid:         '34'
+  software_files:
+  - linuxx64_12201_grid_home.zip
+  - linuxx64_12201_database.zip
+  - p6880880_122010_Linux-x86-64.zip
+  - p27468969_122010_Linux-x86-64.zip
 ml-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
-  cpucount:         2
+  cpucount:         4
   ram:              8667
-  type:             masterless
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
   cluster:          3
   disks:
     ocr:
@@ -145,16 +177,201 @@ ml-rac122b:
     redo:
       size:         10240
       uuid:         '34'
+# RAC180
+ml-rac180a:
+  public_ip:        192.168.5.110
+  private_ip:       192.168.6.110
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  cluster:          4
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '41'
+    data:
+      size:         10240
+      uuid:         '42'
+    fra:
+      size:         10240
+      uuid:         '43'
+    redo:
+      size:         10240
+      uuid:         '44'
+  software_files:
+  - LINUX.X64_180000_grid_home.zip
+  - LINUX.X64_180000_db_home.zip
+  - p6880880_180000_Linux-x86-64.zip
+ml-rac180b:
+  public_ip:        192.168.5.111
+  private_ip:       192.168.6.111
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  virtualboxorafix: true
+  cluster:          4
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '41'
+    data:
+      size:         10240
+      uuid:         '42'
+    fra:
+      size:         10240
+      uuid:         '43'
+    redo:
+      size:         10240
+      uuid:         '44'
+# RAC190
+ml-rac190a:
+  public_ip:        192.168.5.90
+  private_ip:       192.168.6.90
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  cluster:          5
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '51'
+    data:
+      size:         10240
+      uuid:         '52'
+    fra:
+      size:         10240
+      uuid:         '53'
+    redo:
+      size:         10240
+      uuid:         '54'
+  software_files:
+  - LINUX.X64_193000_grid_home.zip
+  - LINUX.X64_193000_db_home.zip
+  - p6880880_190000_Linux-x86-64.zip
+ml-rac190b:
+  public_ip:        192.168.5.91
+  private_ip:       192.168.6.91
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  virtualboxorafix: true
+  cluster:          5
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '51'
+    data:
+      size:         10240
+      uuid:         '52'
+    fra:
+      size:         10240
+      uuid:         '53'
+    redo:
+      size:         10240
+      uuid:         '54'
+
+#
+# All pe-agent nodes
+#
+pe-rac112a:
+  public_ip:        192.168.5.30
+  private_ip:       192.168.6.30
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  cluster:          1
+  disks:
+    ocr:
+      size:         10240
+      uuid:         '11'
+    data:
+      size:         10240
+      uuid:         '12'
+    fra:
+      size:         10240
+      uuid:         '13'
+    redo:
+      size:         10240
+      uuid:         '14'
+  software_files:
+  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
+  - p13390677_112040_Linux-x86-64_1of7.zip
+  - p13390677_112040_Linux-x86-64_2of7.zip
+  - p13390677_112040_Linux-x86-64_3of7.zip
+pe-rac112b:
+  public_ip:        192.168.5.31
+  private_ip:       192.168.6.31
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  cluster:          1
+  disks:
+    ocr:
+      size:         10240
+      uuid:         '11'
+    data:
+      size:         10240
+      uuid:         '12'
+    fra:
+      size:         10240
+      uuid:         '13'
+    redo:
+      size:         10240
+      uuid:         '14'
+# RAC121
+pe-rac121a:
+  public_ip:        192.168.5.50
+  private_ip:       192.168.6.50
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  cluster:          2
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '21'
+    data:
+      size:         10240
+      uuid:         '22'
+    fra:
+      size:         10240
+      uuid:         '23'
+    redo:
+      size:         10240
+      uuid:         '24'
+  software_files:
+  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
+  - linuxamd64_12102_grid_1of2.zip
+  - linuxamd64_12102_grid_1of2.zip
+  - linuxamd64_12102_database_1of2.zip
+  - linuxamd64_12102_database_2of2.zip
+pe-rac121b:
+  public_ip:        192.168.5.51
+  private_ip:       192.168.6.51
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  cluster:          2
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '21'
+    data:
+      size:         10240
+      uuid:         '22'
+    fra:
+      size:         10240
+      uuid:         '23'
+    redo:
+      size:         10240
+      uuid:         '24'
 # RAC122
 pe-rac122a:
   public_ip:        192.168.5.70
   private_ip:       192.168.6.70
-  cpucount:         2
+  cpucount:         4
   ram:              8667
-  type:             pe-agent
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
   cluster:          3
   disks:
     ocr:
@@ -169,15 +386,17 @@ pe-rac122a:
     redo:
       size:         10240
       uuid:         '34'
+  software_files:
+  - linuxx64_12201_grid_home.zip
+  - linuxx64_12201_database.zip
+  - p6880880_122010_Linux-x86-64.zip
+  - p27468969_122010_Linux-x86-64.zip
 pe-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
-  cpucount:         2
+  cpucount:         4
   ram:              8667
-  type:             pe-agent
   box:              enterprisemodules/ol-7.3-x86_64-nocm
-  needs_storage:    enabled
-  virtualboxorafix: enable
   cluster:          3
   disks:
     ocr:
@@ -192,3 +411,95 @@ pe-rac122b:
     redo:
       size:         10240
       uuid:         '34'
+# RAC180
+pe-rac180a:
+  public_ip:        192.168.5.110
+  private_ip:       192.168.6.110
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  cluster:          4
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '41'
+    data:
+      size:         10240
+      uuid:         '42'
+    fra:
+      size:         10240
+      uuid:         '43'
+    redo:
+      size:         10240
+      uuid:         '44'
+  software_files:
+  - LINUX.X64_180000_grid_home.zip
+  - LINUX.X64_180000_db_home.zip
+  - p6880880_180000_Linux-x86-64.zip
+pe-rac180b:
+  public_ip:        192.168.5.111
+  private_ip:       192.168.6.111
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  virtualboxorafix: true
+  cluster:          4
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '41'
+    data:
+      size:         10240
+      uuid:         '42'
+    fra:
+      size:         10240
+      uuid:         '43'
+    redo:
+      size:         10240
+      uuid:         '44'
+# RAC190
+pe-rac190a:
+  public_ip:        192.168.5.90
+  private_ip:       192.168.6.90
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  cluster:          5
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '51'
+    data:
+      size:         10240
+      uuid:         '52'
+    fra:
+      size:         10240
+      uuid:         '53'
+    redo:
+      size:         10240
+      uuid:         '54'
+  software_files:
+  - LINUX.X64_193000_grid_home.zip
+  - LINUX.X64_193000_db_home.zip
+  - p6880880_190000_Linux-x86-64.zip
+pe-rac190b:
+  public_ip:        192.168.5.91
+  private_ip:       192.168.6.91
+  cpucount:         4
+  ram:              8667
+  box:              enterprisemodules/ol-7.3-x86_64-nocm
+  virtualboxorafix: true
+  cluster:          5
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '51'
+    data:
+      size:         10240
+      uuid:         '52'
+    fra:
+      size:         10240
+      uuid:         '53'
+    redo:
+      size:         10240
+      uuid:         '54'

@@ -1,4 +1,101 @@
 ---
+profile::dns::bind::domain: 'example.com'
+profile::dns::bind::listen_on:
+- '127.0.0.0'
+- "%{facts.ipaddress_eth1}"
+profile::dns::bind::hash_data:
+  ns:
+    owner: "%{lookup('profile::dns::resolv::nameserver')}"
+  rac112a:
+    owner: '192.168.5.30'
+  rac112a-priv:
+    owner: '192.168.6.30'
+  rac112a-vip:
+    owner: '192.168.5.40'
+  rac112b:
+    owner: '192.168.5.31'
+  rac112b-priv:
+    owner: '192.168.6.31'
+  rac112b-vip:
+    owner: '192.168.5.41'
+  rac121a:
+    owner: '192.168.5.50'
+  rac121a-priv:
+    owner: '192.168.6.50'
+  rac121b:
+    owner: '192.168.5.51'
+  rac121b-priv:
+    owner: '192.168.6.51'
+  rac121b-vip:
+    owner: '192.168.5.61'
+  rac121a-vip:
+    owner: '192.168.5.60'
+  rac122a:
+    owner: '192.168.5.70'
+  rac122a-priv:
+    owner: '192.168.6.70'
+  rac122a-vip:
+    owner: '192.168.5.80'
+  rac122b:
+    owner: '192.168.5.71'
+  rac122b-priv:
+    owner: '192.168.6.71'
+  rac122b-vip:
+    owner: '192.168.5.81'
+  rac180a:
+    owner: '192.168.5.110'
+  rac180a-priv:
+    owner: '192.168.6.110'
+  rac180a-vip:
+    owner: '192.168.5.120'
+  rac180b:
+    owner: '192.168.5.111'
+  rac180b-priv:
+    owner: '192.168.6.111'
+  rac180b-vip:
+    owner: '192.168.5.121'
+  rac190a:
+    owner: '192.168.5.90'
+  rac190a-priv:
+    owner: '192.168.6.90'
+  rac190a-vip:
+    owner: '192.168.5.100'
+  rac190b:
+    owner: '192.168.5.91'
+  rac190b-priv:
+    owner: '192.168.6.91'
+  rac190b-vip:
+    owner: '192.168.5.101'
+  scan112:
+    owner:
+    - '192.168.5.37'
+    - '192.168.5.38'
+    - '192.168.5.39'
+  scan121:
+    owner:
+    - '192.168.5.57'
+    - '192.168.5.58'
+    - '192.168.5.59'
+  scan122:
+    owner:
+    - '192.168.5.77'
+    - '192.168.5.78'
+    - '192.168.5.79'
+  scan180:
+    owner:
+    - '192.168.5.117'
+    - '192.168.5.118'
+    - '192.168.5.119'
+  scan190:
+    owner:
+    - '192.168.5.97'
+    - '192.168.5.98'
+    - '192.168.5.99'
+profile::dns::bind::forwarders:
+- '8.8.8.8'
+- '8.8.4.4'
+
+
 #------------------------------------------------------------------------------
 #
 # Set lookup merge behaviour
@@ -12,13 +109,16 @@ lookup_options:
   ora_profile::database::asm_diskgroup::disks:
     merge:
       strategy: first
+  ora_profile::database::db_patches::patch_list:
+    merge:
+      strategy: first
 
 # ------------------------------------------------------------------------------
 #
 # Settings for database
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::source:                                   /vagrant/software
+ora_profile::database::source:                                   /vagrant/software/files
 ora_profile::database::ora_inventory_dir:                        /u01/app
 ora_profile::database::db_definition::container_database:        enabled
 ora_profile::database::db_definition::system_password:           Welcome01
@@ -79,6 +179,9 @@ ora_profile::database::limits::list:
     hard: 65536
   '*/stack':
     soft: 10240
+  "%{::ora_profile::database::os_user}/memlock":
+    soft: 262144000
+    hard: 262144000
 
 # ------------------------------------------------------------------------------
 #

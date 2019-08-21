@@ -3,6 +3,8 @@ deployment_zone: vagrant
 
 role: role::oradb::rac_node
 
+profile::dns::resolv::nameserver: '192.168.5.30'
+
 
 # ------------------------------------------------------------------------------
 #

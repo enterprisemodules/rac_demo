@@ -29,4 +29,11 @@ class profile::base::vagrant()
       unless  => "/bin/grep '^/var/swap.1' /etc/fstab 2>/dev/null",
     }
 
+    # Set NOZEROCONF RAC requirement
+    -> file_line { 'nozeroconf':
+      path   => '/etc/sysconfig/network',
+      line   => 'NOZEROCONF=yes',
+      match  => 'NOZEROCONF',
+    }
+
 }
