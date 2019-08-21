@@ -153,6 +153,7 @@ ml-rac122a:
       size:         10240
       uuid:         '34'
   software_files:
+  - cvuqdisk-1.0.10-1.rpm
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
   - p6880880_122010_Linux-x86-64.zip
@@ -177,6 +178,12 @@ ml-rac122b:
     redo:
       size:         10240
       uuid:         '34'
+  software_files:
+  - cvuqdisk-1.0.10-1.rpm
+  - linuxx64_12201_grid_home.zip
+  - linuxx64_12201_database.zip
+  - p6880880_122010_Linux-x86-64.zip
+  - p27468969_122010_Linux-x86-64.zip
 # RAC180
 ml-rac180a:
   public_ip:        192.168.5.110

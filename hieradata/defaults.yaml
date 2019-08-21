@@ -192,7 +192,7 @@ ora_profile::database::asm_packages::list:
   nfs-utils: {}
   cvuqdisk:
     ensure:   installed
-    source:   "/vagrant/software/cvuqdisk-1.0.10-1.rpm"
+    source:   "/vagrant/modules/software/files/cvuqdisk-1.0.10-1.rpm"
     provider: rpm
     require:
       - Package[smartmontools]
