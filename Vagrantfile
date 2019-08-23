@@ -67,16 +67,12 @@ def servers
   content
 end
 
-def default_domain
-  content = YAML.load_file("#{VAGRANT_ROOT}/servers.yaml")
-  content['defaults']['domain_name']
-end
-
 # Return a shell command that ensures that all vagrant hosts are in /etc/hosts
-def hosts_file(vms, domain)
-  commands = 'sed -i -e /127.0.0.1.*example.com/d /etc/hosts;'
+def hosts_file(vms)
+  commands = 'sed -i -e /127.0.0.1.*/d /etc/hosts;'
   vms.each do |k, v|
-    hostname = k.split('-').last
+    hostname =  k[3..-1]
+    domain   = v['domain_name']
     fqdn = "#{hostname}.#{domain}"
     commands << "grep -q #{fqdn} /etc/hosts || " \
     "echo #{v['public_ip']} #{fqdn} #{k} " \
@@ -281,7 +277,7 @@ def configure_disks(vb, server, hostname, name)
 
     if File.file?(disk_filename)
       # puts "Disk #{disk_filename} already created"
-      disk_hash = `VBoxManage showmediuminfo #{disk_filename}`.scan(/(.*): *(.*)/).to_h
+      disk_hash = `VBoxManage showmediuminfo "#{disk_filename}"`.scan(/(.*): *(.*)/).to_h
       current_uuid = disk_hash['UUID']
     else
       # puts "Creating disk #{disk_filename}"
@@ -415,7 +411,8 @@ end
 #
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
-  HOSTS_FILE_COMMANDS = hosts_file(servers, default_domain)
+  File.open('./puppet_version', 'w') { |file| file.write(ENV['PUPPET_VERSION']) } if ENV['PUPPET_VERSION']
+  HOSTS_FILE_COMMANDS = hosts_file(servers)
   servers.each do |name, server|
     # Fetch puppet installer version if it is present
     puppet_installer = server['puppet_installer']
@@ -437,7 +434,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       srv.vm.communicator = server['protocol'] || 'ssh'
       srv.vm.box          = server['box']
-      hostname            = name.split('-').last # First part contains type of node
+      hostname            = name[3..-1]
 
       if srv.vm.communicator == 'ssh'
         srv.vm.hostname = "#{hostname}.#{server['domain_name']}"

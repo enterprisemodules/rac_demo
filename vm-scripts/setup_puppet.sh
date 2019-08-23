@@ -17,7 +17,7 @@ else
   then
     cp /vagrant/.netrc ~
   fi
-  /opt/puppetlabs/puppet/bin/r10k puppetfile install > /dev/null # 2>&1
+  /opt/puppetlabs/puppet/bin/r10k puppetfile install --force > /dev/null # 2>&1
 
   #
   # Setup hiera search and backend. We need this to config our systems
