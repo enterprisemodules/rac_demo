@@ -118,7 +118,7 @@ lookup_options:
 # Settings for database
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::source:                                   /vagrant/software/files
+ora_profile::database::source:                                   puppet:///modules/software/files
 ora_profile::database::ora_inventory_dir:                        /u01/app
 ora_profile::database::db_definition::container_database:        enabled
 ora_profile::database::db_definition::system_password:           Welcome01

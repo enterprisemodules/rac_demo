@@ -28,7 +28,7 @@ ora_profile::database::master_node:                                       rac190
 ora_profile::database::cluster_nodes:
   - rac190a
   - rac190b
-ora_profile::database::source:                                            /vagrant/software
+ora_profile::database::source:                                            puppet:///modules/software
 
 
 # ------------------------------------------------------------------------------
