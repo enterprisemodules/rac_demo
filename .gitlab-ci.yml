@@ -6,6 +6,28 @@ include:
   - project: 'enterprisemodules/gitlab_ci'
     file: 'gitlab-ci.yml'
 
+rac190a_demo_check:
+  extends: .demo_check
+  variables:
+    server: ml-rac190a
+  before_script:
+    - mkdir -p modules/software/files
+    - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
+    - cp ~/software/LINUX.X64_193000_grid_home.zip modules/software/files
+    - cp ~/software/LINUX.X64_193000_db_home.zip modules/software/files
+    - cp  ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
+
+rac180a_demo_check:
+  extends: .demo_check
+  variables:
+    server: ml-rac180a
+  before_script:
+    - mkdir -p modules/software/files
+    - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
+    - cp ~/software/LINUX.X64_180000_grid_home.zip modules/software/files
+    - cp ~/software/LINUX.X64_180000_db_home.zip modules/software/files
+    - cp  ~/software/p6880880_180000_Linux-x86-64.zip modules/software/files
+
 rac122a_demo_check:
   extends: .demo_check
   variables:
