@@ -3,34 +3,7 @@ deployment_zone: vagrant
 
 role: role::oradb::rac_node
 
-profile::dns::bind::domain: 'example.com'
-profile::dns::bind::listen_on:
-- '127.0.0.0'
-- "%{facts.ipaddress_eth1}"
-profile::dns::bind::hash_data:
-  ns:
-    owner: '192.168.5.90'
-  rac190a:
-    owner: '192.168.5.90'
-  rac190a-priv:
-    owner: '192.168.6.90'
-  rac190a-vip:
-    owner: '192.168.5.100'
-  rac190b:
-    owner: '192.168.5.91'
-  rac190b-priv:
-    owner: '192.168.6.91'
-  rac190b-vip:
-    owner: '192.168.5.101'
-  scan190:
-    owner:
-    - '192.168.5.97'
-    - '192.168.5.98'
-    - '192.168.5.99'
-profile::dns::bind::forwarders:
-- '8.8.8.8'
-- '8.8.4.4'
-profile::dns::resolv::nameserver: '192.168.5.90'
+profile::dns::resolv::nameserver: '192.168.5.110'
 
 
 # ------------------------------------------------------------------------------
@@ -55,7 +28,6 @@ ora_profile::database::master_node:                                       rac190
 ora_profile::database::cluster_nodes:
   - rac190a
   - rac190b
-ora_profile::database::source:                                            puppet:///modules/software
 
 
 # ------------------------------------------------------------------------------

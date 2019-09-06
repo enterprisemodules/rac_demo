@@ -26,7 +26,6 @@ ora_profile::database::master_node:                                       rac121
 ora_profile::database::cluster_nodes:
   - rac121a
   - rac121b
-ora_profile::database::source:                                            puppet:///modules/software
 ora_profile::database::grid_home:                                         /u01/app/grid/product/12.1.0.2/grid_home1
 ora_profile::database::oracle_home:                                       /u01/app/oracle/product/12.1.0.2/db_home1
 
@@ -58,7 +57,7 @@ ora_profile::database::packages::list:
   kmod-oracleasm: {}
   oracleasmlib:
     ensure:   installed
-    source:   "puppet:///modules/software/oracleasmlib-2.0.12-1.el7.x86_64.rpm"
+    source:   "/vagrant/modules/software/files/oracleasmlib-2.0.12-1.el7.x86_64.rpm"
     provider: rpm
 
 

@@ -4,10 +4,22 @@ class profile::dns::resolv(
   String $nameserver,
 )
 {
-  file { '/etc/NetworkManager/conf.d/no-dns.conf':
-    ensure => present,
-    source => 'puppet:///modules/profile/no-dns.conf',
-    notify => Service['NetworkManager'],
+  case $facts['os']['release']['major'] {
+    '6': {
+      file_line { '/etc/NetworkManager/NetworkManager.conf':
+        path   => '/etc/NetworkManager/NetworkManager.conf',
+        line   => 'dns=none',
+        match  => '^dns=',
+        notify => Service['NetworkManager'],
+      }
+    }
+    default: {
+      file { '/etc/NetworkManager/conf.d/no-dns.conf':
+        ensure => present,
+        source => 'puppet:///modules/profile/no-dns.conf',
+        notify => Service['NetworkManager'],
+      }
+    }
   }
 
   -> service { 'NetworkManager':

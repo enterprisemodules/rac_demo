@@ -3,7 +3,7 @@ deployment_zone: vagrant
 
 role: role::oradb::rac_node
 
-profile::dns::resolv::nameserver: '192.168.5.110'
+profile::dns::resolv::nameserver: '192.168.5.90'
 
 
 # ------------------------------------------------------------------------------
@@ -28,7 +28,6 @@ ora_profile::database::master_node:                                       rac180
 ora_profile::database::cluster_nodes:
   - rac180a
   - rac180b
-ora_profile::database::source:                                            puppet:///modules/software
 
 
 # ------------------------------------------------------------------------------

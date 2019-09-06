@@ -20,6 +20,7 @@ VALID_KEYS = [
   'ram',
   'virtualboxorafix',
   'needs_storage',
+  'custom_facts',
 ]
 
 class FilesNotFoundError < Vagrant::Errors::VagrantError
@@ -68,25 +69,57 @@ def servers
 end
 
 # Return a shell command that ensures that all vagrant hosts are in /etc/hosts
-def hosts_file(vms)
-  commands = 'sed -i -e /127.0.0.1.*/d /etc/hosts;'
-  vms.each do |k, v|
-    hostname =  k[3..-1]
-    domain   = v['domain_name']
-    fqdn = "#{hostname}.#{domain}"
-    commands << "grep -q #{fqdn} /etc/hosts || " \
-    "echo #{v['public_ip']} #{fqdn} #{k} " \
-    '>> /etc/hosts;' if v['public_ip']
-    if v['additional_hosts']
-      v['additional_hosts'].each do |k, v|
-        fqdn = "#{k}.#{domain}"
-        commands << "grep -q #{fqdn} /etc/hosts || " \
-        "echo #{v['ip']} #{fqdn} #{k} " \
-        '>> /etc/hosts;'
+def hosts_file(vms, ostype)
+  if ostype == 'linux'
+    commands = 'sed -i -e /127.0.0.1.*/d /etc/hosts;'
+    vms.each do |k, v|
+      hostname =  k[3..-1]
+      domain   = v['domain_name']
+      fqdn = "#{hostname}.#{domain}"
+      commands << "grep -q #{fqdn} /etc/hosts || " \
+      "echo #{v['public_ip']} #{fqdn} #{hostname} " \
+      '>> /etc/hosts;' if v['public_ip']
+      if v['additional_hosts']
+        v['additional_hosts'].each do |k, v|
+          fqdn = "#{k}.#{domain}"
+          commands << "grep -q #{fqdn} /etc/hosts || " \
+          "echo #{v['ip']} #{fqdn} #{k} " \
+          '>> /etc/hosts;'
+        end
       end
+    end
+  else
+    commands = 'puppet apply c:\vagrant\windows_hosts_file.pp'
+    win_hosts = ''
+    vms.each do |k, v|
+      hostname =  k[3..-1]
+      domain   = v['domain_name']
+      fqdn = "#{hostname}.#{domain}"
+      win_hosts << "host { '#{fqdn}': ip => '#{v['public_ip']}', host_aliases => '#{hostname}' }\n" if v['public_ip']
+      if v['additional_hosts']
+        v['additional_hosts'].each do |k, v|
+          fqdn = "#{k}.#{domain}"
+          win_hosts << "host { '#{fqdn}': ip => '#{v['ip']}', host_aliases => '#{k}' }\n"
+        end
+      end
+    end
+    win_hosts = win_hosts.split("\n").uniq.join("\n")
+    File.open(File.join(VAGRANT_ROOT, 'windows_hosts_file.pp'), 'w') do |f|
+      f.write(win_hosts)
     end
   end
   commands
+end
+
+# Returns a shell command that sets the custom facts
+def facter_overrides(facts, ostype)
+  if ostype == 'linux'
+    facter_overrides = facts.map { |key, value| "export FACTER_#{key}=\\\"#{value}\\\"" }.join('\n')
+    'echo -e "' + facter_overrides + '" > /etc/profile.d/facter_overrides.sh'
+  else
+    facter_overrides = facts.map { |key, value| ("Write-Host #{key}=#{value}") }.join('`r')
+    'echo "' + facter_overrides + '" > C:\ProgramData\PuppetLabs\facter\facts.d\facter_overrides.ps1'
+  end
 end
 
 # Read YAML file with box details
@@ -97,19 +130,27 @@ home               = ENV['HOME']
 
 def masterless_setup(config, server, srv, hostname)
   if srv.vm.communicator == 'ssh'
-    srv.vm.provision :shell, inline: HOSTS_FILE_COMMANDS
-    srv.vm.provision :shell, inline: 'bash /vagrant/vm-scripts/install_puppet.sh'
-    srv.vm.provision :shell, inline: 'bash /vagrant/vm-scripts/setup_puppet.sh'
-    srv.vm.provision "puppet" do |puppet|
-      puppet.manifests_path = ["vm", "/vagrant/manifests"]
-      puppet.manifest_file = "site.pp"
-      puppet.options = "--test"
-    end
+    @provisioners << { shell: { inline: facter_overrides(server['custom_facts'], 'linux'),
+                                run: 'always' } } if server['custom_facts']
+    @provisioners << { shell: { inline: hosts_file(servers, 'linux') } }
+    @provisioners << { shell: { inline: 'bash /vagrant/vm-scripts/install_puppet.sh' } }
+    @provisioners << { shell: { inline: 'bash /vagrant/vm-scripts/setup_puppet.sh' } }
+    @provisioners << { puppet: { manifests_path: ["vm", "/vagrant/manifests"],
+                                 manifest_file: "site.pp",
+                                 options: "--test" } }
   else
-    srv.vm.provision :shell, {inline: <<~EOD}
-      iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' resource service puppet ensure=stopped"
-      iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' apply c:\\vagrant\\manifests\\site.pp --test"
-      EOD
+    @provisioners << { shell: { inline: facter_overrides(server['custom_facts'], 'windows'),
+                                run: 'always' } } if server['custom_facts']
+    @provisioners << { shell: { inline: hosts_file(servers, 'windows') } }
+    @provisioners << { shell: { inline: %Q(Set-ExecutionPolicy Bypass -Scope Process -Force
+                                           cd c:\\vagrant\\vm-scripts
+                                           .\\install_puppet.ps1
+                                           cd c:\\vagrant\\vm-scripts
+                                           .\\setup_puppet.ps1
+                                           iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' resource service puppet ensure=stopped") } }
+    @provisioners << { puppet: { manifests_path: ["vm", "c:\\vagrant\\manifests"],
+                                 manifest_file: "site.pp",
+                                 options: "--test" } }
   end
 end
 
@@ -411,8 +452,7 @@ end
 #
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
-  File.open('./puppet_version', 'w') { |file| file.write(ENV['PUPPET_VERSION']) } if ENV['PUPPET_VERSION']
-  HOSTS_FILE_COMMANDS = hosts_file(servers)
+  File.open("#{VAGRANT_ROOT}/puppet_version", 'w') { |file| file.write(ENV['PUPPET_VERSION']) } if ENV['PUPPET_VERSION']
   servers.each do |name, server|
     # Fetch puppet installer version if it is present
     puppet_installer = server['puppet_installer']
@@ -457,6 +497,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       #
       srv.vm.synced_folder '.', '/vagrant', type: :virtualbox
 
+      @provisioners = []
+
       #
       # Depending on the machine type, perform setup
       #
@@ -465,8 +507,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         raw_setup(config, server, srv, hostname)
       when 'masterless'
         masterless_setup(config, server, srv, hostname)
-      when 'masterless_windows'
-        masterless_windows_setup(config, server, srv, hostname)
       when 'pe-master'
         puppet_master_setup(config, srv, server, puppet_installer, pe_puppet_user_id, pe_puppet_group_id, hostname)
       when 'pe-agent'
@@ -495,6 +535,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         configure_disks(vb, server, hostname, name) if server['needs_storage']
       end
 
+      @provisioners.each do |provisioner|
+        provisioner.each do |type, options|
+          srv.vm.provision type, options
+        end
+      end
     end
   end
 end

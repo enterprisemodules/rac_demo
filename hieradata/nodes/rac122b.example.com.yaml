@@ -26,7 +26,6 @@ ora_profile::database::master_node:                                       rac122
 ora_profile::database::cluster_nodes:
   - rac122a
   - rac122b
-ora_profile::database::source:                                            puppet:///modules/software
 
 
 # ------------------------------------------------------------------------------

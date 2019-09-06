@@ -8,9 +8,11 @@ defaults:
   needs_storage:    true
   additional_hosts:
     racmaster:
-      ip: 192.168.253.10
+      ip: 192.168.5.10
   box:              enterprisemodules/centos-7.3-x86_64-nocm
   virtualboxorafix: true
+  custom_facts:
+    deployment_zone: vagrant
 
 #
 # The default settings for all ML nodes
@@ -29,7 +31,7 @@ pe-defaults:
 # The settings for the Puppet Enterprise Server
 #
 pe-racmaster:
-  public_ip:       '192.168.253.10'
+  public_ip:        192.168.5.10
   cpucount:         2
   ram:              3072
   type:             pe-master
@@ -38,52 +40,7 @@ pe-racmaster:
 #
 # All masterless nodes
 #
-# RAC112
-ml-rac112a:
-  public_ip:        192.168.5.30
-  private_ip:       192.168.6.30
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  cluster:          1
-  disks:
-    ocr:
-      size:         10240
-      uuid:         '11'
-    data:
-      size:         10240
-      uuid:         '12'
-    fra:
-      size:         10240
-      uuid:         '13'
-    redo:
-      size:         10240
-      uuid:         '14'
-  software_files:
-  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
-  - p13390677_112040_Linux-x86-64_1of7.zip
-  - p13390677_112040_Linux-x86-64_2of7.zip
-  - p13390677_112040_Linux-x86-64_3of7.zip
-ml-rac112b:
-  public_ip:        192.168.5.31
-  private_ip:       192.168.6.31
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  cluster:          1
-  disks:
-    ocr:
-      size:         10240
-      uuid:         '11'
-    data:
-      size:         10240
-      uuid:         '12'
-    fra:
-      size:         10240
-      uuid:         '13'
-    redo:
-      size:         10240
-      uuid:         '14'
+
 # RAC121
 ml-rac121a:
   public_ip:        192.168.5.50
@@ -131,6 +88,8 @@ ml-rac121b:
     redo:
       size:         10240
       uuid:         '24'
+  software_files:
+  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
 # RAC122
 ml-rac122a:
   public_ip:        192.168.5.70
@@ -186,8 +145,8 @@ ml-rac122b:
   - p27468969_122010_Linux-x86-64.zip
 # RAC180
 ml-rac180a:
-  public_ip:        192.168.5.110
-  private_ip:       192.168.6.110
+  public_ip:        192.168.5.90
+  private_ip:       192.168.6.90
   cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
@@ -210,8 +169,8 @@ ml-rac180a:
   - LINUX.X64_180000_db_home.zip
   - p6880880_180000_Linux-x86-64.zip
 ml-rac180b:
-  public_ip:        192.168.5.111
-  private_ip:       192.168.6.111
+  public_ip:        192.168.5.91
+  private_ip:       192.168.6.91
   cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
@@ -232,8 +191,8 @@ ml-rac180b:
       uuid:         '44'
 # RAC190
 ml-rac190a:
-  public_ip:        192.168.5.90
-  private_ip:       192.168.6.90
+  public_ip:        192.168.5.110
+  private_ip:       192.168.6.110
   cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
@@ -256,8 +215,8 @@ ml-rac190a:
   - LINUX.X64_193000_db_home.zip
   - p6880880_190000_Linux-x86-64.zip
 ml-rac190b:
-  public_ip:        192.168.5.91
-  private_ip:       192.168.6.91
+  public_ip:        192.168.5.111
+  private_ip:       192.168.6.111
   cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
@@ -280,51 +239,7 @@ ml-rac190b:
 #
 # All pe-agent nodes
 #
-pe-rac112a:
-  public_ip:        192.168.5.30
-  private_ip:       192.168.6.30
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  cluster:          1
-  disks:
-    ocr:
-      size:         10240
-      uuid:         '11'
-    data:
-      size:         10240
-      uuid:         '12'
-    fra:
-      size:         10240
-      uuid:         '13'
-    redo:
-      size:         10240
-      uuid:         '14'
-  software_files:
-  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
-  - p13390677_112040_Linux-x86-64_1of7.zip
-  - p13390677_112040_Linux-x86-64_2of7.zip
-  - p13390677_112040_Linux-x86-64_3of7.zip
-pe-rac112b:
-  public_ip:        192.168.5.31
-  private_ip:       192.168.6.31
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  cluster:          1
-  disks:
-    ocr:
-      size:         10240
-      uuid:         '11'
-    data:
-      size:         10240
-      uuid:         '12'
-    fra:
-      size:         10240
-      uuid:         '13'
-    redo:
-      size:         10240
-      uuid:         '14'
+
 # RAC121
 pe-rac121a:
   public_ip:        192.168.5.50
@@ -420,8 +335,8 @@ pe-rac122b:
       uuid:         '34'
 # RAC180
 pe-rac180a:
-  public_ip:        192.168.5.110
-  private_ip:       192.168.6.110
+  public_ip:        192.168.5.90
+  private_ip:       192.168.6.90
   cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
@@ -444,8 +359,8 @@ pe-rac180a:
   - LINUX.X64_180000_db_home.zip
   - p6880880_180000_Linux-x86-64.zip
 pe-rac180b:
-  public_ip:        192.168.5.111
-  private_ip:       192.168.6.111
+  public_ip:        192.168.5.91
+  private_ip:       192.168.6.91
   cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
@@ -466,8 +381,8 @@ pe-rac180b:
       uuid:         '44'
 # RAC190
 pe-rac190a:
-  public_ip:        192.168.5.90
-  private_ip:       192.168.6.90
+  public_ip:        192.168.5.110
+  private_ip:       192.168.6.110
   cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm
@@ -490,8 +405,8 @@ pe-rac190a:
   - LINUX.X64_193000_db_home.zip
   - p6880880_190000_Linux-x86-64.zip
 pe-rac190b:
-  public_ip:        192.168.5.91
-  private_ip:       192.168.6.91
+  public_ip:        192.168.5.111
+  private_ip:       192.168.6.111
   cpucount:         4
   ram:              8667
   box:              enterprisemodules/ol-7.3-x86_64-nocm

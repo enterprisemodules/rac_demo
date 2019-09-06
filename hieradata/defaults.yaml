@@ -6,18 +6,6 @@ profile::dns::bind::listen_on:
 profile::dns::bind::hash_data:
   ns:
     owner: "%{lookup('profile::dns::resolv::nameserver')}"
-  rac112a:
-    owner: '192.168.5.30'
-  rac112a-priv:
-    owner: '192.168.6.30'
-  rac112a-vip:
-    owner: '192.168.5.40'
-  rac112b:
-    owner: '192.168.5.31'
-  rac112b-priv:
-    owner: '192.168.6.31'
-  rac112b-vip:
-    owner: '192.168.5.41'
   rac121a:
     owner: '192.168.5.50'
   rac121a-priv:
@@ -43,34 +31,29 @@ profile::dns::bind::hash_data:
   rac122b-vip:
     owner: '192.168.5.81'
   rac180a:
-    owner: '192.168.5.110'
-  rac180a-priv:
-    owner: '192.168.6.110'
-  rac180a-vip:
-    owner: '192.168.5.120'
-  rac180b:
-    owner: '192.168.5.111'
-  rac180b-priv:
-    owner: '192.168.6.111'
-  rac180b-vip:
-    owner: '192.168.5.121'
-  rac190a:
     owner: '192.168.5.90'
-  rac190a-priv:
+  rac180a-priv:
     owner: '192.168.6.90'
-  rac190a-vip:
+  rac180a-vip:
     owner: '192.168.5.100'
-  rac190b:
+  rac180b:
     owner: '192.168.5.91'
-  rac190b-priv:
+  rac180b-priv:
     owner: '192.168.6.91'
-  rac190b-vip:
+  rac180b-vip:
     owner: '192.168.5.101'
-  scan112:
-    owner:
-    - '192.168.5.37'
-    - '192.168.5.38'
-    - '192.168.5.39'
+  rac190a:
+    owner: '192.168.5.110'
+  rac190a-priv:
+    owner: '192.168.6.110'
+  rac190a-vip:
+    owner: '192.168.5.120'
+  rac190b:
+    owner: '192.168.5.111'
+  rac190b-priv:
+    owner: '192.168.6.111'
+  rac190b-vip:
+    owner: '192.168.5.121'
   scan121:
     owner:
     - '192.168.5.57'
@@ -83,14 +66,14 @@ profile::dns::bind::hash_data:
     - '192.168.5.79'
   scan180:
     owner:
-    - '192.168.5.117'
-    - '192.168.5.118'
-    - '192.168.5.119'
-  scan190:
-    owner:
     - '192.168.5.97'
     - '192.168.5.98'
     - '192.168.5.99'
+  scan190:
+    owner:
+    - '192.168.5.117'
+    - '192.168.5.118'
+    - '192.168.5.119'
 profile::dns::bind::forwarders:
 - '8.8.8.8'
 - '8.8.4.4'
@@ -118,7 +101,7 @@ lookup_options:
 # Settings for database
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::source:                                   puppet:///modules/software/files
+ora_profile::database::source:                                   puppet:///modules/software
 ora_profile::database::ora_inventory_dir:                        /u01/app
 ora_profile::database::db_definition::container_database:        enabled
 ora_profile::database::db_definition::system_password:           Welcome01
