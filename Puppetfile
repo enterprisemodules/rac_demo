@@ -1,27 +1,27 @@
-mod 'puppet-archive',                       '4.0.0'
-mod 'puppetlabs-stdlib',                    '6.0.0'
-mod 'puppetlabs-concat',                    '6.0.0'
-mod 'stm-debconf',                          '2.3.0'
-mod 'saz-limits',                           '3.0.3'
-mod 'petems-swap_file',                     '4.0.2'
-mod 'saz-timezone',                         '5.1.1'
-mod 'ipcrm-echo',                           '0.1.6'
-mod 'herculesteam-augeasproviders_core',    '2.4.0'
-mod 'herculesteam-augeasproviders_sysctl',  '2.3.1'
-mod 'puppetlabs-firewall',                  '2.0.0'
-mod 'crayfishx-firewalld',                  '3.4.0'
+mod 'puppet-archive'
+mod 'puppetlabs-stdlib'
+mod 'puppetlabs-concat'
+mod 'stm-debconf'
+mod 'saz-limits'
+mod 'petems-swap_file'
+mod 'saz-timezone'
+mod 'ipcrm-echo'
+mod 'herculesteam-augeasproviders_core'
+mod 'herculesteam-augeasproviders_sysctl'
+mod 'puppetlabs-firewall'
+mod 'crayfishx-firewalld'
 
 #
 # The Enterprise Modules Oracle specific Modules
 #
-mod 'enterprisemodules-ora_config' #,         '3.9.0'
-mod 'enterprisemodules-easy_type' #,          '2.12.3'
-mod 'enterprisemodules-ora_install' #,        '4.7.1'
-mod 'enterprisemodules-ora_profile' #,        '0.10.2'
-mod 'enterprisemodules-ora_cis' #,            '2.1.1'
+mod 'enterprisemodules-ora_config'
+mod 'enterprisemodules-easy_type'
+mod 'enterprisemodules-ora_install'
+mod 'enterprisemodules-ora_profile'
+mod 'enterprisemodules-ora_cis'
 
 # Added for RAC:
-mod 'enterprisemodules-partition' #,          '0.5.0'
+mod 'enterprisemodules-partition'
 mod 'camptocamp-bind',                      :git => 'https://github.com/remyvb/puppet-bind'
 
 #
