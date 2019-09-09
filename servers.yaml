@@ -3,7 +3,8 @@
 # The default settings for all nodes
 #
 defaults:
-  domain_name:     example.com
+  domain_name:      example.com
+  dhcp_fix:         true
   cpucount:         1
   needs_storage:    true
   additional_hosts:
@@ -165,6 +166,7 @@ ml-rac180a:
       size:         10240
       uuid:         '44'
   software_files:
+  - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
   - p6880880_180000_Linux-x86-64.zip
@@ -211,6 +213,7 @@ ml-rac190a:
       size:         10240
       uuid:         '54'
   software_files:
+  - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
   - p6880880_190000_Linux-x86-64.zip
@@ -309,6 +312,7 @@ pe-rac122a:
       size:         10240
       uuid:         '34'
   software_files:
+  - cvuqdisk-1.0.10-1.rpm
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
   - p6880880_122010_Linux-x86-64.zip
@@ -333,6 +337,8 @@ pe-rac122b:
     redo:
       size:         10240
       uuid:         '34'
+  software_files:
+  - cvuqdisk-1.0.10-1.rpm
 # RAC180
 pe-rac180a:
   public_ip:        192.168.5.90
@@ -355,6 +361,7 @@ pe-rac180a:
       size:         10240
       uuid:         '44'
   software_files:
+  - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
   - p6880880_180000_Linux-x86-64.zip
@@ -379,6 +386,8 @@ pe-rac180b:
     redo:
       size:         10240
       uuid:         '44'
+  software_files:
+  - cvuqdisk-1.0.10-1.rpm
 # RAC190
 pe-rac190a:
   public_ip:        192.168.5.110
@@ -401,6 +410,7 @@ pe-rac190a:
       size:         10240
       uuid:         '54'
   software_files:
+  - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
   - p6880880_190000_Linux-x86-64.zip
@@ -425,3 +435,5 @@ pe-rac190b:
     redo:
       size:         10240
       uuid:         '54'
+  software_files:
+  - cvuqdisk-1.0.10-1.rpm

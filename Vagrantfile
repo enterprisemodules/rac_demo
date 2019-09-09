@@ -3,6 +3,7 @@ require 'yaml'
 VAGRANTFILE_API_VERSION = '2'.freeze
 
 VALID_KEYS = [
+  'dhcp_fix',
   'public_ip',
   'private_ip',
   'domain_name',
@@ -459,17 +460,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Start VM configuration
     config.vm.define name do |srv|
-      # Perform checks
-      config.trigger.after :up do |trigger|
-        #
-        # Perform plugin checks before main setup
-        #
-        server['required_plugins'].each { |name| plugin_check(name) } if server['required_plugins']
-        #
-        # Perform software checks before main setup
-        #
-        local_software_file_check(config, server['software_files']) if server['software_files']
-        local_software_file_check(config, [puppet_installer]) if puppet_installer # Check if installer folder is present
+      #
+      # Perform plugin checks before main setup
+      #
+      server['required_plugins'].each { |name| plugin_check(name) } if server['required_plugins']
+      #
+      # Perform software checks before main setup
+      #
+      local_software_file_check(config, server['software_files']) if server['software_files']
+      local_software_file_check(config, [puppet_installer]) if puppet_installer # Check if installer folder is present
+      config.trigger.before :up do |trigger|
+        # This is a work-arround for hanging VM's
+        trigger.ruby do |env,machine|
+          require 'byebug'; debugger
+          if server['dhcp_fix']
+           `until vboxmanage guestcontrol #{name} run "/usr/bin/sudo" --username vagrant --password vagrant --verbose --wait-stdout dhclient; do sleep 20; done > /dev/null 2>&1 &`
+          end
+        end
       end
 
       srv.vm.communicator = server['protocol'] || 'ssh'
