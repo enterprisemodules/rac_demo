@@ -12,6 +12,8 @@ defaults:
       ip: 192.168.5.10
   box:              enterprisemodules/centos-7.3-x86_64-nocm
   virtualboxorafix: true
+  required_plugins:
+  - vagrant-ruby
   custom_facts:
     deployment_zone: vagrant
 
@@ -36,6 +38,7 @@ pe-racmaster:
   cpucount:         2
   ram:              3072
   type:             pe-master
+  needs_storage:    false
   puppet_installer: puppet-enterprise-2019.1.0-el-7-x86_64/puppet-enterprise-installer
 
 #
