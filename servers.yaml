@@ -5,15 +5,16 @@
 defaults:
   domain_name:      example.com
   dhcp_fix:         true
-  cpucount:         1
+  cpucount:         4
+  ram:              8667
+  virtualboxorafix: true
   needs_storage:    true
   additional_hosts:
     racmaster:
       ip: 192.168.5.10
-  box:              enterprisemodules/centos-7.3-x86_64-nocm
+  box:              enterprisemodules/ol-7.7-x86_64-nocm
   virtualboxorafix: true
-  required_plugins:
-  - vagrant-ruby
+  required_plugins: []
   custom_facts:
     deployment_zone: vagrant
 
@@ -38,7 +39,9 @@ pe-racmaster:
   cpucount:         2
   ram:              3072
   type:             pe-master
+  virtualboxorafix: false
   needs_storage:    false
+  box:              enterprisemodules/centos-7.3-x86_64-nocm
   puppet_installer: puppet-enterprise-2019.1.0-el-7-x86_64/puppet-enterprise-installer
 
 #
@@ -49,9 +52,6 @@ pe-racmaster:
 ml-rac121a:
   public_ip:        192.168.5.50
   private_ip:       192.168.6.50
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          2
   disks:
     ocr:
@@ -75,9 +75,6 @@ ml-rac121a:
 ml-rac121b:
   public_ip:        192.168.5.51
   private_ip:       192.168.6.51
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          2
   disks:
     ocr:
@@ -98,9 +95,6 @@ ml-rac121b:
 ml-rac122a:
   public_ip:        192.168.5.70
   private_ip:       192.168.6.70
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          3
   disks:
     ocr:
@@ -124,9 +118,6 @@ ml-rac122a:
 ml-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          3
   disks:
     ocr:
@@ -151,9 +142,6 @@ ml-rac122b:
 ml-rac180a:
   public_ip:        192.168.5.90
   private_ip:       192.168.6.90
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          4
   disks:
     ocr:
@@ -176,10 +164,6 @@ ml-rac180a:
 ml-rac180b:
   public_ip:        192.168.5.91
   private_ip:       192.168.6.91
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  virtualboxorafix: true
   cluster:          4
   disks:
     ocr:
@@ -198,9 +182,6 @@ ml-rac180b:
 ml-rac190a:
   public_ip:        192.168.5.110
   private_ip:       192.168.6.110
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          5
   disks:
     ocr:
@@ -223,10 +204,6 @@ ml-rac190a:
 ml-rac190b:
   public_ip:        192.168.5.111
   private_ip:       192.168.6.111
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  virtualboxorafix: true
   cluster:          5
   disks:
     ocr:
@@ -250,9 +227,6 @@ ml-rac190b:
 pe-rac121a:
   public_ip:        192.168.5.50
   private_ip:       192.168.6.50
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          2
   disks:
     ocr:
@@ -276,9 +250,6 @@ pe-rac121a:
 pe-rac121b:
   public_ip:        192.168.5.51
   private_ip:       192.168.6.51
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          2
   disks:
     ocr:
@@ -297,9 +268,6 @@ pe-rac121b:
 pe-rac122a:
   public_ip:        192.168.5.70
   private_ip:       192.168.6.70
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          3
   disks:
     ocr:
@@ -323,9 +291,6 @@ pe-rac122a:
 pe-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          3
   disks:
     ocr:
@@ -346,9 +311,6 @@ pe-rac122b:
 pe-rac180a:
   public_ip:        192.168.5.90
   private_ip:       192.168.6.90
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          4
   disks:
     ocr:
@@ -371,10 +333,6 @@ pe-rac180a:
 pe-rac180b:
   public_ip:        192.168.5.91
   private_ip:       192.168.6.91
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  virtualboxorafix: true
   cluster:          4
   disks:
     ocr:
@@ -395,9 +353,6 @@ pe-rac180b:
 pe-rac190a:
   public_ip:        192.168.5.110
   private_ip:       192.168.6.110
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
   cluster:          5
   disks:
     ocr:
@@ -420,10 +375,6 @@ pe-rac190a:
 pe-rac190b:
   public_ip:        192.168.5.111
   private_ip:       192.168.6.111
-  cpucount:         4
-  ram:              8667
-  box:              enterprisemodules/ol-7.3-x86_64-nocm
-  virtualboxorafix: true
   cluster:          5
   disks:
     ocr:

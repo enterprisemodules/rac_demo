@@ -183,7 +183,7 @@ ora_profile::database::asm_software::asm_disks:                           /dev/a
 ora_profile::database::asm_software::disks_failgroup_names:               '/dev/asm_ocr01,'
 ora_profile::database::asm_software::configure_afd:                       true
 ora_profile::database::asm_software::grid_type:                           CRS_CONFIG
-ora_profile::database::asm_software::cluster_node_types:                  'rac190a:rac190a-vip:HUB'
+ora_profile::database::asm_software::cluster_node_types:                  'rac190a:rac190a-vip'
 ora_profile::database::asm_software::cluster_name:                        CLUSTER190
 ora_profile::database::asm_software::scan_name:                           SCAN190
 ora_profile::database::asm_software::scan_port:                           1521
