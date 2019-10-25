@@ -189,6 +189,61 @@ ora_profile::database::asm_software::scan_name:                           SCAN19
 ora_profile::database::asm_software::scan_port:                           1521
 ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
 ora_profile::database::asm_software::storage_option:                      FLEX_ASM_STORAGE
+ora_profile::database::asm_software::install_task:                        EXTRACT
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_patches
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_patches::grid_home:                            "%{::ora_profile::database::grid_home}"
+ora_profile::database::asm_patches::patch_file:                           "%{lookup('ora_profile::database::db_patches::patch_file')}"
+ora_profile::database::asm_patches::opversion:                            "%{lookup('ora_profile::database::db_patches::opversion')}"
+ora_profile::database::asm_patches::patch_list:
+  "%{::ora_profile::database::grid_home}:30116789":
+    source:              "p30116789_190000_Linux-x86-64.zip"
+    type:                psu
+    sub_patches:
+    - '30125133'
+    - '30122149'
+    - '30122167'
+    - '29401763'
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_setup
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_setup::version:                             12.2.0.1
+ora_profile::database::asm_setup::dirs:
+  - /u01
+  - /u01/app/grid
+  - /u01/app/grid/admin
+  - /u01/app/grid/product
+  - "/u01/app/grid/product/%{lookup('ora_profile::database::asm_setup::version')}"
+ora_profile::database::asm_setup::grid_home:                           "%{ora_profile::database::grid_home}"
+ora_profile::database::asm_setup::file_name:                           LINUX.X64_193000_grid_home
+ora_profile::database::asm_setup::asm_sys_password:                    Change_on_1nstall
+ora_profile::database::asm_setup::asm_diskgroup:                       OCR
+ora_profile::database::asm_setup::grid_type:                           CRS_CONFIG
+ora_profile::database::asm_setup::cluster_node_types:                  'rac190a:rac190a-vip'
+ora_profile::database::asm_setup::cluster_name:                        CLUSTER190
+ora_profile::database::asm_setup::scan_name:                           SCAN190
+ora_profile::database::asm_setup::scan_port:                           1521
+ora_profile::database::asm_setup::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
+ora_profile::database::asm_setup::storage_option:                      FLEX_ASM_STORAGE
+ora_profile::database::asm_setup::disk_discovery_string:               '/dev/asm_*'
+ora_profile::database::asm_setup::asm_disks:                           /dev/asm_ocr01
+ora_profile::database::asm_setup::disks_failgroup_names:               '/dev/asm_ocr01,'
+ora_profile::database::asm_setup::configure_afd:                       true
+ora_profile::database::asm_setup::disk_redundancy:                     EXTERNAL
+ora_profile::database::asm_setup::group:                               asmdba
+ora_profile::database::asm_setup::oper_group:                          asmoper
+ora_profile::database::asm_setup::asm_group:                           asmadmin
+ora_profile::database::asm_setup::bash_profile:                        true
+ora_profile::database::asm_setup::install_task:                        SETUP
 
 
 # ------------------------------------------------------------------------------

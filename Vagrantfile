@@ -439,6 +439,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vb.cpus = server['cpucount'] || 1
         vb.memory = server['ram'] || 4096
         vb.name = name
+        # Prevent vagrant from setting up dns proxy, and thus changing /etc/resolv.conf
+        vb.auto_nat_dns_proxy = false
+        vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
+        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
 
         # Setup config fixes for Oracle product
         virtualboxorafix(vb) if server['virtualboxorafix']
