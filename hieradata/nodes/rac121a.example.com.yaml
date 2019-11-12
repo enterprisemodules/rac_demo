@@ -11,6 +11,8 @@ profile::dns::resolv::nameserver: '192.168.5.50'
 #  Class overrides and additions
 #
 # ------------------------------------------------------------------------------
+ora_profile::database::asm_patches:                                       skip
+ora_profile::database::asm_setup:                                         skip
 ora_profile::database::db_patches:                                        skip
 ora_profile::database::db_definition:                                     ora_profile::database::db_definition_template
 

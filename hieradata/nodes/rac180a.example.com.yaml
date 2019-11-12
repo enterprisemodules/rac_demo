@@ -189,6 +189,41 @@ ora_profile::database::asm_software::scan_name:                           SCAN18
 ora_profile::database::asm_software::scan_port:                           1521
 ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
 ora_profile::database::asm_software::storage_option:                      FLEX_ASM_STORAGE
+ora_profile::database::asm_software::install_task:                        EXTRACT
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_patches
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_patches::grid_home:                            "%{::ora_profile::database::grid_home}"
+ora_profile::database::asm_patches::patch_file:                           "%{lookup('ora_profile::database::db_patches::patch_file')}"
+ora_profile::database::asm_patches::opversion:                            "%{lookup('ora_profile::database::db_patches::opversion')}"
+ora_profile::database::asm_patches::patch_list:
+  "%{::ora_profile::database::grid_home}:30116795":
+    source:              "%{::ora_profile::database::source}/p30116795_180000_Linux-x86-64.zip"
+    type:                psu
+    sub_patches:
+    - '30112122'
+    - '30113775'
+    - '30116128'
+    - '28655963'
+    - '30093398'
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_setup
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_setup::dirs:
+  - /u01
+  - /u01/app/grid
+  - /u01/app/grid/admin
+  - /u01/app/grid/product
+  - "/u01/app/grid/product/%{lookup('ora_profile::database::asm_setup::version')}"
+ora_profile::database::asm_setup::install_task:                           SETUP
 
 
 # ------------------------------------------------------------------------------
@@ -232,7 +267,12 @@ ora_profile::database::db_software::database_type:                        EE
 # ------------------------------------------------------------------------------
 ora_profile::database::db_patches::patch_file:                            p6880880_180000_Linux-x86-64
 ora_profile::database::db_patches::opversion:                             12.2.0.1.17
-ora_profile::database::db_patches::patch_list:                            {}
+ora_profile::database::db_patches::patch_list:
+  "%{::ora_profile::database::oracle_home}:30116795":
+    source:              "%{::ora_profile::database::source}/p30116795_180000_Linux-x86-64.zip"
+    sub_patches:
+    - '30112122'
+    - '30113775'
 
 
 # ------------------------------------------------------------------------------
