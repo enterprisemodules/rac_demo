@@ -289,7 +289,6 @@ ora_profile::database::db_patches::opversion:                             12.2.0
 ora_profile::database::db_patches::patch_list:
   "%{::ora_profile::database::grid_home}:30116789":                                             # GI Release Update 19.5.0.0.191015
     source:              "%{::ora_profile::database::source}/p30116789_190000_Linux-x86-64.zip"
-    type:                psu
     sub_patches:
     - '30122149'
     - '30125133'
