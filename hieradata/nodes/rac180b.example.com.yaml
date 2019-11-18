@@ -201,7 +201,7 @@ ora_profile::database::asm_patches::grid_home:                            "%{::o
 ora_profile::database::asm_patches::patch_file:                           "%{lookup('ora_profile::database::db_patches::patch_file')}"
 ora_profile::database::asm_patches::opversion:                            "%{lookup('ora_profile::database::db_patches::opversion')}"
 ora_profile::database::asm_patches::patch_list:
-  "%{::ora_profile::database::grid_home}:30116795":
+  "%{::ora_profile::database::grid_home}:30116795":                                                 # GI Release Update 18.8.0.0.191015
     source:              "%{::ora_profile::database::source}/p30116795_180000_Linux-x86-64.zip"
     type:                psu
     sub_patches:
@@ -223,6 +223,25 @@ ora_profile::database::asm_setup::dirs:
   - /u01/app/grid/admin
   - /u01/app/grid/product
   - "/u01/app/grid/product/%{lookup('ora_profile::database::asm_setup::version')}"
+ora_profile::database::asm_setup::file_name:                              LINUX.X64_180000_grid_home
+ora_profile::database::asm_setup::asm_sys_password:                       Change_on_1nstall
+ora_profile::database::asm_setup::asm_diskgroup:                          OCR
+ora_profile::database::asm_setup::grid_type:                              CRS_CONFIG
+ora_profile::database::asm_setup::cluster_node_types:                     'rac180a:rac180a-vip:HUB'
+ora_profile::database::asm_setup::cluster_name:                           CLUSTER180
+ora_profile::database::asm_setup::scan_name:                              SCAN180
+ora_profile::database::asm_setup::scan_port:                              1521
+ora_profile::database::asm_setup::network_interface_list:                 'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
+ora_profile::database::asm_setup::storage_option:                         FLEX_ASM_STORAGE
+ora_profile::database::asm_setup::disk_discovery_string:                  '/dev/asm_*'
+ora_profile::database::asm_setup::asm_disks:                              /dev/asm_ocr01
+ora_profile::database::asm_setup::disks_failgroup_names:                  '/dev/asm_ocr01,'
+ora_profile::database::asm_setup::configure_afd:                          true
+ora_profile::database::asm_setup::disk_redundancy:                        EXTERNAL
+ora_profile::database::asm_setup::group:                                  asmdba
+ora_profile::database::asm_setup::oper_group:                             asmoper
+ora_profile::database::asm_setup::asm_group:                              asmadmin
+ora_profile::database::asm_setup::bash_profile:                           true
 ora_profile::database::asm_setup::install_task:                           SETUP
 
 
@@ -268,7 +287,7 @@ ora_profile::database::db_software::database_type:                        EE
 ora_profile::database::db_patches::patch_file:                            p6880880_180000_Linux-x86-64
 ora_profile::database::db_patches::opversion:                             12.2.0.1.17
 ora_profile::database::db_patches::patch_list:
-  "%{::ora_profile::database::oracle_home}:30116795":
+  "%{::ora_profile::database::oracle_home}:30116795":                                                 # GI Release Update 18.8.0.0.191015
     source:              "%{::ora_profile::database::source}/p30116795_180000_Linux-x86-64.zip"
     sub_patches:
     - '30112122'

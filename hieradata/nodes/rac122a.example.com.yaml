@@ -188,10 +188,11 @@ ora_profile::database::asm_patches::grid_home:                            "%{::o
 ora_profile::database::asm_patches::patch_file:                           "%{lookup('ora_profile::database::db_patches::patch_file')}"
 ora_profile::database::asm_patches::opversion:                            "%{lookup('ora_profile::database::db_patches::opversion')}"
 ora_profile::database::asm_patches::patch_list:
-  "%{::ora_profile::database::grid_home}:29708720":
-    source:              "p29708720_122010_Linux-x86-64.zip"
+  "%{::ora_profile::database::grid_home}:29708720":                                               # GI Jul 2019 Release Update 12.2.0.1.190716
+    source:              "%{::ora_profile::database::source}/p29708720_122010_Linux-x86-64.zip"
     type:                psu
     sub_patches:
+    - '29757449'
     - '29770040'
     - '29770090'
     - '26839277'
@@ -272,6 +273,13 @@ ora_profile::database::db_software::database_type:                        EE
 #
 # ------------------------------------------------------------------------------
 ora_profile::database::db_patches::opversion:                             12.2.0.1.17
+ora_profile::database::db_patches::patch_list:
+  "%{::ora_profile::database::oracle_home}:29708720":                                             # GI Jul 2019 Release Update 12.2.0.1.190716
+    source:              "%{::ora_profile::database::source}/p29708720_122010_Linux-x86-64.zip"
+    sub_patches:
+    - '29757449'
+    - '29770040'
+
 
 
 # ------------------------------------------------------------------------------
