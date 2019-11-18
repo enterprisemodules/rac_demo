@@ -114,7 +114,7 @@ ml-rac122a:
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
   - p6880880_122010_Linux-x86-64.zip
-  - p29708720_122010_Linux-x86-64.zip
+  - p29708720_122010_Linux-x86-64.zip   # GI Jul 2019 Release Update 12.2.0.1.190716
 ml-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
@@ -157,7 +157,7 @@ ml-rac180a:
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
   - p6880880_180000_Linux-x86-64.zip
-  - p30116795_180000_Linux-x86-64.zip
+  - p30116795_180000_Linux-x86-64.zip   # GI Release Update 18.8.0.0.191015
 ml-rac180b:
   public_ip:        192.168.5.91
   private_ip:       192.168.6.91
@@ -200,7 +200,7 @@ ml-rac190a:
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
   - p6880880_190000_Linux-x86-64.zip
-  - p30116789_190000_Linux-x86-64.zip
+  - p30116789_190000_Linux-x86-64.zip   # GI Release Update 19.5.0.0.191015
 ml-rac190b:
   public_ip:        192.168.5.111
   private_ip:       192.168.6.111
@@ -291,7 +291,7 @@ pe-rac122a:
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
   - p6880880_122010_Linux-x86-64.zip
-  - p29708720_122010_Linux-x86-64.zip
+  - p29708720_122010_Linux-x86-64.zip   # GI Jul 2019 Release Update 12.2.0.1.190716
 pe-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
@@ -334,7 +334,7 @@ pe-rac180a:
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
   - p6880880_180000_Linux-x86-64.zip
-  - p30116795_180000_Linux-x86-64.zip
+  - p30116795_180000_Linux-x86-64.zip   # GI Release Update 18.8.0.0.191015
 pe-rac180b:
   public_ip:        192.168.5.91
   private_ip:       192.168.6.91
@@ -377,7 +377,7 @@ pe-rac190a:
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
   - p6880880_190000_Linux-x86-64.zip
-  - p30116789_190000_Linux-x86-64.zip
+  - p30116789_190000_Linux-x86-64.zip   # GI Release Update 19.5.0.0.191015
 pe-rac190b:
   public_ip:        192.168.5.111
   private_ip:       192.168.6.111
