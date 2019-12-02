@@ -11,6 +11,9 @@ rac190a_demo_check:
   variables:
     server: ml-rac190a
   before_script:
+    - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
+    - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
+    - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
     - mkdir -p modules/software/files
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/LINUX.X64_193000_grid_home.zip modules/software/files
@@ -23,6 +26,9 @@ rac180a_demo_check:
   variables:
     server: ml-rac180a
   before_script:
+    - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
+    - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
+    - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
     - mkdir -p modules/software/files
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/LINUX.X64_180000_grid_home.zip modules/software/files
@@ -35,6 +41,9 @@ rac122a_demo_check:
   variables:
     server: ml-rac122a
   before_script:
+    - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
+    - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
+    - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
     - mkdir -p modules/software/files
     - cp ~/software/linuxx64_12201_grid_home.zip modules/software/files
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
