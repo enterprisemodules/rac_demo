@@ -231,7 +231,6 @@ ora_profile::database::asm_setup::group:                               asmdba
 ora_profile::database::asm_setup::oper_group:                          asmoper
 ora_profile::database::asm_setup::asm_group:                           asmadmin
 ora_profile::database::asm_setup::bash_profile:                        true
-ora_profile::database::asm_setup::install_task:                        SETUP
 
 
 # ------------------------------------------------------------------------------
