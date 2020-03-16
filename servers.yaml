@@ -4,8 +4,8 @@
 #
 defaults:
   domain_name:      example.com
-  dhcp_fix:         true
-  cpucount:         4
+  dhcp_fix:         false
+  cpucount:         3
   ram:              8667
   virtualboxorafix: true
   needs_storage:    true
@@ -41,8 +41,7 @@ pe-racmaster:
   type:             pe-master
   virtualboxorafix: false
   needs_storage:    false
-  box:              enterprisemodules/centos-7.3-x86_64-nocm
-  puppet_installer: puppet-enterprise-2019.1.0-el-7-x86_64/puppet-enterprise-installer
+  puppet_installer: puppet-enterprise-2019.3.0-el-7-x86_64/puppet-enterprise-installer
 
 #
 # All masterless nodes
