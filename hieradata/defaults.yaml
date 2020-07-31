@@ -173,13 +173,15 @@ ora_profile::database::limits::list:
 #
 # ------------------------------------------------------------------------------
 ora_profile::database::asm_packages::list:
+  net-tools: {}
   nfs-utils: {}
+  smartmontools: {}
   cvuqdisk:
     ensure:   installed
     source:   "/vagrant/modules/software/files/cvuqdisk-1.0.10-1.rpm"
     provider: rpm
     require:
-      - Package[smartmontools.x86_64]
+      - Package[smartmontools]
       - Package[nfs-utils]
       - Group[%{::ora_profile::database::install_group}]
 
