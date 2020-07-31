@@ -307,7 +307,7 @@ ora_profile::database::db_definition_template::db_conf_type:              RAC
 #  Settings for database::db_definition
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::db_definition::init_ora_template:                  profile/init.ora.%{ora_profile::database::version}.erb
+#ora_profile::database::db_definition::init_ora_template:                  profile/init.ora.%{ora_profile::database::version}.erb
 ora_profile::database::db_definition::db_recovery_file_dest:              +FRA
 
 
