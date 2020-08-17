@@ -20,6 +20,13 @@ rac190a_demo_check:
     - cp ~/software/LINUX.X64_193000_db_home.zip modules/software/files
     - cp ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p30116789_190000_Linux-x86-64.zip modules/software/files
+  script:
+    - vagrant up ml-rac190a --no-provision
+    - vagrant up ml-rac190b --no-provision
+    - vagrant up ml-rac190a --provision
+    - vagrant up ml-rac190b --provision
+  after_script:
+    - vagrant destroy ml-rac190a ml-rac190b --force
 
 rac180a_demo_check:
   extends: .demo_check
@@ -35,11 +42,18 @@ rac180a_demo_check:
     - cp ~/software/LINUX.X64_180000_db_home.zip modules/software/files
     - cp ~/software/p6880880_180000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p30116795_180000_Linux-x86-64.zip modules/software/files
+  script:
+    - vagrant up ml-rac180a --no-provision
+    - vagrant up ml-rac180b --no-provision
+    - vagrant up ml-rac180a --provision
+    - vagrant up ml-rac180b --provision
+  after_script:
+    - vagrant destroy ml-rac180a ml-rac180b --force
 
 rac122a_demo_check:
   extends: .demo_check
   variables:
-    server: ml-rac122a
+    server: ml-rac180a
   before_script:
     - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
@@ -50,4 +64,11 @@ rac122a_demo_check:
     - cp ~/software/linuxx64_12201_database.zip modules/software/files
     - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
     - cp ~/software/p29708720_122010_Linux-x86-64.zip modules/software/files
+  script:
+    - vagrant up ml-rac122a --no-provision
+    - vagrant up ml-rac122b --no-provision
+    - vagrant up ml-rac122a --provision
+    - vagrant up ml-rac122b --provision
+  after_script:
+    - vagrant destroy ml-rac122a ml-rac122b --force
 

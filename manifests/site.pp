@@ -13,4 +13,5 @@ schedule { 'maintenance-window':
   range  => "00:00 - 23:59"  # Change to your requirements
 }
 
+unless $instance {$instance = lookup('instance', String)}
 lookup('role', {merge => unique}).include
