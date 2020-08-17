@@ -1,0 +1,135 @@
+---
+# ------------------------------------------------------------------------------
+#
+# Generic database settings for version 122
+#
+# ------------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------------
+#
+#  DNS settings
+#
+# ------------------------------------------------------------------------------
+profile::dns::resolv::nameserver:                                         '192.168.5.70'
+
+# ------------------------------------------------------------------------------
+#
+#  Class overrides and additions
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::before_asm_diskgroup:                              ora_profile::database::asm_storage::afd_label
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::dbname:                                            DB122
+ora_profile::database::version:                                           12.2.0.1
+ora_profile::database::oracle_home:                                       /u01/app/oracle/product/%{lookup('ora_profile::database::version')}/db_home1
+ora_profile::database::grid_home:                                         /u01/app/grid/product/%{lookup('ora_profile::database::version')}/grid_home1
+ora_profile::database::master_node:                                       rac122a
+ora_profile::database::cluster_nodes:
+  - rac122a
+  - rac122b
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_software
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_software::file_name:                            linuxx64_12201_database
+ora_profile::database::db_software::database_type:                        EE
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_patches
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_patches::opversion:                                 12.2.0.1.17
+ora_profile::database::db_patches::patch_list:
+  "%{::ora_profile::database::oracle_home}:29708720":                                             # GI Jul 2019 Release Update 12.2.0.1.190716
+    source:              "%{::ora_profile::database::source}/p29708720_122010_Linux-x86-64.zip"
+    sub_patches:
+    - '29757449'
+    - '29770040'
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_software
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_software::version:                             12.2.0.1
+ora_profile::database::asm_software::file_name:                           linuxx64_12201_grid_home
+ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
+ora_profile::database::asm_software::cluster_node_types:                  'rac122a:rac122a-vip:HUB'
+ora_profile::database::asm_software::cluster_name:                        CLUSTER122
+ora_profile::database::asm_software::scan_name:                           SCAN122
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_listener
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_listener::oracle_home:                          "%{ora_profile::database::grid_home}"
+ora_profile::database::db_listener::oracle_base:                          "%{ora_profile::database::grid_base}"
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_storage
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_storage::storage_type:        afd
+ora_profile::database::asm_storage::disk_devices:
+  asm_ocr01:
+    size: 40960
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-31000000'
+    label: 'OCR1'
+  asm_data01:
+    size: 10240
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-32000000'
+    label: 'DATA1'
+  asm_fra01:
+    size: 10240
+    uuid: '1ATA_VBOX_HARDDISK_VB00000000-33000000'
+    label: 'FRA1'
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_diskgroup
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_diskgroup::disks:
+  OCR:
+    disks:
+    - diskname: 'OCR1'
+      path: 'AFD:OCR1'
+  DATA:
+    disks:
+    - diskname: 'DATA1'
+      path: 'AFD:DATA1'
+  FRA:
+    disks:
+    - diskname: 'FRA1'
+      path: 'AFD:FRA1'
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::asm_patches
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::asm_patches::grid_home:                            "%{::ora_profile::database::grid_home}"
+ora_profile::database::asm_patches::patch_file:                           "%{lookup('ora_profile::database::db_patches::patch_file')}"
+ora_profile::database::asm_patches::opversion:                            "%{lookup('ora_profile::database::db_patches::opversion')}"
+ora_profile::database::asm_patches::patch_list:
+  "%{::ora_profile::database::grid_home}:29708720":                                               # GI Jul 2019 Release Update 12.2.0.1.190716
+    source:       "%{::ora_profile::database::source}/p29708720_122010_Linux-x86-64.zip"
+    type:         psu
+    sub_patches:
+    - '29757449'
+    - '29770040'
+    - '29770090'
+    - '26839277'
+    - '28566910'
+...

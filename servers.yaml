@@ -6,7 +6,7 @@ defaults:
   domain_name:      example.com
   dhcp_fix:         false
   cpucount:         3
-  ram:              8667
+  ram:              10240
   virtualboxorafix: true
   needs_storage:    true
   additional_hosts:
