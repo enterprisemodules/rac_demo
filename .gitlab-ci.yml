@@ -19,7 +19,7 @@ rac190a_demo_check:
     - cp ~/software/LINUX.X64_193000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_193000_db_home.zip modules/software/files
     - cp ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
-    - cp ~/software/p30116789_190000_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p31305339_190000_Linux-x86-64.zip modules/software/files
   script:
     - vagrant up ml-rac190a --no-provision
     - vagrant up ml-rac190b --no-provision
@@ -41,7 +41,7 @@ rac180a_demo_check:
     - cp ~/software/LINUX.X64_180000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_180000_db_home.zip modules/software/files
     - cp ~/software/p6880880_180000_Linux-x86-64.zip modules/software/files
-    - cp ~/software/p30116795_180000_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p30899645_180000_Linux-x86-64.zip modules/software/files
   script:
     - vagrant up ml-rac180a --no-provision
     - vagrant up ml-rac180b --no-provision
@@ -53,7 +53,7 @@ rac180a_demo_check:
 rac122a_demo_check:
   extends: .demo_check
   variables:
-    server: ml-rac180a
+    server: ml-rac122a
   before_script:
     - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
@@ -63,7 +63,7 @@ rac122a_demo_check:
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/linuxx64_12201_database.zip modules/software/files
     - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
-    - cp ~/software/p29708720_122010_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p30920127_122010_Linux-x86-64.zip modules/software/files
   script:
     - vagrant up ml-rac122a --no-provision
     - vagrant up ml-rac122b --no-provision
