@@ -22,7 +22,7 @@ ora_profile::database::before_asm_diskgroup:                              ora_pr
 
 # ------------------------------------------------------------------------------
 #
-#  Settings for database::
+#  Settings for database
 #
 # ------------------------------------------------------------------------------
 ora_profile::database::dbname:                                            DB180
@@ -33,23 +33,6 @@ ora_profile::database::master_node:                                       rac180
 ora_profile::database::cluster_nodes:
   - rac180a
   - rac180b
-
-# ------------------------------------------------------------------------------
-#
-#  Settings for database::db_software
-#
-# ------------------------------------------------------------------------------
-ora_profile::database::db_software::file_name:                            LINUX.X64_180000_db_home
-ora_profile::database::db_software::database_type:                        EE
-
-# ------------------------------------------------------------------------------
-#
-#  Settings for database::db_patches
-#
-# ------------------------------------------------------------------------------
-ora_profile::database::db_patches::patch_file:                            p6880880_180000_Linux-x86-64
-ora_profile::database::db_patches::opversion:                             12.2.0.1.21
-ora_profile::database::db_patches::level:                                 APR2020RU
 
 # ------------------------------------------------------------------------------
 #
@@ -65,18 +48,17 @@ ora_profile::database::asm_software::scan_name:                           SCAN18
 
 # ------------------------------------------------------------------------------
 #
-#  Settings for database::asm_listener
+#  Settings for database::asm_patches
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::db_listener::oracle_home:                          "%{ora_profile::database::grid_home}"
-ora_profile::database::db_listener::oracle_base:                          "%{ora_profile::database::grid_base}"
+ora_profile::database::asm_patches::level:                                APR2021RU
 
 # ------------------------------------------------------------------------------
 #
 #  Settings for database::asm_storage
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_storage::storage_type:     afd
+ora_profile::database::asm_storage::storage_type:                          afd
 ora_profile::database::asm_storage::disk_devices:
   asm_ocr01:
     size: 40960
@@ -113,20 +95,25 @@ ora_profile::database::asm_diskgroup::disks:
 
 # ------------------------------------------------------------------------------
 #
-#  Settings for database::asm_patches
+#  Settings for database::db_software
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_patches::grid_home:                            "%{::ora_profile::database::grid_home}"
-ora_profile::database::asm_patches::patch_file:                           "%{lookup('ora_profile::database::db_patches::patch_file')}"
-ora_profile::database::asm_patches::opversion:                            "%{lookup('ora_profile::database::db_patches::opversion')}"
-ora_profile::database::asm_patches::patch_list:
-  "%{::ora_profile::database::grid_home}:30899645":                                                 
-    source:              "%{::ora_profile::database::source}/p30899645_180000_Linux-x86-64.zip"
-    type:                psu
-    sub_patches:
-    - '30872794'
-    - '30882568'
-    - '30869417'
-    - '28655963'
-    - '30888855'
+ora_profile::database::db_software::file_name:                            LINUX.X64_180000_db_home
+ora_profile::database::db_software::database_type:                        EE
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_patches
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_patches::level:                                 APR2021RU
+ora_profile::database::db_patches::include_ojvm:                          true
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_listener
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_listener::oracle_home:                          "%{ora_profile::database::grid_home}"
+ora_profile::database::db_listener::oracle_base:                          "%{ora_profile::database::grid_base}"
 ...

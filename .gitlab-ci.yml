@@ -19,12 +19,13 @@ rac190a_demo_check:
     - cp ~/software/LINUX.X64_193000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_193000_db_home.zip modules/software/files
     - cp ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
-    - cp ~/software/p31305339_190000_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p32545008_190000_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p32399816_190000_Linux-x86-64.zip modules/software/files
   script:
     - vagrant up ml-rac190a --no-provision
     - vagrant up ml-rac190b --no-provision
-    - vagrant up ml-rac190a --provision
-    - vagrant up ml-rac190b --provision
+    - vagrant provision ml-rac190a
+    - vagrant provision ml-rac190b
   after_script:
     - vagrant destroy ml-rac190a ml-rac190b --force
 
@@ -41,12 +42,13 @@ rac180a_demo_check:
     - cp ~/software/LINUX.X64_180000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_180000_db_home.zip modules/software/files
     - cp ~/software/p6880880_180000_Linux-x86-64.zip modules/software/files
-    - cp ~/software/p30899645_180000_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p32524152_180000_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p32552752_180000_Linux-x86-64.zip modules/software/files
   script:
     - vagrant up ml-rac180a --no-provision
     - vagrant up ml-rac180b --no-provision
-    - vagrant up ml-rac180a --provision
-    - vagrant up ml-rac180b --provision
+    - vagrant provision ml-rac180a
+    - vagrant provision ml-rac180b
   after_script:
     - vagrant destroy ml-rac180a ml-rac180b --force
 
@@ -59,16 +61,17 @@ rac122a_demo_check:
     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
     - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
     - mkdir -p modules/software/files
-    - cp ~/software/linuxx64_12201_grid_home.zip modules/software/files
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
+    - cp ~/software/linuxx64_12201_grid_home.zip modules/software/files
     - cp ~/software/linuxx64_12201_database.zip modules/software/files
     - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
-    - cp ~/software/p30920127_122010_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p32540149_122010_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p32473172_122010_Linux-x86-64.zip modules/software/files
   script:
     - vagrant up ml-rac122a --no-provision
     - vagrant up ml-rac122b --no-provision
-    - vagrant up ml-rac122a --provision
-    - vagrant up ml-rac122b --provision
+    - vagrant provision ml-rac122a
+    - vagrant provision ml-rac122b
   after_script:
     - vagrant destroy ml-rac122a ml-rac122b --force
 

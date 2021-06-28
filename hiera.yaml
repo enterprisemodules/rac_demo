@@ -7,7 +7,7 @@ defaults:  # Used for any hierarchy level that omits these keys.
 hierarchy:
   - name: "Per-node data"                   # Human-readable name.
     path: "nodes/%{trusted.certname}.yaml"  # File path, relative to datadir.
-  
+
   - name: "instance" # Uses custom facts.
     path: "instances/%{instance}.yaml"
 

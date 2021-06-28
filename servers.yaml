@@ -71,6 +71,9 @@ ml-rac121a:
   - linuxamd64_12102_grid_1of2.zip
   - linuxamd64_12102_database_1of2.zip
   - linuxamd64_12102_database_2of2.zip
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac121
 ml-rac121b:
   public_ip:        192.168.5.51
   private_ip:       192.168.6.51
@@ -90,6 +93,9 @@ ml-rac121b:
       uuid:         '24'
   software_files:
   - oracleasmlib-2.0.12-1.el7.x86_64.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac121
 # RAC122
 ml-rac122a:
   public_ip:        192.168.5.70
@@ -113,7 +119,11 @@ ml-rac122a:
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
   - p6880880_122010_Linux-x86-64.zip
-  - p30920127_122010_Linux-x86-64.zip
+  - p32540149_122010_Linux-x86-64.zip   # APR2021RU GRID/DB
+  - p32473172_122010_Linux-x86-64.zip   # APR2021RU OJVM
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac122
 ml-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
@@ -133,6 +143,9 @@ ml-rac122b:
       uuid:         '34'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac122
 # RAC180
 ml-rac180a:
   public_ip:        192.168.5.90
@@ -156,7 +169,11 @@ ml-rac180a:
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
   - p6880880_180000_Linux-x86-64.zip
-  - p30899645_180000_Linux-x86-64.zip
+  - p32524152_180000_Linux-x86-64.zip   # APR2021RU GRID/DB
+  - p32552752_180000_Linux-x86-64.zip   # APR2021RU OJVM
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac180
 ml-rac180b:
   public_ip:        192.168.5.91
   private_ip:       192.168.6.91
@@ -176,6 +193,9 @@ ml-rac180b:
       uuid:         '44'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac180
 # RAC190
 ml-rac190a:
   public_ip:        192.168.5.110
@@ -191,15 +211,16 @@ ml-rac190a:
     fra:
       size:         10240
       uuid:         '53'
-    redo:
-      size:         10240
-      uuid:         '54'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
   - p6880880_190000_Linux-x86-64.zip
-  - p31305339_190000_Linux-x86-64.zip
+  - p32545008_190000_Linux-x86-64.zip   # APR2021RU GRID/DB
+  - p32399816_190000_Linux-x86-64.zip   # APR2021RU OJVM
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac190
 ml-rac190b:
   public_ip:        192.168.5.111
   private_ip:       192.168.6.111
@@ -214,11 +235,11 @@ ml-rac190b:
     fra:
       size:         10240
       uuid:         '53'
-    redo:
-      size:         10240
-      uuid:         '54'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac190
 
 #
 # All pe-agent nodes
@@ -248,6 +269,9 @@ pe-rac121a:
   - linuxamd64_12102_grid_1of2.zip
   - linuxamd64_12102_database_1of2.zip
   - linuxamd64_12102_database_2of2.zip
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac121
 pe-rac121b:
   public_ip:        192.168.5.51
   private_ip:       192.168.6.51
@@ -267,6 +291,9 @@ pe-rac121b:
       uuid:         '24'
   software_files:
   - oracleasmlib-2.0.12-1.el7.x86_64.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac121
 # RAC122
 pe-rac122a:
   public_ip:        192.168.5.70
@@ -290,7 +317,11 @@ pe-rac122a:
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
   - p6880880_122010_Linux-x86-64.zip
-  - p30920127_122010_Linux-x86-64.zip
+  - p32540149_122010_Linux-x86-64.zip   # APR2021RU GRID/DB
+  - p32473172_122010_Linux-x86-64.zip   # APR2021RU OJVM
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac122
 pe-rac122b:
   public_ip:        192.168.5.71
   private_ip:       192.168.6.71
@@ -310,6 +341,9 @@ pe-rac122b:
       uuid:         '34'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac122
 # RAC180
 pe-rac180a:
   public_ip:        192.168.5.90
@@ -333,7 +367,11 @@ pe-rac180a:
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
   - p6880880_180000_Linux-x86-64.zip
-  - p30899645_180000_Linux-x86-64.zip
+  - p32524152_180000_Linux-x86-64.zip   # APR2021RU GRID/DB
+  - p32552752_180000_Linux-x86-64.zip   # APR2021RU OJVM
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac180
 pe-rac180b:
   public_ip:        192.168.5.91
   private_ip:       192.168.6.91
@@ -353,6 +391,9 @@ pe-rac180b:
       uuid:         '44'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac180
 # RAC190
 pe-rac190a:
   public_ip:        192.168.5.110
@@ -376,7 +417,11 @@ pe-rac190a:
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
   - p6880880_190000_Linux-x86-64.zip
-  - p31305339_190000_Linux-x86-64.zip
+  - p32545008_190000_Linux-x86-64.zip   # APR2021RU GRID/DB
+  - p32399816_190000_Linux-x86-64.zip   # APR2021RU OJVM
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac190
 pe-rac190b:
   public_ip:        192.168.5.111
   private_ip:       192.168.6.111
@@ -396,3 +441,6 @@ pe-rac190b:
       uuid:         '54'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac190

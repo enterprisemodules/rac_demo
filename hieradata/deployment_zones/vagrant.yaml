@@ -18,5 +18,17 @@ profile::base::hosts::list:
     ip: 192.168.253.132
     host_aliases:
       - em1320
+  em1330.example.com:
+    ip: 192.168.253.133
+    host_aliases:
+      - em1330
+  em1340.example.com:
+    ip: 192.168.253.134
+    host_aliases:
+      - em1340
+  em1350.example.com:
+    ip: 192.168.253.135
+    host_aliases:
+      - em1350
 
 ora_profile::database::source: /vagrant/modules/software/files
