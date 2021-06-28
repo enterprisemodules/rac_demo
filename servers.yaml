@@ -168,7 +168,7 @@ ml-rac180a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
-  - p6880880_180000_Linux-x86-64.zip
+  - p6880880_122010_Linux-x86-64.zip
   - p32524152_180000_Linux-x86-64.zip   # APR2021RU GRID/DB
   - p32552752_180000_Linux-x86-64.zip   # APR2021RU OJVM
   custom_facts:
@@ -215,7 +215,7 @@ ml-rac190a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
-  - p6880880_190000_Linux-x86-64.zip
+  - p6880880_122010_Linux-x86-64.zip
   - p32545008_190000_Linux-x86-64.zip   # APR2021RU GRID/DB
   - p32399816_190000_Linux-x86-64.zip   # APR2021RU OJVM
   custom_facts:
@@ -366,7 +366,7 @@ pe-rac180a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
-  - p6880880_180000_Linux-x86-64.zip
+  - p6880880_122010_Linux-x86-64.zip
   - p32524152_180000_Linux-x86-64.zip   # APR2021RU GRID/DB
   - p32552752_180000_Linux-x86-64.zip   # APR2021RU OJVM
   custom_facts:
@@ -416,7 +416,7 @@ pe-rac190a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
-  - p6880880_190000_Linux-x86-64.zip
+  - p6880880_122010_Linux-x86-64.zip
   - p32545008_190000_Linux-x86-64.zip   # APR2021RU GRID/DB
   - p32399816_190000_Linux-x86-64.zip   # APR2021RU OJVM
   custom_facts:

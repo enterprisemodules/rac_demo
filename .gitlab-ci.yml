@@ -18,7 +18,7 @@ rac190a_demo_check:
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/LINUX.X64_193000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_193000_db_home.zip modules/software/files
-    - cp ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
     - cp ~/software/p32545008_190000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p32399816_190000_Linux-x86-64.zip modules/software/files
   script:
@@ -41,7 +41,7 @@ rac180a_demo_check:
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/LINUX.X64_180000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_180000_db_home.zip modules/software/files
-    - cp ~/software/p6880880_180000_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
     - cp ~/software/p32524152_180000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p32552752_180000_Linux-x86-64.zip modules/software/files
   script:
