@@ -36,23 +36,6 @@ ora_profile::database::cluster_nodes:
 
 # ------------------------------------------------------------------------------
 #
-#  Settings for database::db_software
-#
-# ------------------------------------------------------------------------------
-ora_profile::database::db_software::file_name:                            LINUX.X64_193000_db_home
-ora_profile::database::db_software::database_type:                        EE
-
-# ------------------------------------------------------------------------------
-#
-#  Settings for database::db_patches
-#
-# ------------------------------------------------------------------------------
-ora_profile::database::db_patches::patch_file:                            p6880880_190000_Linux-x86-64
-ora_profile::database::db_patches::opversion:                             12.2.0.1.21
-ora_profile::database::db_patches::level:                                 JUL2020RU
-
-# ------------------------------------------------------------------------------
-#
 #  Settings for database::asm_software
 #
 # ------------------------------------------------------------------------------
@@ -68,7 +51,7 @@ ora_profile::database::asm_software::scan_name:                           SCAN19
 #  Settings for database::asm_storage
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_storage::storage_type:        afd
+ora_profile::database::asm_storage::storage_type:                         afd
 ora_profile::database::asm_storage::disk_devices:
   asm_ocr01:
     size: 40960
@@ -108,16 +91,29 @@ ora_profile::database::asm_diskgroup::disks:
 #  Settings for database::asm_patches
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_patches::grid_home:                            "%{::ora_profile::database::grid_home}"
-ora_profile::database::asm_patches::patch_file:                           "%{lookup('ora_profile::database::db_patches::patch_file')}"
-ora_profile::database::asm_patches::opversion:                            "%{lookup('ora_profile::database::db_patches::opversion')}"
-ora_profile::database::asm_patches::patch_list:
-  "%{::ora_profile::database::grid_home}:31305339":                                             # GI Release Update 19.6.0.0.191015
-    source:              "%{::ora_profile::database::source}/p31305339_190000_Linux-x86-64.zip"
-    type:                psu
-    sub_patches:
-    - '31281355'
-    - '31305087'
-    - '31304218'
-    - '31335188'
+ora_profile::database::asm_patches::level:                                APR2021RU
+ora_profile::database::db_patches::include_ojvm:                          true
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_software
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_software::file_name:                            LINUX.X64_193000_db_home
+ora_profile::database::db_software::database_type:                        EE
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_patches
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_patches::level:                                 APR2021RU
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_listener
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::db_listener::oracle_home:                          "%{ora_profile::database::grid_home}"
+ora_profile::database::db_listener::oracle_base:                          "%{ora_profile::database::grid_base}"
 ...

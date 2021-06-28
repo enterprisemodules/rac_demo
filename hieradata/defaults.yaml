@@ -121,6 +121,7 @@ ora_profile::database::asm_software::grid_type:                  CRS_CONFIG
 ora_profile::database::asm_software::scan_port:                  1521
 ora_profile::database::asm_software::storage_option:             FLEX_ASM_STORAGE
 ora_profile::database::asm_software::install_task:               EXTRACT
+ora_profile::database::db_patches::opversion:                    12.2.0.1.25
 
 
 # ------------------------------------------------------------------------------
