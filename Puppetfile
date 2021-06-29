@@ -19,7 +19,7 @@ mod 'enterprisemodules-ora_config'
 mod 'enterprisemodules-easy_type'
 mod 'enterprisemodules-ora_install'
 mod 'enterprisemodules-ora_profile'
-mod 'enterprisemodules-ora_cis'
+mod 'enterprisemodules-ora_secured'
 
 # Added for RAC:
 mod 'enterprisemodules-partition'

@@ -19,7 +19,7 @@ mod 'enterprisemodules-ora_config',  git: 'https://gitlab.com/enterprisemodules/
 mod 'enterprisemodules-easy_type',   git: 'https://gitlab.com/enterprisemodules/easy_type_src.git' 
 mod 'enterprisemodules-ora_install', git: 'https://gitlab.com/enterprisemodules/ora_install.git'
 mod 'enterprisemodules-ora_profile', git: 'https://gitlab.com/enterprisemodules/ora_profile.git'
-mod 'enterprisemodules-ora_cis',     git: 'https://gitlab.com/enterprisemodules/ora_cis.git'
+mod 'enterprisemodules-ora_secured', git: 'https://gitlab.com/enterprisemodules/ora_secured.git'
 
 # Added for RAC:
 mod 'enterprisemodules-partition'
