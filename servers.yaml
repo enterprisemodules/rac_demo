@@ -111,16 +111,13 @@ ml-rac122a:
     fra:
       size:         10240
       uuid:         '33'
-    redo:
-      size:         10240
-      uuid:         '34'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
   - p6880880_122010_Linux-x86-64.zip
-  - p32540149_122010_Linux-x86-64.zip   # APR2021RU GRID/DB
-  - p32473172_122010_Linux-x86-64.zip   # APR2021RU OJVM
+  - p30920127_122010_Linux-x86-64.zip   # APR2020RU GRID/DB
+  - p30805580_122010_Linux-x86-64.zip   # APR2020RU OJVM
   custom_facts:
     deployment_zone: vagrant
     instance: rac122
@@ -138,9 +135,6 @@ ml-rac122b:
     fra:
       size:         10240
       uuid:         '33'
-    redo:
-      size:         10240
-      uuid:         '34'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   custom_facts:
@@ -161,16 +155,13 @@ ml-rac180a:
     fra:
       size:         10240
       uuid:         '43'
-    redo:
-      size:         10240
-      uuid:         '44'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
   - p6880880_122010_Linux-x86-64.zip
-  - p32524152_180000_Linux-x86-64.zip   # APR2021RU GRID/DB
-  - p32552752_180000_Linux-x86-64.zip   # APR2021RU OJVM
+  - p30899645_180000_Linux-x86-64.zip   # APR2020RU GRID/DB
+  - p30805598_180000_Linux-x86-64.zip   # APR2020RU OJVM
   custom_facts:
     deployment_zone: vagrant
     instance: rac180
@@ -188,9 +179,6 @@ ml-rac180b:
     fra:
       size:         10240
       uuid:         '43'
-    redo:
-      size:         10240
-      uuid:         '44'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   custom_facts:
@@ -309,16 +297,13 @@ pe-rac122a:
     fra:
       size:         10240
       uuid:         '33'
-    redo:
-      size:         10240
-      uuid:         '34'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
   - p6880880_122010_Linux-x86-64.zip
-  - p32540149_122010_Linux-x86-64.zip   # APR2021RU GRID/DB
-  - p32473172_122010_Linux-x86-64.zip   # APR2021RU OJVM
+  - p30920127_122010_Linux-x86-64.zip   # APR2020RU GRID/DB
+  - p30805580_122010_Linux-x86-64.zip   # APR2020RU OJVM
   custom_facts:
     deployment_zone: vagrant
     instance: rac122
@@ -336,9 +321,6 @@ pe-rac122b:
     fra:
       size:         10240
       uuid:         '33'
-    redo:
-      size:         10240
-      uuid:         '34'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   custom_facts:
@@ -359,16 +341,13 @@ pe-rac180a:
     fra:
       size:         10240
       uuid:         '43'
-    redo:
-      size:         10240
-      uuid:         '44'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
   - p6880880_122010_Linux-x86-64.zip
-  - p32524152_180000_Linux-x86-64.zip   # APR2021RU GRID/DB
-  - p32552752_180000_Linux-x86-64.zip   # APR2021RU OJVM
+  - p30899645_180000_Linux-x86-64.zip   # APR2020RU GRID/DB
+  - p30805598_180000_Linux-x86-64.zip   # APR2020RU OJVM
   custom_facts:
     deployment_zone: vagrant
     instance: rac180
@@ -386,9 +365,6 @@ pe-rac180b:
     fra:
       size:         10240
       uuid:         '43'
-    redo:
-      size:         10240
-      uuid:         '44'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   custom_facts:
@@ -409,9 +385,6 @@ pe-rac190a:
     fra:
       size:         10240
       uuid:         '53'
-    redo:
-      size:         10240
-      uuid:         '54'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_193000_grid_home.zip
@@ -436,9 +409,6 @@ pe-rac190b:
     fra:
       size:         10240
       uuid:         '53'
-    redo:
-      size:         10240
-      uuid:         '54'
   software_files:
   - cvuqdisk-1.0.10-1.rpm
   custom_facts:
