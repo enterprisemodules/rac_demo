@@ -132,23 +132,28 @@ home               = ENV['HOME']
 def masterless_setup(config, server, srv, hostname)
   if srv.vm.communicator == 'ssh'
     @provisioners << { shell: { inline: facter_overrides(server['custom_facts'], 'linux'),
-                                run: 'always' } } if server['custom_facts']
-    @provisioners << { shell: { inline: hosts_file(servers, 'linux') } }
-    @provisioners << { shell: { inline: 'bash /vagrant/vm-scripts/install_puppet.sh' } }
-    @provisioners << { shell: { inline: 'bash /vagrant/vm-scripts/setup_puppet.sh' } }
+                                name: 'facter_overrides' } } if server['custom_facts']
+    @provisioners << { shell: { inline: hosts_file(servers, 'linux'),
+                                name: 'hosts_file' } }
+    @provisioners << { shell: { inline: 'bash /vagrant/vm-scripts/install_puppet.sh',
+                                name: 'install_puppet.sh' } }
+    @provisioners << { shell: { inline: 'bash /vagrant/vm-scripts/setup_puppet.sh',
+                                name: 'setup_puppet.sh' } }
     @provisioners << { puppet: { manifests_path: ["vm", "/vagrant/manifests"],
                                  manifest_file: "site.pp",
                                  options: "--test" } }
   else
     @provisioners << { shell: { inline: facter_overrides(server['custom_facts'], 'windows'),
-                                run: 'always' } } if server['custom_facts']
-    @provisioners << { shell: { inline: hosts_file(servers, 'windows') } }
+                                name: 'facter_overrides' } } if server['custom_facts']
+    @provisioners << { shell: { inline: hosts_file(servers, 'windows'),
+                                name: 'hosts_file' } }
     @provisioners << { shell: { inline: %Q(Set-ExecutionPolicy Bypass -Scope Process -Force
                                            cd c:\\vagrant\\vm-scripts
                                            .\\install_puppet.ps1
                                            cd c:\\vagrant\\vm-scripts
                                            .\\setup_puppet.ps1
-                                           iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' resource service puppet ensure=stopped") } }
+                                           iex "& 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet' resource service puppet ensure=stopped"),
+                                 name: 'install and setup puppet' } }
     @provisioners << { puppet: { manifests_path: ["vm", "c:\\vagrant\\manifests"],
                                  manifest_file: "site.pp",
                                  options: "--test" } }
@@ -159,9 +164,11 @@ def puppet_master_setup(config, srv, server, puppet_installer, pe_puppet_user_id
   srv.vm.synced_folder '.', '/vagrant', owner: pe_puppet_user_id, group: pe_puppet_group_id
 
   @provisioners << { shell: { inline: facter_overrides(server['custom_facts'], 'linux'),
-                              run: 'always' } } if server['custom_facts']
-  @provisioners << { shell: { inline: hosts_file(servers, 'linux') } }
-  @provisioners << { shell: { inline: "bash /vagrant/vm-scripts/install_puppet_server.sh #{puppet_installer} #{server['domain_name']}" } }
+                              name: 'fater_overrides' } } if server['custom_facts']
+  @provisioners << { shell: { inline: hosts_file(servers, 'linux'),
+                              name: 'hosts_file' } }
+  @provisioners << { shell: { inline: "bash /vagrant/vm-scripts/install_puppet_server.sh #{puppet_installer} #{server['domain_name']}",
+                              name: 'install_puppet_server.sh' } }
   @provisioners << { puppet_server: { puppet_server: "#{server['puppet_master']}.#{server['domain_name']}",
                                       options: "--test" } }
 end
@@ -169,24 +176,30 @@ end
 def puppet_agent_setup(config, server, srv, hostname)
   if srv.vm.communicator == 'ssh'
     @provisioners << { shell: { inline: facter_overrides(server['custom_facts'], 'linux'),
-                                run: 'always' } } if server['custom_facts']
-    @provisioners << { shell: { inline: hosts_file(servers, 'linux') } }
-    @provisioners << { shell: { inline: "bash /vagrant/vm-scripts/install_puppet_agent.sh #{server['puppet_master']}.#{server['domain_name']}" } }
-    @provisioners << { shell: { inline: 'systemctl stop puppet; pkill -9 -f "puppet.*agent.*"; true' } }
+                                name: 'facter_overrides' } } if server['custom_facts']
+    @provisioners << { shell: { inline: hosts_file(servers, 'linux'),
+                                name: 'hosts_file' } }
+    @provisioners << { shell: { inline: "bash /vagrant/vm-scripts/install_puppet_agent.sh #{server['puppet_master']}.#{server['domain_name']}",
+                                name: 'install_puppet_agent.sh' } }
+    @provisioners << { shell: { inline: 'systemctl stop puppet; pkill -9 -f "puppet.*agent.*"; true',
+                                name: 'stop puppet' } }
     @provisioners << { puppet_server: { puppet_server: "#{server['puppet_master']}.#{server['domain_name']}",
                                         puppet_node: "#{hostname}.#{server['domain_name']}",
                                         options: "--test" } }
-    @provisioners << { shell: { inline: 'systemctl start puppet' } }
+    @provisioners << { shell: { inline: 'systemctl start puppet',
+                                name: 'start puppet' } }
   else
     @provisioners << { shell: { inline: facter_overrides(server['custom_facts'], 'windows'),
-                                run: 'always' } } if server['custom_facts']
-    @provisioners << { shell: { inline: hosts_file(servers, 'windows') } }
+                                name: 'facter_overrides' } } if server['custom_facts']
+    @provisioners << { shell: { inline: hosts_file(servers, 'windows'),
+                                name: 'hosts_file' } }
     @provisioners << { shell: { inline: %Q(Set-ExecutionPolicy Bypass -Scope Process -Force
                                            [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
                                            $webClient = New-Object System.Net.WebClient
                                            $webClient.DownloadFile('https://#{server['puppet_master']}.#{server['domain_name']}:8140/packages/current/install.ps1', 'install.ps1')
                                            .\\install.ps1
-                                           iex 'puppet resource service puppet ensure=stopped') } }
+                                           iex 'puppet resource service puppet ensure=stopped'),
+                                name: 'install puppet agent' } }
     @provisioners << { puppet_server: { puppet_server: "#{server['puppet_master']}.#{server['domain_name']}",
                                         puppet_node: "#{hostname}.#{server['domain_name']}",
                                         options: "--test" } }
