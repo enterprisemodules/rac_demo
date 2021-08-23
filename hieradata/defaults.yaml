@@ -56,6 +56,18 @@ profile::dns::bind::hash_data:
     owner: '192.168.6.111'
   rac190b-vip:
     owner: '192.168.5.121'
+  rac210a:
+    owner: '192.168.5.130'
+  rac210a-priv:
+    owner: '192.168.6.130'
+  rac210a-vip:
+    owner: '192.168.5.140'
+  rac210b:
+    owner: '192.168.5.131'
+  rac210b-priv:
+    owner: '192.168.6.131'
+  rac210b-vip:
+    owner: '192.168.5.141'
   scan121:
     owner:
     - '192.168.5.57'
@@ -76,6 +88,11 @@ profile::dns::bind::hash_data:
     - '192.168.5.117'
     - '192.168.5.118'
     - '192.168.5.119'
+  scan210:
+    owner:
+    - '192.168.5.137'
+    - '192.168.5.138'
+    - '192.168.5.139'
 profile::dns::bind::forwarders:
 - '8.8.8.8'
 - '8.8.4.4'

@@ -2,14 +2,12 @@
 class profile::base::vagrant()
 {
 
-    $required_packages = [
-      'mlocate',
-      'unzip',
-    ]
-
-    package{ $required_packages:
-      ensure => 'installed',
+    $required_packages = {
+      'mlocate' => { ensure => 'present' },
+      'unzip'   => { ensure => 'present' },
     }
+
+    ensure_resources('package', $required_packages)
 
     exec { 'create swap file':
       command => '/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=16384',
