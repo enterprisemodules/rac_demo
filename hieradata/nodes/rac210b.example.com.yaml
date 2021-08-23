@@ -1,0 +1,6 @@
+---
+role:                   role::oradb::rac_node
+
+deployment_zone:        vagrant
+instance:               rac210
+...

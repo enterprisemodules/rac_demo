@@ -228,6 +228,48 @@ ml-rac190b:
   custom_facts:
     deployment_zone: vagrant
     instance: rac190
+# RAC210
+ml-rac210a:
+  public_ip:        192.168.5.130
+  private_ip:       192.168.6.130
+  cluster:          6
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '61'
+    data:
+      size:         10240
+      uuid:         '62'
+    fra:
+      size:         10240
+      uuid:         '63'
+  software_files:
+  - cvuqdisk-1.0.10-1.rpm
+  - LINUX.X64_213000_grid_home.zip
+  - LINUX.X64_213000_db_home.zip
+  - p6880880_122010_Linux-x86-64.zip
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac210
+ml-rac210b:
+  public_ip:        192.168.5.131
+  private_ip:       192.168.6.131
+  cluster:          5
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '61'
+    data:
+      size:         10240
+      uuid:         '62'
+    fra:
+      size:         10240
+      uuid:         '63'
+  software_files:
+  - cvuqdisk-1.0.10-1.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac210
 
 #
 # All pe-agent nodes
@@ -414,3 +456,45 @@ pe-rac190b:
   custom_facts:
     deployment_zone: vagrant
     instance: rac190
+# RAC210
+pe-rac210a:
+  public_ip:        192.168.5.130
+  private_ip:       192.168.6.130
+  cluster:          6
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '61'
+    data:
+      size:         10240
+      uuid:         '62'
+    fra:
+      size:         10240
+      uuid:         '63'
+  software_files:
+  - cvuqdisk-1.0.10-1.rpm
+  - LINUX.X64_213000_grid_home.zip
+  - LINUX.X64_213000_db_home.zip
+  - p6880880_122010_Linux-x86-64.zip
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac210
+pe-rac210b:
+  public_ip:        192.168.5.131
+  private_ip:       192.168.6.131
+  cluster:          5
+  disks:
+    ocr:
+      size:         40960
+      uuid:         '61'
+    data:
+      size:         10240
+      uuid:         '62'
+    fra:
+      size:         10240
+      uuid:         '63'
+  software_files:
+  - cvuqdisk-1.0.10-1.rpm
+  custom_facts:
+    deployment_zone: vagrant
+    instance: rac210
