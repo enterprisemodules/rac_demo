@@ -140,6 +140,33 @@ ora_profile::database::asm_software::storage_option:             FLEX_ASM_STORAG
 ora_profile::database::asm_software::install_task:               EXTRACT
 ora_profile::database::db_patches::opversion:                    12.2.0.1.25
 
+# ------------------------------------------------------------------------------
+#
+# Settings for database::limits
+#
+# ------------------------------------------------------------------------------
+ora_profile::database::limits::list:
+  '*/nofile':
+    soft: 2048
+    hard: 8192
+  "%{lookup('ora_profile::database::grid_user')}/nofile":
+    soft: 65536
+    hard: 65536
+  "%{lookup('ora_profile::database::grid_user')}/nproc":
+    soft: 2048
+    hard: 16384
+  "%{lookup('ora_profile::database::grid_user')}/stack":
+    soft: 10240
+    hard: 32768
+  "%{lookup('ora_profile::database::os_user')}/nofile":
+    soft: 65536
+    hard: 65536
+  "%{lookup('ora_profile::database::os_user')}/nproc":
+    soft: 2048
+    hard: 16384
+  "%{lookup('ora_profile::database::os_user')}/stack":
+    soft: 10240
+    hard: 32768
 
 # ------------------------------------------------------------------------------
 #

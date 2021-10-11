@@ -254,7 +254,7 @@ ml-rac210a:
 ml-rac210b:
   public_ip:        192.168.5.131
   private_ip:       192.168.6.131
-  cluster:          5
+  cluster:          6
   disks:
     ocr:
       size:         40960
@@ -482,7 +482,7 @@ pe-rac210a:
 pe-rac210b:
   public_ip:        192.168.5.131
   private_ip:       192.168.6.131
-  cluster:          5
+  cluster:          6
   disks:
     ocr:
       size:         40960

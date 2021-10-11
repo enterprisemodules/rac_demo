@@ -1,5 +1,9 @@
 ---
 profile::base::hosts::list:
+  localhost:
+    ip: 127.0.0.1
+    host_aliases:
+      - localhost.localdomain
   racmaster.example.com:
     ip: 192.168.5.10
     host_aliases:
