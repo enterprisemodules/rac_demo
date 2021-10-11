@@ -28,9 +28,9 @@ class profile::base::vagrant()
 
     # Set NOZEROCONF RAC requirement
     -> file_line { 'nozeroconf':
-      path   => '/etc/sysconfig/network',
-      line   => 'NOZEROCONF=yes',
-      match  => 'NOZEROCONF',
+      path  => '/etc/sysconfig/network',
+      line  => 'NOZEROCONF=yes',
+      match => 'NOZEROCONF',
     }
 
 }
