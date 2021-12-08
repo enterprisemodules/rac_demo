@@ -11,7 +11,7 @@
 #  DNS settings
 #
 # ------------------------------------------------------------------------------
-profile::dns::resolv::nameserver:                                         '192.168.5.90'
+profile::dns::resolv::nameserver:                                         '192.168.56.90'
 
 # ------------------------------------------------------------------------------
 #
@@ -96,7 +96,7 @@ ora_profile::database::asm_packages::list:
 # ------------------------------------------------------------------------------
 ora_profile::database::asm_software::version:                             18.0.0.0
 ora_profile::database::asm_software::file_name:                           LINUX.X64_180000_grid_home
-ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:5'
+ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.56.0:1,eth2:192.168.6.0:5'
 ora_profile::database::asm_software::cluster_node_types:                  'rac180a:rac180a-vip:HUB'
 ora_profile::database::asm_software::cluster_name:                        CLUSTER180
 ora_profile::database::asm_software::scan_name:                           SCAN180

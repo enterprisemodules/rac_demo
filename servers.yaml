@@ -11,7 +11,7 @@ defaults:
   needs_storage:    true
   additional_hosts:
     racmaster:
-      ip: 192.168.5.10
+      ip: 192.168.56.10
   box:              enterprisemodules/ol-7.7-x86_64-nocm
   virtualboxorafix: true
   required_plugins: []
@@ -35,7 +35,7 @@ pe-defaults:
 # The settings for the Puppet Enterprise Server
 #
 pe-racmaster:
-  public_ip:        192.168.5.10
+  public_ip:        192.168.56.10
   cpucount:         2
   ram:              3072
   type:             pe-master
@@ -49,7 +49,7 @@ pe-racmaster:
 
 # RAC121
 ml-rac121a:
-  public_ip:        192.168.5.50
+  public_ip:        192.168.56.50
   private_ip:       192.168.6.50
   cluster:          2
   disks:
@@ -75,7 +75,7 @@ ml-rac121a:
     deployment_zone: vagrant
     instance: rac121
 ml-rac121b:
-  public_ip:        192.168.5.51
+  public_ip:        192.168.56.51
   private_ip:       192.168.6.51
   cluster:          2
   disks:
@@ -98,7 +98,7 @@ ml-rac121b:
     instance: rac121
 # RAC122
 ml-rac122a:
-  public_ip:        192.168.5.70
+  public_ip:        192.168.56.70
   private_ip:       192.168.6.70
   cluster:          3
   disks:
@@ -122,7 +122,7 @@ ml-rac122a:
     deployment_zone: vagrant
     instance: rac122
 ml-rac122b:
-  public_ip:        192.168.5.71
+  public_ip:        192.168.56.71
   private_ip:       192.168.6.71
   cluster:          3
   disks:
@@ -142,7 +142,7 @@ ml-rac122b:
     instance: rac122
 # RAC180
 ml-rac180a:
-  public_ip:        192.168.5.90
+  public_ip:        192.168.56.90
   private_ip:       192.168.6.90
   cluster:          4
   disks:
@@ -166,7 +166,7 @@ ml-rac180a:
     deployment_zone: vagrant
     instance: rac180
 ml-rac180b:
-  public_ip:        192.168.5.91
+  public_ip:        192.168.56.91
   private_ip:       192.168.6.91
   cluster:          4
   disks:
@@ -186,7 +186,7 @@ ml-rac180b:
     instance: rac180
 # RAC190
 ml-rac190a:
-  public_ip:        192.168.5.110
+  public_ip:        192.168.56.110
   private_ip:       192.168.6.110
   cluster:          5
   disks:
@@ -210,7 +210,7 @@ ml-rac190a:
     deployment_zone: vagrant
     instance: rac190
 ml-rac190b:
-  public_ip:        192.168.5.111
+  public_ip:        192.168.56.111
   private_ip:       192.168.6.111
   cluster:          5
   disks:
@@ -230,7 +230,7 @@ ml-rac190b:
     instance: rac190
 # RAC210
 ml-rac210a:
-  public_ip:        192.168.5.130
+  public_ip:        192.168.56.130
   private_ip:       192.168.6.130
   cluster:          6
   disks:
@@ -252,7 +252,7 @@ ml-rac210a:
     deployment_zone: vagrant
     instance: rac210
 ml-rac210b:
-  public_ip:        192.168.5.131
+  public_ip:        192.168.56.131
   private_ip:       192.168.6.131
   cluster:          6
   disks:
@@ -277,7 +277,7 @@ ml-rac210b:
 
 # RAC121
 pe-rac121a:
-  public_ip:        192.168.5.50
+  public_ip:        192.168.56.50
   private_ip:       192.168.6.50
   cluster:          2
   disks:
@@ -303,7 +303,7 @@ pe-rac121a:
     deployment_zone: vagrant
     instance: rac121
 pe-rac121b:
-  public_ip:        192.168.5.51
+  public_ip:        192.168.56.51
   private_ip:       192.168.6.51
   cluster:          2
   disks:
@@ -326,7 +326,7 @@ pe-rac121b:
     instance: rac121
 # RAC122
 pe-rac122a:
-  public_ip:        192.168.5.70
+  public_ip:        192.168.56.70
   private_ip:       192.168.6.70
   cluster:          3
   disks:
@@ -350,7 +350,7 @@ pe-rac122a:
     deployment_zone: vagrant
     instance: rac122
 pe-rac122b:
-  public_ip:        192.168.5.71
+  public_ip:        192.168.56.71
   private_ip:       192.168.6.71
   cluster:          3
   disks:
@@ -370,7 +370,7 @@ pe-rac122b:
     instance: rac122
 # RAC180
 pe-rac180a:
-  public_ip:        192.168.5.90
+  public_ip:        192.168.56.90
   private_ip:       192.168.6.90
   cluster:          4
   disks:
@@ -394,7 +394,7 @@ pe-rac180a:
     deployment_zone: vagrant
     instance: rac180
 pe-rac180b:
-  public_ip:        192.168.5.91
+  public_ip:        192.168.56.91
   private_ip:       192.168.6.91
   cluster:          4
   disks:
@@ -414,7 +414,7 @@ pe-rac180b:
     instance: rac180
 # RAC190
 pe-rac190a:
-  public_ip:        192.168.5.110
+  public_ip:        192.168.56.110
   private_ip:       192.168.6.110
   cluster:          5
   disks:
@@ -438,7 +438,7 @@ pe-rac190a:
     deployment_zone: vagrant
     instance: rac190
 pe-rac190b:
-  public_ip:        192.168.5.111
+  public_ip:        192.168.56.111
   private_ip:       192.168.6.111
   cluster:          5
   disks:
@@ -458,7 +458,7 @@ pe-rac190b:
     instance: rac190
 # RAC210
 pe-rac210a:
-  public_ip:        192.168.5.130
+  public_ip:        192.168.56.130
   private_ip:       192.168.6.130
   cluster:          6
   disks:
@@ -480,7 +480,7 @@ pe-rac210a:
     deployment_zone: vagrant
     instance: rac210
 pe-rac210b:
-  public_ip:        192.168.5.131
+  public_ip:        192.168.56.131
   private_ip:       192.168.6.131
   cluster:          6
   disks:

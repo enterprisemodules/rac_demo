@@ -3,7 +3,7 @@ deployment_zone: vagrant
 
 role: role::oradb::rac_node
 
-profile::dns::resolv::nameserver: '192.168.5.50'
+profile::dns::resolv::nameserver: '192.168.56.50'
 
 
 # ------------------------------------------------------------------------------
@@ -192,7 +192,7 @@ ora_profile::database::asm_software::cluster_node_types:                  'rac12
 ora_profile::database::asm_software::cluster_name:                        CLUSTER121
 ora_profile::database::asm_software::scan_name:                           SCAN121
 ora_profile::database::asm_software::scan_port:                           1521
-ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.5.0:1,eth2:192.168.6.0:2'
+ora_profile::database::asm_software::network_interface_list:              'eth1:192.168.56.0:1,eth2:192.168.6.0:2'
 ora_profile::database::asm_software::storage_option:                      LOCAL_ASM_STORAGE
 
 
