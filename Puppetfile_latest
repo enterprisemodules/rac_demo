@@ -11,7 +11,7 @@ mod 'herculesteam-augeasproviders_grub'
 mod 'herculesteam-augeasproviders_sysctl'
 mod 'puppetlabs-firewall'
 mod 'puppet-firewalld'
-
+mod 'puppet-systemd'
 #
 # The Enterprise Modules Oracle specific Modules
 #
