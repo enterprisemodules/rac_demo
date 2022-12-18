@@ -115,7 +115,7 @@ ml-rac122a:
   - cvuqdisk-1.0.10-1.rpm
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
-  - p6880880_122010_Linux-x86-64.zip
+  - p6880880_190000_Linux-x86-64.zip
   - p30920127_122010_Linux-x86-64.zip   # APR2020RU GRID/DB
   - p30805580_122010_Linux-x86-64.zip   # APR2020RU OJVM
   custom_facts:
@@ -159,7 +159,7 @@ ml-rac180a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
-  - p6880880_122010_Linux-x86-64.zip
+  - p6880880_190000_Linux-x86-64.zip
   - p30899645_180000_Linux-x86-64.zip   # APR2020RU GRID/DB
   - p30805598_180000_Linux-x86-64.zip   # APR2020RU OJVM
   custom_facts:
@@ -203,7 +203,7 @@ ml-rac190a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
-  - p6880880_122010_Linux-x86-64.zip
+  - p6880880_190000_Linux-x86-64.zip
   - p32545008_190000_Linux-x86-64.zip   # APR2021RU GRID/DB
   - p32399816_190000_Linux-x86-64.zip   # APR2021RU OJVM
   custom_facts:
@@ -247,7 +247,7 @@ ml-rac210a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_213000_grid_home.zip
   - LINUX.X64_213000_db_home.zip
-  - p6880880_122010_Linux-x86-64.zip
+  - p6880880_190000_Linux-x86-64.zip
   custom_facts:
     deployment_zone: vagrant
     instance: rac210
@@ -343,7 +343,7 @@ pe-rac122a:
   - cvuqdisk-1.0.10-1.rpm
   - linuxx64_12201_grid_home.zip
   - linuxx64_12201_database.zip
-  - p6880880_122010_Linux-x86-64.zip
+  - p6880880_190000_Linux-x86-64.zip
   - p30920127_122010_Linux-x86-64.zip   # APR2020RU GRID/DB
   - p30805580_122010_Linux-x86-64.zip   # APR2020RU OJVM
   custom_facts:
@@ -387,7 +387,7 @@ pe-rac180a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_180000_grid_home.zip
   - LINUX.X64_180000_db_home.zip
-  - p6880880_122010_Linux-x86-64.zip
+  - p6880880_190000_Linux-x86-64.zip
   - p30899645_180000_Linux-x86-64.zip   # APR2020RU GRID/DB
   - p30805598_180000_Linux-x86-64.zip   # APR2020RU OJVM
   custom_facts:
@@ -431,7 +431,7 @@ pe-rac190a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_193000_grid_home.zip
   - LINUX.X64_193000_db_home.zip
-  - p6880880_122010_Linux-x86-64.zip
+  - p6880880_190000_Linux-x86-64.zip
   - p32545008_190000_Linux-x86-64.zip   # APR2021RU GRID/DB
   - p32399816_190000_Linux-x86-64.zip   # APR2021RU OJVM
   custom_facts:
@@ -475,7 +475,7 @@ pe-rac210a:
   - cvuqdisk-1.0.10-1.rpm
   - LINUX.X64_213000_grid_home.zip
   - LINUX.X64_213000_db_home.zip
-  - p6880880_122010_Linux-x86-64.zip
+  - p6880880_190000_Linux-x86-64.zip
   custom_facts:
     deployment_zone: vagrant
     instance: rac210

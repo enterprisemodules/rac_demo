@@ -18,7 +18,7 @@ rac210a_demo_check:
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/LINUX.X64_213000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_213000_db_home.zip modules/software/files
-    - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
   script:
     - vagrant up ml-rac210a --no-provision && vagrant up ml-rac210b --no-provision && vagrant provision ml-rac210a && vagrant provision ml-rac210b
   after_script:
@@ -36,7 +36,7 @@ rac190a_demo_check:
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/LINUX.X64_193000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_193000_db_home.zip modules/software/files
-    - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p32545008_190000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p32399816_190000_Linux-x86-64.zip modules/software/files
   script:
@@ -56,7 +56,7 @@ rac180a_demo_check:
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/LINUX.X64_180000_grid_home.zip modules/software/files
     - cp ~/software/LINUX.X64_180000_db_home.zip modules/software/files
-    - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p30899645_180000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p30805598_180000_Linux-x86-64.zip modules/software/files
   script:
@@ -76,7 +76,7 @@ rac122a_demo_check:
     - cp ~/software/cvuqdisk-1.0.10-1.rpm modules/software/files
     - cp ~/software/linuxx64_12201_grid_home.zip modules/software/files
     - cp ~/software/linuxx64_12201_database.zip modules/software/files
-    - cp ~/software/p6880880_122010_Linux-x86-64.zip modules/software/files
+    - cp ~/software/p6880880_190000_Linux-x86-64.zip modules/software/files
     - cp ~/software/p30920127_122010_Linux-x86-64.zip modules/software/files
     - cp ~/software/p30805580_122010_Linux-x86-64.zip modules/software/files
   script:
