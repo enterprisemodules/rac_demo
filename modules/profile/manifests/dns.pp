@@ -3,7 +3,7 @@
 class profile::dns()
 {
   $master_node = lookup('ora_profile::database::master_node')
-  if ( $master_node == $facts['hostname'] ) {
+  if ( $master_node == $facts['networking']['hostname'] ) {
     contain profile::dns::bind
   }
   contain profile::dns::resolv

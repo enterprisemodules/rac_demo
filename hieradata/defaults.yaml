@@ -4,7 +4,7 @@ easy_type::generate_password_mode: development
 profile::dns::bind::domain: 'example.com'
 profile::dns::bind::listen_on:
 - '127.0.0.0'
-- "%{facts.ipaddress_eth1}"
+- "%{facts.networking.interfaces.eth1.bindings.0.address}"
 profile::dns::bind::hash_data:
   ns:
     owner: "%{lookup('profile::dns::resolv::nameserver')}"
