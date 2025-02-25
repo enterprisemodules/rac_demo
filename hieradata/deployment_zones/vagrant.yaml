@@ -1,38 +1,4 @@
 ---
-profile::base::hosts::list:
-  localhost:
-    ip: 127.0.0.1
-    host_aliases:
-      - localhost.localdomain
-  racmaster.example.com:
-    ip: 192.168.56.10
-    host_aliases:
-      - racmaster
-      - master
-      - puppet
-  em1215.example.com:
-    ip: 192.168.253.120
-    host_aliases:
-      - em1215
-  em1310.example.com:
-    ip: 192.168.253.131
-    host_aliases:
-      - em1310
-  em1320.example.com:
-    ip: 192.168.253.132
-    host_aliases:
-      - em1320
-  em1330.example.com:
-    ip: 192.168.253.133
-    host_aliases:
-      - em1330
-  em1340.example.com:
-    ip: 192.168.253.134
-    host_aliases:
-      - em1340
-  em1350.example.com:
-    ip: 192.168.253.135
-    host_aliases:
-      - em1350
+profile::base::hosts::list: {}
 
 ora_profile::database::source: /vagrant/modules/software/files

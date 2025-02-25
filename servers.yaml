@@ -4,51 +4,26 @@
 #
 defaults:
   domain_name:      example.com
-  dhcp_fix:         false
   cpucount:         3
   ram:              10240
   virtualboxorafix: true
   needs_storage:    true
-  additional_hosts:
-    racmaster:
-      ip: 192.168.56.10
   box:              enterprisemodules/ol-7.7-x86_64-nocm
-  virtualboxorafix: true
   required_plugins: []
+  own_dns:          true
   custom_facts:
     deployment_zone: vagrant
+  ip_start_address: 192.168.56.20
+  prefix:           rac
+
+
 
 #
-# The default settings for all ML nodes
-#
-ml-defaults:
-  type:             masterless
-
-#
-# The default settings for all PE nodes
-#
-pe-defaults:
-  type:             pe-agent
-  puppet_master:    racmaster
-
-#
-# The settings for the Puppet Enterprise Server
-#
-pe-racmaster:
-  public_ip:        192.168.56.10
-  cpucount:         2
-  ram:              3072
-  type:             pe-master
-  virtualboxorafix: false
-  needs_storage:    false
-  puppet_installer: puppet-enterprise-2019.3.0-el-7-x86_64/puppet-enterprise-installer
-
-#
-# All masterless nodes
+# All nodes nodes
 #
 
 # RAC121
-ml-rac121a:
+rac121a:
   public_ip:        192.168.56.50
   private_ip:       192.168.6.50
   cluster:          2
@@ -74,7 +49,7 @@ ml-rac121a:
   custom_facts:
     deployment_zone: vagrant
     instance: rac121
-ml-rac121b:
+rac121b:
   public_ip:        192.168.56.51
   private_ip:       192.168.6.51
   cluster:          2
@@ -97,7 +72,7 @@ ml-rac121b:
     deployment_zone: vagrant
     instance: rac121
 # RAC122
-ml-rac122a:
+rac122a:
   public_ip:        192.168.56.70
   private_ip:       192.168.6.70
   cluster:          3
@@ -121,7 +96,7 @@ ml-rac122a:
   custom_facts:
     deployment_zone: vagrant
     instance: rac122
-ml-rac122b:
+rac122b:
   public_ip:        192.168.56.71
   private_ip:       192.168.6.71
   cluster:          3
@@ -141,7 +116,7 @@ ml-rac122b:
     deployment_zone: vagrant
     instance: rac122
 # RAC180
-ml-rac180a:
+rac180a:
   public_ip:        192.168.56.90
   private_ip:       192.168.6.90
   cluster:          4
@@ -165,7 +140,7 @@ ml-rac180a:
   custom_facts:
     deployment_zone: vagrant
     instance: rac180
-ml-rac180b:
+rac180b:
   public_ip:        192.168.56.91
   private_ip:       192.168.6.91
   cluster:          4
@@ -185,7 +160,7 @@ ml-rac180b:
     deployment_zone: vagrant
     instance: rac180
 # RAC190
-ml-rac190a:
+rac190a:
   public_ip:        192.168.56.110
   private_ip:       192.168.6.110
   cluster:          5
@@ -209,7 +184,7 @@ ml-rac190a:
   custom_facts:
     deployment_zone: vagrant
     instance: rac190
-ml-rac190b:
+rac190b:
   public_ip:        192.168.56.111
   private_ip:       192.168.6.111
   cluster:          5
@@ -229,7 +204,7 @@ ml-rac190b:
     deployment_zone: vagrant
     instance: rac190
 # RAC210
-ml-rac210a:
+rac210a:
   public_ip:        192.168.56.130
   private_ip:       192.168.6.130
   cluster:          6
@@ -251,7 +226,7 @@ ml-rac210a:
   custom_facts:
     deployment_zone: vagrant
     instance: rac210
-ml-rac210b:
+rac210b:
   public_ip:        192.168.56.131
   private_ip:       192.168.6.131
   cluster:          6
@@ -271,230 +246,3 @@ ml-rac210b:
     deployment_zone: vagrant
     instance: rac210
 
-#
-# All pe-agent nodes
-#
-
-# RAC121
-pe-rac121a:
-  public_ip:        192.168.56.50
-  private_ip:       192.168.6.50
-  cluster:          2
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '21'
-    data:
-      size:         10240
-      uuid:         '22'
-    fra:
-      size:         10240
-      uuid:         '23'
-    redo:
-      size:         10240
-      uuid:         '24'
-  software_files:
-  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
-  - linuxamd64_12102_grid_1of2.zip
-  - linuxamd64_12102_grid_1of2.zip
-  - linuxamd64_12102_database_1of2.zip
-  - linuxamd64_12102_database_2of2.zip
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac121
-pe-rac121b:
-  public_ip:        192.168.56.51
-  private_ip:       192.168.6.51
-  cluster:          2
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '21'
-    data:
-      size:         10240
-      uuid:         '22'
-    fra:
-      size:         10240
-      uuid:         '23'
-    redo:
-      size:         10240
-      uuid:         '24'
-  software_files:
-  - oracleasmlib-2.0.12-1.el7.x86_64.rpm
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac121
-# RAC122
-pe-rac122a:
-  public_ip:        192.168.56.70
-  private_ip:       192.168.6.70
-  cluster:          3
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '31'
-    data:
-      size:         10240
-      uuid:         '32'
-    fra:
-      size:         10240
-      uuid:         '33'
-  software_files:
-  - cvuqdisk-1.0.10-1.rpm
-  - linuxx64_12201_grid_home.zip
-  - linuxx64_12201_database.zip
-  - p6880880_190000_Linux-x86-64.zip
-  - p30920127_122010_Linux-x86-64.zip   # APR2020RU GRID/DB
-  - p30805580_122010_Linux-x86-64.zip   # APR2020RU OJVM
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac122
-pe-rac122b:
-  public_ip:        192.168.56.71
-  private_ip:       192.168.6.71
-  cluster:          3
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '31'
-    data:
-      size:         10240
-      uuid:         '32'
-    fra:
-      size:         10240
-      uuid:         '33'
-  software_files:
-  - cvuqdisk-1.0.10-1.rpm
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac122
-# RAC180
-pe-rac180a:
-  public_ip:        192.168.56.90
-  private_ip:       192.168.6.90
-  cluster:          4
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '41'
-    data:
-      size:         10240
-      uuid:         '42'
-    fra:
-      size:         10240
-      uuid:         '43'
-  software_files:
-  - cvuqdisk-1.0.10-1.rpm
-  - LINUX.X64_180000_grid_home.zip
-  - LINUX.X64_180000_db_home.zip
-  - p6880880_190000_Linux-x86-64.zip
-  - p30899645_180000_Linux-x86-64.zip   # APR2020RU GRID/DB
-  - p30805598_180000_Linux-x86-64.zip   # APR2020RU OJVM
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac180
-pe-rac180b:
-  public_ip:        192.168.56.91
-  private_ip:       192.168.6.91
-  cluster:          4
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '41'
-    data:
-      size:         10240
-      uuid:         '42'
-    fra:
-      size:         10240
-      uuid:         '43'
-  software_files:
-  - cvuqdisk-1.0.10-1.rpm
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac180
-# RAC190
-pe-rac190a:
-  public_ip:        192.168.56.110
-  private_ip:       192.168.6.110
-  cluster:          5
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '51'
-    data:
-      size:         10240
-      uuid:         '52'
-    fra:
-      size:         10240
-      uuid:         '53'
-  software_files:
-  - cvuqdisk-1.0.10-1.rpm
-  - LINUX.X64_193000_grid_home.zip
-  - LINUX.X64_193000_db_home.zip
-  - p6880880_190000_Linux-x86-64.zip
-  - p32545008_190000_Linux-x86-64.zip   # APR2021RU GRID/DB
-  - p32399816_190000_Linux-x86-64.zip   # APR2021RU OJVM
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac190
-pe-rac190b:
-  public_ip:        192.168.56.111
-  private_ip:       192.168.6.111
-  cluster:          5
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '51'
-    data:
-      size:         10240
-      uuid:         '52'
-    fra:
-      size:         10240
-      uuid:         '53'
-  software_files:
-  - cvuqdisk-1.0.10-1.rpm
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac190
-# RAC210
-pe-rac210a:
-  public_ip:        192.168.56.130
-  private_ip:       192.168.6.130
-  cluster:          6
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '61'
-    data:
-      size:         10240
-      uuid:         '62'
-    fra:
-      size:         10240
-      uuid:         '63'
-  software_files:
-  - cvuqdisk-1.0.10-1.rpm
-  - LINUX.X64_213000_grid_home.zip
-  - LINUX.X64_213000_db_home.zip
-  - p6880880_190000_Linux-x86-64.zip
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac210
-pe-rac210b:
-  public_ip:        192.168.56.131
-  private_ip:       192.168.6.131
-  cluster:          6
-  disks:
-    ocr:
-      size:         40960
-      uuid:         '61'
-    data:
-      size:         10240
-      uuid:         '62'
-    fra:
-      size:         10240
-      uuid:         '63'
-  software_files:
-  - cvuqdisk-1.0.10-1.rpm
-  custom_facts:
-    deployment_zone: vagrant
-    instance: rac210
