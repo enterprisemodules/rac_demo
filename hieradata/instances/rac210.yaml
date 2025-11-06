@@ -148,7 +148,7 @@ ora_profile::database::asm_diskgroup::disks:
 #  Settings for database::asm_patches
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::asm_patches::level:                                APR2021RU
+# ora_profile::database::asm_patches::level:                                APR2021RU
 
 # ------------------------------------------------------------------------------
 #
