@@ -1,9 +1,8 @@
 # Setup resolv.conf so the ne=ameserver on the master node is used
 # Plus some other network things
-class profile::dns::resolv(
+class profile::dns::resolv (
   String $nameserver,
-)
-{
+) {
   case $facts['os']['release']['major'] {
     '6': {
       # Prevent NetworkManager from changing /etc/resolv.conf
@@ -22,13 +21,13 @@ class profile::dns::resolv(
         '0','1','2','3','4','5','6': {
           # Prevent dhclient from changing /etc/resolv.conf
           file { '/etc/dhcp/dhclient-enter-hooks':
-            ensure => present,
+            ensure => file,
             source => 'puppet:///modules/profile/dhclient-enter-hooks',
             mode   => '0755',
           }
           # Prevent NetworkManager from changing /etc/resolv.conf
           -> file { '/etc/NetworkManager/conf.d/no-dns.conf':
-            ensure => present,
+            ensure => file,
             source => 'puppet:///modules/profile/no-dns.conf',
             notify => Service['NetworkManager'],
           }
@@ -39,7 +38,7 @@ class profile::dns::resolv(
         default: {
           # Prevent dhclient from changing /etc/resolv.conf
           file { '/etc/dhcp/dhclient-enter-hooks':
-            ensure => present,
+            ensure => file,
             source => 'puppet:///modules/profile/dhclient-enter-hooks',
             mode   => '0755',
           }
@@ -53,7 +52,7 @@ class profile::dns::resolv(
   }
 
   -> file { '/etc/resolv.conf':
-    ensure  => present,
+    ensure  => file,
     content => template('profile/resolv.conf.erb'),
   }
 }
