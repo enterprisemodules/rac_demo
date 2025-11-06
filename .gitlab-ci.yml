@@ -15,6 +15,9 @@ rac210a_demo_check:
     - vboxmanage controlvm ml-rac210b poweroff 2>/dev/null || true
     - vboxmanage unregistervm ml-rac210a --delete-all 2>/dev/null || true
     - vboxmanage unregistervm ml-rac210b --delete-all 2>/dev/null || true
+    - vboxmanage closemedium disk data_6.vdi --delete 2>/dev/null || true
+    - vboxmanage closemedium disk fra_6.vdi --delete 2>/dev/null || true
+    - vboxmanage closemedium disk ocr_6.vdi --delete 2>/dev/null || true
     - rm -rf /home/gitlab-runner/VirtualBox\ VMs/ml-rac210*
     - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
@@ -34,6 +37,9 @@ rac190a_demo_check:
     - vboxmanage controlvm ml-rac190b poweroff 2>/dev/null || true
     - vboxmanage unregistervm ml-rac190a --delete-all 2>/dev/null || true
     - vboxmanage unregistervm ml-rac190b --delete-all 2>/dev/null || true
+    - vboxmanage closemedium disk data_5.vdi --delete 2>/dev/null || true
+    - vboxmanage closemedium disk fra_5.vdi --delete 2>/dev/null || true
+    - vboxmanage closemedium disk ocr_5.vdi --delete 2>/dev/null || true
     - rm -rf /home/gitlab-runner/VirtualBox\ VMs/ml-rac190*
     - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
