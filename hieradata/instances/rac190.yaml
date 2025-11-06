@@ -150,7 +150,6 @@ ora_profile::database::asm_diskgroup::disks:
 #
 # ------------------------------------------------------------------------------
 ora_profile::database::asm_patches::level:                                APR2021RU
-ora_profile::database::db_patches::include_ojvm:                          true
 
 # ------------------------------------------------------------------------------
 #
@@ -166,6 +165,7 @@ ora_profile::database::db_software::database_type:                        EE
 #
 # ------------------------------------------------------------------------------
 ora_profile::database::db_patches::level:                                 APR2021RU
+ora_profile::database::db_patches::include_ojvm:                          true
 
 # ------------------------------------------------------------------------------
 #

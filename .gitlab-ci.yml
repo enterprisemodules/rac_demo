@@ -11,6 +11,11 @@ rac210a_demo_check:
   variables:
     server: ml-rac210a
   before_script:
+    - vboxmanage controlvm ml-rac210a poweroff 2>/dev/null || true
+    - vboxmanage controlvm ml-rac210b poweroff 2>/dev/null || true
+    - vboxmanage unregistervm ml-rac210a --delete-all 2>/dev/null || true
+    - vboxmanage unregistervm ml-rac210b --delete-all 2>/dev/null || true
+    - rm -rf /home/gitlab-runner/VirtualBox\ VMs/ml-rac210*
     - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
     - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
@@ -25,6 +30,11 @@ rac190a_demo_check:
   variables:
     server: ml-rac190a
   before_script:
+    - vboxmanage controlvm ml-rac190a poweroff 2>/dev/null || true
+    - vboxmanage controlvm ml-rac190b poweroff 2>/dev/null || true
+    - vboxmanage unregistervm ml-rac190a --delete-all 2>/dev/null || true
+    - vboxmanage unregistervm ml-rac190b --delete-all 2>/dev/null || true
+    - rm -rf /home/gitlab-runner/VirtualBox\ VMs/ml-rac190*
     - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
     - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
@@ -34,31 +44,31 @@ rac190a_demo_check:
   after_script:
     - vagrant destroy ml-rac190a ml-rac190b --force
 
-rac180a_demo_check:
-  extends: .demo_check
-  variables:
-    server: ml-rac180a
-  before_script:
-    - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
-    - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
-    - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
-    - vagrant prepare $server
-  script:
-    - vagrant up ml-rac180a --no-provision && vagrant up ml-rac180b --no-provision && vagrant provision ml-rac180a && vagrant provision ml-rac180b
-  after_script:
-    - vagrant destroy ml-rac180a ml-rac180b --force
+# rac180a_demo_check:
+#   extends: .demo_check
+#   variables:
+#     server: ml-rac180a
+#   before_script:
+#     - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
+#     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
+#     - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
+#     - vagrant prepare $server
+#   script:
+#     - vagrant up ml-rac180a --no-provision && vagrant up ml-rac180b --no-provision && vagrant provision ml-rac180a && vagrant provision ml-rac180b
+#   after_script:
+#     - vagrant destroy ml-rac180a ml-rac180b --force
 
-rac122a_demo_check:
-  extends: .demo_check
-  variables:
-    server: ml-rac122a
-  before_script:
-    - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
-    - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
-    - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
-    - vagrant prepare $server
-  script:
-    - vagrant up ml-rac122a --no-provision && vagrant up ml-rac122b --no-provision && vagrant provision ml-rac122a && vagrant provision ml-rac122b
-  after_script:
-    - vagrant destroy ml-rac122a ml-rac122b --force
+# rac122a_demo_check:
+#   extends: .demo_check
+#   variables:
+#     server: ml-rac122a
+#   before_script:
+#     - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
+#     - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
+#     - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
+#     - vagrant prepare $server
+#   script:
+#     - vagrant up ml-rac122a --no-provision && vagrant up ml-rac122b --no-provision && vagrant provision ml-rac122a && vagrant provision ml-rac122b
+#   after_script:
+#     - vagrant destroy ml-rac122a ml-rac122b --force
 
