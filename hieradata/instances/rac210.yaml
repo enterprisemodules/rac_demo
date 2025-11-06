@@ -163,8 +163,7 @@ ora_profile::database::db_software::database_type:                        EE
 #  Settings for database::db_patches
 #
 # ------------------------------------------------------------------------------
-ora_profile::database::db_patches::level:                                 APR2021RU
-ora_profile::database::db_patches::include_ojvm:                          true
+# ora_profile::database::db_patches::level:                                 APR2021RU
 
 # ------------------------------------------------------------------------------
 #
